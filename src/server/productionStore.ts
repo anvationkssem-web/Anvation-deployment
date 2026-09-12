@@ -1,14 +1,13 @@
 import { neon } from '@neondatabase/serverless';
 import type { AdminUser, AuditLog, Checkpoint, Team } from '../types';
 
-// Vercel Postgres integrations expose one of these URLs depending on the
-// provider and whether the connection is pooled. Prefer those variables on
-// Vercel so an older DATABASE_URL cannot override the connected project.
+// The Neon client needs a standard PostgreSQL URL. POSTGRES_PRISMA_URL can be
+// a Prisma Accelerate URL, so prefer the regular pooled/non-pooled URLs.
 const databaseUrl = String(
-  process.env.POSTGRES_PRISMA_URL ||
   process.env.POSTGRES_URL ||
   process.env.POSTGRES_URL_NON_POOLING ||
   process.env.DATABASE_URL ||
+  process.env.POSTGRES_PRISMA_URL ||
   ''
 ).trim();
 if (process.env.VERCEL && !databaseUrl) {
