@@ -4,10 +4,10 @@ import type { AdminUser, AuditLog, Checkpoint, Team } from '../types';
 // The Neon client needs a standard PostgreSQL URL. POSTGRES_PRISMA_URL can be
 // a Prisma Accelerate URL, so prefer the regular pooled/non-pooled URLs.
 const databaseUrl = String(
-  process.env.POSTGRES_URL ||
   process.env.POSTGRES_URL_NON_POOLING ||
-  process.env.STORAGE_URL ||
   process.env.STORAGE_URL_NON_POOLING ||
+  process.env.POSTGRES_URL ||
+  process.env.STORAGE_URL ||
   process.env.DATABASE_URL ||
   ''
 ).trim();
