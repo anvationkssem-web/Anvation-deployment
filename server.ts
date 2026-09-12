@@ -1594,7 +1594,30 @@ export async function startServer(options: { listen?: boolean } = {}) {
   app.get("/api/teams", async (req, res) => {
     if (productionStoreEnabled) {
       try {
-        teams = await loadProductionTeams();
+        const dbTeams = await loadProductionTeams();
+
+        // Reconcile instead of blindly overwriting. A registration whose earlier
+        // production write failed transiently lives only in this instance's
+        // in-memory store; if we replaced `teams` with only the DB rows it would
+        // vanish from the admin portal and be permanently lost. Fold any
+        // in-memory teams missing from the DB back in, and re-persist them so the
+        // record survives on every instance and stays visible until a Super Admin
+        // explicitly deletes it.
+        const dbTeamIds = new Set(dbTeams.map((t) => String(t.id).toLowerCase()));
+        const missingInDb = teams.filter((t) => !dbTeamIds.has(String(t.id).toLowerCase()));
+        if (missingInDb.length > 0) {
+          console.warn(`[DATABASE] Reconciling ${missingInDb.length} registration(s) not yet in the production store.`);
+          for (const t of missingInDb) {
+            try {
+              await saveProductionTeam(t);
+              console.warn(`[DATABASE] Re-persisted ${t.id} (${t.teamName}) to the production store.`);
+            } catch (persistErr) {
+              console.error(`[DATABASE] Re-persist failed for ${t.id}; keeping it in memory:`, persistErr?.message || persistErr);
+            }
+          }
+        }
+
+        teams = [...dbTeams, ...missingInDb];
         rebuildUniquenessIndexes();
       } catch (error) {
         console.error("[DATABASE] Could not refresh teams; serving in-memory data:", error);
