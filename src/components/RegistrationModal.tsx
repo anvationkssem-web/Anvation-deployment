@@ -46,6 +46,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   const [paymentVerifying, setPaymentVerifying] = useState(false);
   const [paymentVerifiedSuccess, setPaymentVerifiedSuccess] = useState(false);
   const [paymentFailError, setPaymentFailError] = useState<string | null>(null);
+  const [paymentErrorKind, setPaymentErrorKind] = useState<'verification' | 'registration'>('verification');
   const [showPaymentFailModal, setShowPaymentFailModal] = useState(false);
 
   // Payment proof screenshot upload — previewed on-screen and persisted to the
@@ -149,6 +150,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setPaymentVerifiedSuccess(false);
     setPaymentConfirmed(false);
     setPaymentFailError(null);
+    setPaymentErrorKind('verification');
     setShowPaymentFailModal(false);
     setDuplicateFieldErrors({});
     setCheckingDuplicates(false);
@@ -446,6 +448,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         setStep(5); // Go straight to confirmation slip!
         confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
       } else {
+        setPaymentErrorKind('registration');
         if (res.status === 409 || data.error === 'duplicate_registration') {
           const duplicateField = String(data.field || '').toLowerCase();
           const duplicateMessage = duplicateField.includes('email')
@@ -465,13 +468,18 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
           setPaymentFailError(duplicateMessage);
         } else {
           setDuplicateErrorInfo(null);
-          setPaymentFailError(data.error || 'Registration could not be completed.');
+          setPaymentFailError(
+            data.error === 'Production registration storage is temporarily unavailable. Please retry.'
+              ? 'Payment was verified, but the registration could not be saved because the production database is unavailable. Your payment details remain in this form; please retry after the database connection is restored.'
+              : data.error || 'Registration could not be completed.'
+          );
         }
         setShowPaymentFailModal(true);
       }
     } catch (err) {
       console.error('Registration failed:', err);
       setDuplicateErrorInfo(null);
+      setPaymentErrorKind('registration');
       setPaymentFailError('Network error during registration. Please try again.');
       setShowPaymentFailModal(true);
     } finally {
@@ -545,6 +553,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
           handleSubmitRegistration(verifiedUtr);
         }, 150);
       } else {
+          setPaymentErrorKind('verification');
         setPaymentFailError(
           data.error ||
             'Payment verification failed: Transaction reference not found on UPI settlement network.'
@@ -563,6 +572,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
           ? 'Payment verification service is unreachable. Please check your connection and retry. Your UTR and screenshot are still in this form.'
           : `Payment verification failed: ${message}`
       );
+      setPaymentErrorKind('verification');
       setShowPaymentFailModal(true);
       setPaymentVerifiedSuccess(false);
       setPaymentConfirmed(false);
@@ -1499,10 +1509,10 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   </div>
                   <div>
                     <h3 className="text-base font-black text-white">
-                      Payment Verification Failed
+                      {paymentErrorKind === 'registration' ? 'Registration Save Failed' : 'Payment Verification Failed'}
                     </h3>
                     <span className="text-[11px] text-red-400 font-mono font-bold">
-                      TRANSACTION_NOT_CONFIRMED
+                      {paymentErrorKind === 'registration' ? 'REGISTRATION_NOT_SAVED' : 'TRANSACTION_NOT_CONFIRMED'}
                     </span>
                   </div>
                 </div>
@@ -1516,11 +1526,13 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                     Please check the following and retry:
                   </p>
                   <ul className="list-disc pl-4 space-y-1 text-[11px] text-slate-300">
-                    <li>
-                      Ensure the PhonePe payment of{' '}
-                      <strong>₹{currentFeePerParticipant} per participant</strong> was completed to{' '}
-                      <strong>{PAYMENT_UPI_ID}</strong>.
-                    </li>
+                    {paymentErrorKind === 'registration' ? (
+                      <li>Your payment was accepted, but the registration database is unavailable. Keep this UTR and screenshot and retry after the database is restored.</li>
+                    ) : (
+                      <li>
+                        Ensure the PhonePe payment of <strong>₹{currentFeePerParticipant} per participant</strong> was completed to <strong>{PAYMENT_UPI_ID}</strong>.
+                      </li>
+                    )}
                     <li>
                       Verify you entered all <strong>12 digits</strong> of the UTR correctly (e.g.
                       428901239812).
