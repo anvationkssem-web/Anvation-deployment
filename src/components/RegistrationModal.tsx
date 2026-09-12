@@ -338,7 +338,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   };
 
   const handleStep1Next = async () => {
-    if (teamName.trim() && (await checkRegistrationDuplicates(false))) setStep(2);
+    if (teamName.trim()) setStep(2);
   };
 
   const handleStep3Next = async () => {
@@ -348,7 +348,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       });
       return;
     }
-    if (await checkRegistrationDuplicates(true)) setStep(4);
+    setStep(4);
   };
 
   const handleSubmitRegistration = async (confirmedUtr?: string) => {
