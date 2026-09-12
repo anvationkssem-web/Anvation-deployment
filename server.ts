@@ -1607,7 +1607,16 @@ export async function startServer(options: { listen?: boolean } = {}) {
     const totalCapacity = cmsConfig.maxRegistrations || 350;
     const seatsLeft = Math.max(0, totalCapacity - totalParticipants);
 
-    const safeTeams = teams.map((team) => sanitizeTeamForClient(team));
+    // Admin sessions get portalPasswordPlain for the finance tab; public/participant sessions get sanitized teams
+    const session = getSessionFromRequest(req);
+    const isAdmin = session && ["ADMIN", "REGISTRATION_MANAGER", "SUPER_ADMIN", "CONTENT_MANAGER", "JUDGE", "CHECKIN_STAFF"].includes(String(session.user.role || "").toUpperCase());
+    const safeTeams = teams.map((team) => {
+      if (isAdmin) {
+        const { accessPassword: _ap, ...rest } = team as any;
+        return rest;
+      }
+      return sanitizeTeamForClient(team);
+    });
     res.json({
       success: true,
       teams: safeTeams,
