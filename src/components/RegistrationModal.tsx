@@ -38,6 +38,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   const [loading, setLoading] = useState(false);
   const [isFrozen, setIsFrozen] = useState(false);
   const [registeredTeam, setRegisteredTeam] = useState<any>(null);
+  const [showPendingPopup, setShowPendingPopup] = useState(false);
   const [isEditingSlip, setIsEditingSlip] = useState(false);
   const [editSlipForm, setEditSlipForm] = useState<any>(null);
   const [slipSaveSuccess, setSlipSaveSuccess] = useState(false);
@@ -446,7 +447,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         onSuccess(registrationTeam);
 
         confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
-        setStep(5);
+        setShowPendingPopup(true);
       } else {
         setPaymentErrorKind('registration');
         if (res.status === 409 || data.error === 'duplicate_registration') {
@@ -1459,6 +1460,32 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
           </>
         )}
       </div>
+
+      {/* PENDING APPROVAL POPUP */}
+      {showPendingPopup && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+          <div className="bg-slate-900 border border-cyan-500/60 rounded-2xl max-w-sm w-full p-6 space-y-5 text-center shadow-2xl shadow-cyan-950/50">
+            <div className="w-16 h-16 mx-auto rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center shadow-[0_0_24px_rgba(34,211,238,0.4)]">
+              <CheckCircle2 className="w-9 h-9 text-cyan-400" />
+            </div>
+            <div className="space-y-1.5">
+              <h3 className="text-lg font-black text-white">Registration Submitted!</h3>
+              <p className="text-sm font-bold text-cyan-400">Pending Admin Verification</p>
+            </div>
+            <div className="p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-slate-300 leading-relaxed text-left space-y-2">
+              <p>✅ Your registration has been received successfully.</p>
+              <p>🔐 <span className="text-white font-bold">Your participant portal credentials will be shared once the admin verifies your payment.</span></p>
+              <p>📧 Credentials will be sent to your registered Gmail address after approval.</p>
+            </div>
+            <button
+              onClick={() => { setShowPendingPopup(false); setStep(5); }}
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-sm shadow-lg hover:from-cyan-400 hover:to-blue-500 transition-all"
+            >
+              Got it!
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* PAYMENT FAILURE / DUPLICATE REGISTRATION POPUP MODAL */}
       {showPaymentFailModal && (

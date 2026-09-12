@@ -264,6 +264,8 @@ export const AdminPortal: React.FC = () => {
 
   useEffect(() => {
     fetchAdminData();
+    const interval = setInterval(fetchAdminData, 15000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchAdminData = async () => {
@@ -3354,7 +3356,7 @@ export const AdminPortal: React.FC = () => {
                 <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-1">
                   <span className="text-[11px] text-slate-400 font-bold uppercase">Pending Receipts</span>
                   <div className="text-2xl font-black text-amber-400 font-mono">
-                    {teams.filter(t => t.paymentStatus === 'Pending' || !t.paymentStatus).length}
+                    {teams.filter(t => !['Verified','PAYMENT_APPROVED','Rejected'].includes(t.paymentStatus || '')).length}
                   </div>
                   <p className="text-[10px] text-slate-500">Awaiting UTR audit</p>
                 </div>
@@ -3413,8 +3415,8 @@ export const AdminPortal: React.FC = () => {
                               t.paymentStatus === 'Verified' || t.paymentStatus === 'PAYMENT_APPROVED' ? 'bg-emerald-950 text-emerald-400 border-emerald-800' :
                               t.paymentStatus === 'Rejected' ? 'bg-red-950 text-red-400 border-red-800' :
                               'bg-amber-950 text-amber-300 border-amber-800'
-                            }`}> 
-                              {t.paymentStatus || 'Pending'}
+                            }`}>
+                              {t.paymentStatus === 'PENDING_PAYMENT_AUDIT' ? 'Pending Audit' : (t.paymentStatus || 'Pending')}
                             </span>
                           </td>
                           <td className="p-3 text-slate-300 text-[11px]">{t.status}</td>
