@@ -1215,7 +1215,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                       <div className="p-3 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 text-xs flex items-center gap-2 animate-fadeIn shadow-lg">
                         <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                           <span className="font-bold">
-                          ✓ Payment verified. Submitting your registration for admin approval...
+                          ✓ Payment receipt received. Continue to complete the WhatsApp step and submit for admin review.
                         </span>
                       </div>
                     )}
@@ -1328,7 +1328,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                     {loading || paymentVerifying ? (
                       <>
                         <RefreshCw className="w-4 h-4 animate-spin text-slate-950" />
-                        <span>Payment verified · Submitting for admin approval...</span>
+                        <span>Payment receipt received · Continue to submit...</span>
                       </>
                     ) : (
                       <>

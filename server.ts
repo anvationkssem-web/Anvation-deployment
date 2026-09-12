@@ -2275,44 +2275,18 @@ export async function startServer(options: { listen?: boolean } = {}) {
         });
       }
 
-      if (process.env.PAYMENT_TEST_MODE === "true" || cmsConfig.registrationFee === 1) {
-        return res.json({
-          success: true,
-          verified: true,
-          utr: cleanUtr,
-          beneficiary: `ANVATION 2026 (${PAYMENT_UPI_ID})`,
-          verifiedAt: new Date().toISOString(),
-          message: "₹1 test payment accepted. Final settlement must still be confirmed by the admin desk."
-        });
-      }
-
-      let proofText = "";
-      try {
-        proofText = await readPaymentProofText(screenshotBytes);
-        console.log("[PAYMENT OCR DEBUG] Extracted text:", JSON.stringify(proofText));
-      } catch (ocrError: any) {
-        console.error("[PAYMENT OCR] Could not read payment screenshot:", ocrError?.message || ocrError);
-        return res.status(503).json({
-          success: false,
-          verified: false,
-          error: "Payment proof could not be read right now. Please retry once the verification service is available."
-        });
-      }
-
-      if (!ocrContainsTransactionId(proofText, cleanUtr)) {
-        return res.status(400).json({
-          success: false,
-          verified: false,
-          error: "The uploaded payment screenshot does not contain the exact 12-digit transaction ID you entered. Please upload the receipt for this transaction."
-        });
-      }
+      // Do not run OCR in the serverless request. Tesseract can exceed the
+      // Vercel function timeout and turn a valid receipt into a 504. The proof
+      // is stored with the registration and the admin performs the authoritative
+      // amount/receipt verification before credentials are issued.
       res.json({
         success: true,
         verified: true,
         utr: cleanUtr,
         beneficiary: `ANVATION 2026 (${PAYMENT_UPI_ID})`,
         verifiedAt: new Date().toISOString(),
-        message: "Payment proof OCR matched the exact transaction ID. Final settlement must still be confirmed by the admin desk."
+        verificationStatus: "PENDING_ADMIN_REVIEW",
+        message: "Payment proof received. The admin will verify the payment amount and receipt before issuing portal credentials."
       });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
