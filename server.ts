@@ -4069,13 +4069,14 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
   });
 
   // Developer & Website Super Admin Live CMS Config
-  app.get("/api/cms-config", requireAdmin, (req, res) => {
+  app.get("/api/cms-config", (req, res) => {
     res.json({ success: true, config: cmsConfig });
   });
 
   app.post("/api/cms-config", requireAdmin, (req, res) => {
     const updated = req.body;
     cmsConfig = { ...cmsConfig, ...updated };
+    markDirty();
     res.json({ success: true, config: cmsConfig, message: "Website CMS Configuration updated live across all sections!" });
   });
 

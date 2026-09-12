@@ -14,6 +14,7 @@ import { ParticipantPortal } from './components/ParticipantPortal';
 import { AdminPortal } from './components/AdminPortal';
 import { CyberAtmosphereBackground } from './components/CyberAtmosphereBackground';
 import { COLLEGE_INFO, HACKATHON_SCHEDULE } from './data/mockData';
+import { ScheduleItem } from './types';
 import { PortalView } from './types';
 import { Heart, Globe, ArrowUp } from 'lucide-react';
 
@@ -36,6 +37,7 @@ export default function App() {
   }>({ hero: true, about: true, themes: true, schedule: true, prizes: true, sponsors: true, faq: true, contact: true });
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [scheduleItems, setScheduleItems] = useState<ScheduleItem[]>(HACKATHON_SCHEDULE);
 
   const navigateToView = (view: PortalView) => {
     const path = view === 'admin' ? '/admin' : view === 'participant' ? '/participant' : '/';
@@ -108,11 +110,23 @@ export default function App() {
     }
   };
 
+  const fetchLiveSchedule = async () => {
+    try {
+      const res = await fetch('/api/schedule');
+      const data = await res.json();
+      if (data.success && Array.isArray(data.schedule)) setScheduleItems(data.schedule);
+    } catch (err) {
+      console.error('Failed to fetch live schedule:', err);
+    }
+  };
+
   useEffect(() => {
     fetchLiveStats();
     fetchHomeSections();
+    fetchLiveSchedule();
     const sectionsTimer = setInterval(() => {
       fetchHomeSections();
+      fetchLiveSchedule();
     }, 4000);
 
     const handleScroll = () => {
@@ -195,7 +209,7 @@ export default function App() {
           )}
           {homeSections.schedule && (
             <>
-              <LiveSchedule24Hour schedule={HACKATHON_SCHEDULE} />
+              <LiveSchedule24Hour schedule={scheduleItems} />
               <div className="cyber-section-divider" />
             </>
           )}
