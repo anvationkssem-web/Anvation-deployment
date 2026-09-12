@@ -1261,6 +1261,23 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                       </p>
                     </div>
 
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-indigo-800/40">
+                      <div>
+                        <label className="text-xs font-bold text-slate-300 block">Payment Date *</label>
+                        <input
+                          type="date"
+                          value={paymentDate}
+                          onChange={(e) => setPaymentDate(e.target.value)}
+                          className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"
+                          id="reg-payment-date-input"
+                        />
+                      </div>
+                      <label className="flex items-center gap-2 self-end text-xs text-slate-200">
+                        <input type="checkbox" checked={paymentConfirmed} onChange={(e) => setPaymentConfirmed(e.target.checked)} />
+                        I confirm this payment was made for my team
+                      </label>
+                    </div>
+
                     {/* Payment Proof Screenshot Upload */}
                     <div className="space-y-1.5 pt-1 border-t border-indigo-800/40">
                       <label className="text-xs font-bold text-slate-300 block">
@@ -1391,22 +1408,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                       <Sparkles className="w-4 h-4 text-cyan-400" />
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                      <div>
-                        <label className="text-xs font-bold text-slate-300 block">Payment Date *</label>
-                        <input
-                          type="date"
-                          value={paymentDate}
-                          onChange={(e) => setPaymentDate(e.target.value)}
-                          className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"
-                          id="reg-payment-date-input"
-                        />
-                      </div>
-                      <label className="flex items-center gap-2 self-end text-xs text-slate-200">
-                        <input type="checkbox" checked={paymentConfirmed} onChange={(e) => setPaymentConfirmed(e.target.checked)} />
-                        I confirm this payment was made for my team
-                      </label>
-                    </div>
                     <div>
                       <p className="text-sm font-black text-white">Credentials will be shared shortly</p>
                       <p className="text-xs text-slate-300 mt-1 leading-relaxed">
