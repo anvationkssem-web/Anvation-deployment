@@ -3466,6 +3466,7 @@ export const AdminPortal: React.FC = () => {
                       <button type="button" onClick={() => setScreenshotPreview(null)} className="text-slate-400 hover:text-white text-lg leading-none">×</button>
                     </div>
                     <img src={screenshotPreview} alt="Payment Proof" className="w-full max-h-[70vh] object-contain rounded-xl border border-slate-700 bg-slate-950" />
+                    <button type="button" onClick={() => setScreenshotPreview(null)} className="mt-3 w-full py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition-colors">← Back</button>
                   </div>
                 </div>
               )}
