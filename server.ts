@@ -19,7 +19,7 @@ import { Team, ProjectSubmission, JudgeScorecard, Announcement, SupportTicket, P
 import { HACKATHON_TRACKS } from "./src/data/mockData";
 import { PAYMENT_UPI_ID, ocrContainsTransactionId } from "./src/utils/upiVerification";
 import { resolveAdminBootstrapPassword } from "./src/utils/adminAuth";
-import { checkProductionDatabase, clearProductionTeams, ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
+import { checkProductionDatabase, clearProductionTeams, describeDatabaseError, ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
 
 const execFileAsync = promisify(execFile);
 
@@ -2093,7 +2093,13 @@ export async function startServer(options: { listen?: boolean } = {}) {
           try {
             await saveProductionTeam(newTeam);
           } catch (storageError: any) {
-            console.error("[DATABASE] Production registration write failed:", storageError?.message || storageError);
+            const databaseError = describeDatabaseError(storageError);
+            console.error("[DATABASE] Production registration write failed:", databaseError, {
+              teamId: newTeam.id,
+              participantCount: newTeam.members.length,
+              teamSize: newTeam.teamSize,
+              totalAmount: newTeam.totalAmount
+            });
             if (storageError?.code === '23505') {
               const constraint = String(storageError?.constraint || '');
               const code = constraint.includes('team_name')
@@ -2117,8 +2123,9 @@ export async function startServer(options: { listen?: boolean } = {}) {
               status: 503,
               body: {
                 success: false,
-                error: "Production registration storage is temporarily unavailable. Please retry.",
-                code: "PRODUCTION_DATABASE_WRITE_FAILED"
+                error: "Registration could not be saved to the production database. Please retry. If it continues, contact the coordinators with your UTR.",
+                code: "PRODUCTION_DATABASE_WRITE_FAILED",
+                databaseError: databaseError
               }
             };
           }

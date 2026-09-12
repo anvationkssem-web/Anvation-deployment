@@ -74,6 +74,13 @@ function handleDbError(error: any): never {
   throw error;
 }
 
+export function describeDatabaseError(error: any): string {
+  const details = [error?.message, error?.detail, error?.hint, error?.code]
+    .filter((value) => value !== undefined && value !== null && String(value).trim())
+    .map((value) => String(value).trim());
+  return details.length ? details.join(' | ') : String(error || 'Unknown database error');
+}
+
 export type DuplicateCode = 'TEAM_NAME_EXISTS' | 'EMAIL_EXISTS' | 'USN_EXISTS' | 'PHONE_EXISTS';
 
 export interface ProductionAdminState {
@@ -228,20 +235,25 @@ export async function findProductionDuplicate(conflict: {
 export async function saveProductionTeam(team: Team): Promise<void> {
   requireProductionDatabase('Saving registration');
   if (!sql || !productionStoreEnabled) return;
+  const activeSql = sql;
   try {
     await ensureProductionSchema();
-    const statements = [sql`
+    const statements = [activeSql`
       INSERT INTO registrations (team_id, team_name, team_name_key, leader_email, preferred_track, team_json)
       VALUES (${team.id}, ${team.teamName}, ${team.teamName.trim().replace(/\s+/g, ' ').toLowerCase()}, ${team.leaderEmail}, ${team.preferredTrack}, ${JSON.stringify(team)}::jsonb)
     `];
     for (const participant of team.members) {
-      statements.push(sql`
+      statements.push(activeSql`
         INSERT INTO registration_participants (participant_id, team_id, email, usn, phone, participant_json)
         VALUES (${participant.id}, ${team.id}, ${participant.email.trim().toLowerCase()}, ${participant.usn.trim().toUpperCase()}, ${participant.phone.replace(/[^0-9]/g, '')}, ${JSON.stringify(participant)}::jsonb)
       `);
     }
-    await sql.transaction(statements);
+    await activeSql.transaction(statements);
   } catch (e: any) {
+    console.error('[DATABASE] Registration transaction failed:', describeDatabaseError(e), {
+      teamId: team.id,
+      participantCount: team.members.length
+    });
     if (e?.code === '23505') throw e; // re-throw unique constraint violations
     handleDbError(e);
   }
