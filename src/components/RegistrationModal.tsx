@@ -1450,16 +1450,18 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               <CheckCircle2 className="w-9 h-9 text-cyan-400" />
             </div>
             <div className="space-y-1.5">
-              <h3 className="text-lg font-black text-white">Registration Submitted!</h3>
-              <p className="text-sm font-bold text-cyan-400">Pending Admin Verification</p>
+              <h3 className="text-lg font-black text-white">Registration Completed!</h3>
+              <p className="text-sm font-bold text-cyan-400">Payment Verification Pending</p>
             </div>
             <div className="p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-slate-300 leading-relaxed text-left space-y-2">
-              <p>✅ Your registration has been received successfully.</p>
-              <p>🔐 <span className="text-white font-bold">Your participant portal credentials will be shared once the admin verifies your payment.</span></p>
-              <p>📧 Credentials will be sent to your registered email address after approval.</p>
+              <p>✅ All team details, payment information, UTR, date, receipt, and confirmation were submitted successfully.</p>
+              <p>🧾 Registration ID: <span className="text-white font-bold">{registeredTeam?.id || 'Pending'}</span></p>
+              <p>💳 Amount submitted: <span className="text-white font-bold">₹{registeredTeam?.totalAmount || currentTotalFee}</span></p>
+              <p>🔐 <span className="text-white font-bold">Your credentials will be issued only after the admin verifies the payment amount and receipt.</span></p>
+              <p>📧 Once approved, your participant portal credentials will be sent to the registered email address.</p>
             </div>
             <button
-              onClick={() => { setShowPendingPopup(false); setStep(5); }}
+              onClick={() => { setShowPendingPopup(false); setStep(6); }}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-sm shadow-lg hover:from-cyan-400 hover:to-blue-500 transition-all"
             >
               Got it!
