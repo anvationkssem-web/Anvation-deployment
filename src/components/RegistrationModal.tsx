@@ -540,10 +540,10 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         setPaymentVerifiedSuccess(true);
         setPaymentConfirmed(true);
 
-        // Auto-finalize team registration only AFTER successful payment verification.
+        window.alert('Payment verified successfully. Your registration will be sent to the admin desk for payment approval. Login credentials will be shared only after the admin completes verification.');
         setTimeout(() => {
           handleSubmitRegistration(verifiedUtr);
-        }, 500);
+        }, 150);
       } else {
         setPaymentFailError(
           data.error ||
@@ -1273,8 +1273,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                     {paymentVerifiedSuccess && (
                       <div className="p-3 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 text-xs flex items-center gap-2 animate-fadeIn shadow-lg">
                         <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                        <span className="font-bold">
-                          ✓ UTR and payment proof accepted! Proceeding to registration...
+                          <span className="font-bold">
+                          ✓ Payment verified. Submitting your registration for admin approval...
                         </span>
                       </div>
                     )}
@@ -1387,7 +1387,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                     {loading || paymentVerifying ? (
                       <>
                         <RefreshCw className="w-4 h-4 animate-spin text-slate-950" />
-                        <span>Verifying Payment & Finalizing Registration...</span>
+                        <span>Payment verified · Submitting for admin approval...</span>
                       </>
                     ) : (
                       <>
