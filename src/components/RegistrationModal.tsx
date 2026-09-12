@@ -34,6 +34,12 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   onClose,
   onSuccess,
 }) => {
+  const todayDate = () => {
+    const now = new Date();
+    const offset = now.getTimezoneOffset();
+    return new Date(now.getTime() - offset * 60 * 1000).toISOString().slice(0, 10);
+  };
+
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [isFrozen, setIsFrozen] = useState(false);
@@ -74,7 +80,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   const [domain, setDomain] = useState(HACKATHON_TRACKS[0].title);
   const [teamSize, setTeamSize] = useState<2 | 3 | 4>(2);
   const [paymentUtr, setPaymentUtr] = useState('');
-  const [paymentDate, setPaymentDate] = useState('');
+  const [paymentDate, setPaymentDate] = useState(todayDate);
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
   const [whatsappJoined, setWhatsappJoined] = useState(false);
   const [registrationFee, setRegistrationFee] = useState(250);
@@ -155,7 +161,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setDomain(HACKATHON_TRACKS[0].title);
     setTeamSize(2);
     setPaymentUtr('');
-    setPaymentDate('');
+    setPaymentDate(todayDate());
     setWhatsappJoined(false);
     setPaymentScreenshotData(null);
     setPaymentScreenshotName('');
