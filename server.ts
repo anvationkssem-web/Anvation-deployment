@@ -488,6 +488,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
 
   const AUTH_COOKIE = "anvation_session";
   const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
+  const SESSION_SECRET = process.env.SESSION_SECRET || process.env.GATE_SCAN_SECRET_KEY || "change-this-anvation-session-secret";
   const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_BOOTSTRAP_PASSWORD?.trim() || "password123";
   if (process.env.VERCEL && !process.env.ADMIN_BOOTSTRAP_PASSWORD) {
     console.warn("[AUTH] ADMIN_BOOTSTRAP_PASSWORD missing in Vercel; using built-in fallback to keep admin login active.");
@@ -549,9 +550,11 @@ export async function startServer(options: { listen?: boolean } = {}) {
   }
 
   function createSession(user: any) {
-    const sid = crypto.randomBytes(24).toString("hex");
-    const record = { user: { ...user, expiresAt: Date.now() + SESSION_TTL_MS }, expiresAt: Date.now() + SESSION_TTL_MS };
-    sessionStore.set(sid, record);
+    const record = { ...user, expiresAt: Date.now() + SESSION_TTL_MS };
+    const payload = Buffer.from(JSON.stringify(record), "utf8").toString("base64url");
+    const signature = crypto.createHmac("sha256", SESSION_SECRET).update(payload).digest("base64url");
+    const sid = `${payload}.${signature}`;
+    sessionStore.set(sid, { user: record, expiresAt: record.expiresAt });
     return sid;
   }
 
@@ -560,13 +563,29 @@ export async function startServer(options: { listen?: boolean } = {}) {
     const match = cookieRaw.split(";").map((v: string) => v.trim()).find((v: string) => v.startsWith(`${AUTH_COOKIE}=`));
     const sid = match ? decodeURIComponent(match.slice(AUTH_COOKIE.length + 1)) : null;
     if (!sid) return null;
-    const session = sessionStore.get(sid);
-    if (!session) return null;
-    if (Date.now() > session.expiresAt) {
+    const cachedSession = sessionStore.get(sid);
+    if (cachedSession) {
+      if (Date.now() <= cachedSession.expiresAt) return cachedSession;
       sessionStore.delete(sid);
       return null;
     }
-    return session;
+
+    const separator = sid.lastIndexOf(".");
+    if (separator <= 0) return null;
+    const payload = sid.slice(0, separator);
+    const suppliedSignature = sid.slice(separator + 1);
+    const expectedSignature = crypto.createHmac("sha256", SESSION_SECRET).update(payload).digest("base64url");
+    const suppliedBytes = Buffer.from(suppliedSignature);
+    const expectedBytes = Buffer.from(expectedSignature);
+    if (suppliedBytes.length !== expectedBytes.length || !crypto.timingSafeEqual(suppliedBytes, expectedBytes)) return null;
+
+    try {
+      const user = JSON.parse(Buffer.from(payload, "base64url").toString("utf8"));
+      if (!user || typeof user.expiresAt !== "number" || Date.now() > user.expiresAt) return null;
+      return { user, expiresAt: user.expiresAt };
+    } catch {
+      return null;
+    }
   }
 
   function setAuthCookie(res: any, sid: string) {
