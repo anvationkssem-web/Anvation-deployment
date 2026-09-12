@@ -718,7 +718,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
   // otherwise a cold start could make a registration/admin edit disappear.
   // The read-only site and login endpoints remain available so the deployment
   // can show a useful setup error instead of taking the whole site offline.
-  app.use("/api", (req, res, next) => {
+  app.use("/api", async (req, res, next) => {
     if (!process.env.VERCEL || ["GET", "HEAD", "OPTIONS"].includes(String(req.method || "GET").toUpperCase())) {
       return next();
     }
@@ -736,10 +736,13 @@ export async function startServer(options: { listen?: boolean } = {}) {
     ]);
     if (allowedWithoutDatabase.has(pathName)) return next();
     if (!productionStoreEnabled || !productionDatabaseReady) {
+      const database = await checkProductionDatabase();
+      productionDatabaseReady = database.connected;
+      if (database.connected) return next();
       return res.status(503).json({
         success: false,
-        error: "Production database is not configured. Add POSTGRES_URL, STORAGE_URL, or DATABASE_URL in Vercel Environment Variables and redeploy.",
-        code: "PRODUCTION_DATABASE_REQUIRED",
+        error: "The production database connection is unavailable. Verify the existing Prisma Postgres integration and redeploy.",
+        code: "PRODUCTION_DATABASE_UNAVAILABLE",
       });
     }
     next();
@@ -1581,6 +1584,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
   // API Routes
   app.get("/api/health", async (req, res) => {
     const database = await checkProductionDatabase();
+    productionDatabaseReady = database.connected;
     res.status(database.connected ? 200 : 503).json({
       status: database.connected ? "ok" : "degraded",
       databaseConfigured: database.configured,

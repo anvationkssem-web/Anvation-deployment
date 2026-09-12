@@ -31,14 +31,14 @@ if (!process.env.VERCEL) {
 // Use the connection variables supplied by the existing Vercel Prisma
 // Postgres integration. These values remain server-only and are never bundled
 // into the frontend because this module is imported only by the backend.
-export const databaseUrl = String(
-  process.env.DATABASE_URL ||
-  process.env.POSTGRES_PRISMA_URL ||
-  process.env.POSTGRES_URL ||
-  ''
-).trim();
+const databaseCandidates = [
+  process.env.DATABASE_URL,
+  process.env.POSTGRES_PRISMA_URL,
+  process.env.POSTGRES_URL
+].map((value) => String(value || '').trim()).filter(Boolean);
+export let databaseUrl = databaseCandidates[0] || '';
 if (process.env.VERCEL && !databaseUrl) console.error('[DATABASE] No Prisma Postgres URL configured. Vercel should provide DATABASE_URL, POSTGRES_PRISMA_URL, or POSTGRES_URL.');
-const sql = databaseUrl ? neon(databaseUrl) : null;
+let sql = databaseUrl ? neon(databaseUrl) : null;
 
 export let productionStoreEnabled = Boolean(sql);
 
@@ -46,14 +46,20 @@ export async function checkProductionDatabase(): Promise<{
   configured: boolean;
   connected: boolean;
 }> {
-  if (!databaseUrl || !sql) return { configured: false, connected: false };
-  try {
-    await sql`SELECT 1 AS ok`;
-    return { configured: true, connected: true };
-  } catch (error) {
-    console.error('[DATABASE] Health check failed:', error);
-    return { configured: true, connected: false };
+  if (databaseCandidates.length === 0) return { configured: false, connected: false };
+  for (const candidate of databaseCandidates) {
+    try {
+      const candidateSql = neon(candidate);
+      await candidateSql`SELECT 1 AS ok`;
+      databaseUrl = candidate;
+      sql = candidateSql;
+      productionStoreEnabled = true;
+      return { configured: true, connected: true };
+    } catch (error) {
+      console.error('[DATABASE] Health check failed for configured candidate:', error);
+    }
   }
+  return { configured: true, connected: false };
 }
 
 function handleDbError(error: any): never {
@@ -244,6 +250,7 @@ export async function saveProductionTeam(team: Team): Promise<void> {
 export async function updateProductionTeam(team: Team): Promise<void> {
   requireProductionDatabase('Updating registration');
   if (!sql || !productionStoreEnabled) return;
+  const activeSql = sql;
   try {
     await ensureProductionSchema();
     const teamJson = JSON.stringify(team);
@@ -259,7 +266,7 @@ export async function updateProductionTeam(team: Team): Promise<void> {
         WHERE team_id = ${team.id}
       `,
       sql`DELETE FROM registration_participants WHERE team_id = ${team.id}`,
-      ...team.members.map((participant) => sql`
+      ...team.members.map((participant) => activeSql`
         INSERT INTO registration_participants (participant_id, team_id, email, usn, phone, participant_json)
         VALUES (${participant.id}, ${team.id}, ${participant.email.trim().toLowerCase()}, ${participant.usn.trim().toUpperCase()}, ${participant.phone.replace(/[^0-9]/g, '')}, ${JSON.stringify(participant)}::jsonb)
       `)
