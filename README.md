@@ -144,12 +144,11 @@ participant, and payment mutations should go through the API rather than
 editing local files directly.
 
 For Vercel production, connect the Postgres integration to this project and
-redeploy. The server accepts `DATABASE_URL`, `POSTGRES_PRISMA_URL`, or
-`POSTGRES_URL`, so Vercel's standard Postgres environment variables work
-without code changes. Registrations, participants, payment UTR/proof metadata,
-and global uniqueness constraints are stored in Postgres; Vercel's ephemeral
-filesystem is never used for live registrations or portal state. The mutable
-participant and admin data is stored in the Postgres `website_state` row.
+redeploy. The server accepts `POSTGRES_URL`, `STORAGE_URL`, or
+`DATABASE_URL` as standard PostgreSQL connection URLs. Registrations,
+participants, payment UTR/proof metadata, and global uniqueness constraints are
+stored in Postgres; mutable participant and admin data is stored in the
+Postgres `website_state` row.
 
 The exact idempotent SQL is in [`database/schema.sql`](database/schema.sql). The
 server also creates these tables automatically on startup, so running that file

@@ -6,12 +6,13 @@ import type { AdminUser, AuditLog, Checkpoint, Team } from '../types';
 const databaseUrl = String(
   process.env.POSTGRES_URL ||
   process.env.POSTGRES_URL_NON_POOLING ||
+  process.env.STORAGE_URL ||
+  process.env.STORAGE_URL_NON_POOLING ||
   process.env.DATABASE_URL ||
-  process.env.POSTGRES_PRISMA_URL ||
   ''
 ).trim();
 if (process.env.VERCEL && !databaseUrl) {
-  throw new Error('DATABASE_URL must be configured for Vercel production deployments.');
+  throw new Error('A standard PostgreSQL URL is required: POSTGRES_URL, STORAGE_URL, or DATABASE_URL.');
 }
 const sql = databaseUrl ? neon(databaseUrl) : null;
 
