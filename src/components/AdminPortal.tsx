@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { SEED_SUBMISSIONS, SEED_ANNOUNCEMENTS, HACKATHON_TRACKS } from '../data/mockData';
 import { 
   Team, ProjectSubmission, JudgeScorecard, Announcement, SupportTicket, 
@@ -77,6 +77,7 @@ const HomeSectionToggle: React.FC<{
 );
 
 export const AdminPortal: React.FC = () => {
+  const adminRefreshInFlight = useRef(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminEmail, setAdminEmail] = useState('superadmin@kssem.edu.in');
   const [inputEmail, setInputEmail] = useState('');
@@ -294,23 +295,25 @@ export const AdminPortal: React.FC = () => {
   }, [isAuthenticated]);
 
   const fetchAdminData = async () => {
+    if (adminRefreshInFlight.current) return;
+    adminRefreshInFlight.current = true;
     try {
       const [tRes, sRes, aRes, tkRes, mRes, cmsRes, logRes, admRes, rbRes, emRes, jrRes, schRes, polRes, cpRes, spRes] = await Promise.all([
-        fetch('/api/teams'),
-        fetch('/api/submissions'),
-        fetch('/api/announcements'),
-        fetch('/api/tickets'),
-        fetch('/api/milestone-reports'),
-        fetch('/api/cms-config'),
-        fetch('/api/audit-logs'),
-        fetch('/api/admin-users'),
-        fetch('/api/rulebooks'),
-        fetch('/api/email-campaigns'),
-        fetch('/api/judging-rounds'),
-        fetch('/api/schedule'),
-        fetch('/api/policies'),
-        fetch('/api/checkpoints'),
-        fetch('/api/sponsors')
+        fetch('/api/teams', { cache: 'no-store' }),
+        fetch('/api/submissions', { cache: 'no-store' }),
+        fetch('/api/announcements', { cache: 'no-store' }),
+        fetch('/api/tickets', { cache: 'no-store' }),
+        fetch('/api/milestone-reports', { cache: 'no-store' }),
+        fetch('/api/cms-config', { cache: 'no-store' }),
+        fetch('/api/audit-logs', { cache: 'no-store' }),
+        fetch('/api/admin-users', { cache: 'no-store' }),
+        fetch('/api/rulebooks', { cache: 'no-store' }),
+        fetch('/api/email-campaigns', { cache: 'no-store' }),
+        fetch('/api/judging-rounds', { cache: 'no-store' }),
+        fetch('/api/schedule', { cache: 'no-store' }),
+        fetch('/api/policies', { cache: 'no-store' }),
+        fetch('/api/checkpoints', { cache: 'no-store' }),
+        fetch('/api/sponsors', { cache: 'no-store' })
       ]);
 
       if ([tRes, sRes, aRes, tkRes, mRes, cmsRes, logRes, admRes, rbRes, emRes, jrRes, schRes, polRes, cpRes, spRes].some((response) => response.status === 401)) {
@@ -352,6 +355,8 @@ export const AdminPortal: React.FC = () => {
       if (spData.sponsors) setSponsors(spData.sponsors);
     } catch (err) {
       console.error("Error loading Admin Data", err);
+    } finally {
+      adminRefreshInFlight.current = false;
     }
   };
 

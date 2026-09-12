@@ -137,11 +137,14 @@ opens the registration and rulebook modals globally.
 
 ## Backend and data
 
-`server.ts` is the authoritative API. In local development it can use the JSON
-data file, but when `DATABASE_URL` is configured it loads and writes live
-registrations through the production Postgres store. All registration, team,
-participant, and payment mutations should go through the API rather than
-editing local files directly.
+`server.ts` is the authoritative API. When `POSTGRES_URL`, `STORAGE_URL`, or
+`DATABASE_URL` is configured, the entire mutable website state uses PostgreSQL:
+registrations and participants use normalized tables, while submissions,
+judging, check-ins, CMS content, announcements, tickets, bookings, admin users,
+checkpoints, audit logs, and other portal data are stored in the `website_state`
+JSONB row. Without a database URL, local development uses `server-data.json` as
+a fallback. All registration, team, participant, and payment mutations should
+go through the API rather than editing local files directly.
 
 For Vercel production, connect the Postgres integration to this project and
 redeploy. The server accepts `POSTGRES_URL`, `STORAGE_URL`, or

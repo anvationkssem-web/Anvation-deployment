@@ -672,14 +672,23 @@ export async function startServer(options: { listen?: boolean } = {}) {
   });
   app.use("/api", globalLimiter);
 
-  // Persist every successful API mutation so participant and admin portal
-  // changes survive Vercel function cold starts, including routes without an
-  // explicit markDirty() call.
+  // A mutation response must not reach the browser before its durable write is
+  // queued. Otherwise the admin portal can immediately refresh an older DB
+  // snapshot and resurrect a deleted item or reverse a toggle.
+  let persistMutationResponse: () => Promise<void> = async () => {};
   app.use((req, res, next) => {
     if (!["GET", "HEAD", "OPTIONS"].includes((req.method || "GET").toUpperCase())) {
-      res.on("finish", () => {
-        if (productionStoreEnabled && res.statusCode < 500) persistNow();
-      });
+      const originalEnd = res.end.bind(res);
+      let ended = false;
+      (res as any).end = (chunk?: any, encoding?: any, callback?: any) => {
+        if (ended) return res;
+        ended = true;
+        if (res.statusCode >= 500) return originalEnd(chunk, encoding, callback);
+        void persistMutationResponse()
+          .catch((error) => console.error("[DATABASE] Mutation persistence failed before response:", error))
+          .finally(() => originalEnd(chunk, encoding, callback));
+        return res;
+      };
     }
     next();
   });
@@ -2911,6 +2920,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
   const DATA_FILE = path.join(DATA_DIRECTORY, "server-data.json");
 
   let dirtyTimer: NodeJS.Timeout | null = null;
+  let pendingPersistence: Promise<void> = Promise.resolve();
 
   const loadPersisted = () => {
     try {
@@ -2967,7 +2977,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       }));
       const payload = JSON.stringify({ teams: sanitizedTeams, adminUsers: normalizedAdminUsers, checkpoints, auditLogs, nextTeamNumber }, null, 2);
       if (productionStoreEnabled) {
-        void saveProductionWebsiteState({
+        const websiteState = {
           submissions,
           scorecards,
           announcements,
@@ -2987,9 +2997,10 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
           scheduleItems,
           policies,
           nextTeamNumber
-        }).catch((error) => {
-          console.error("[DATABASE] Website state persistence failed:", error);
-        });
+        };
+        pendingPersistence = pendingPersistence
+          .catch(() => {})
+          .then(() => saveProductionWebsiteState(websiteState));
         return true;
       }
       // Write atomically: dump to a temp file first, then rename over the real
@@ -3020,6 +3031,11 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       dirtyTimer = null;
       persistNow();
     }, 200);
+  };
+
+  persistMutationResponse = async () => {
+    persistNow();
+    await pendingPersistence;
   };
 
   // Load saved records (if any), seed the CSV backup from them if this is the

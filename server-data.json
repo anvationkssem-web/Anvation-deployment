@@ -5,7 +5,7 @@
       "regNumber": "CODE-2026-001",
       "teamName": "hello",
       "leaderEmail": "kgsoumya1605@gmail.com",
-      "accessPassword": "CODE2026#6679",
+      "accessPassword": "pbkdf2_sha256$4474cb822ca7f1c247ef663007b43ef3$5bb8d87bd9ff866d25d5015e0912d1f54f235e7c7afe8eaffe223305a6163dae",
       "preferredTrack": "Artificial Intelligence & Machine Learning",
       "members": [
         {
@@ -69,7 +69,7 @@
       "regNumber": "CODE-2026-002",
       "teamName": "Sheeed",
       "leaderEmail": "shee@gmail.com",
-      "accessPassword": "CODE2026#7471",
+      "accessPassword": "pbkdf2_sha256$800d81e317728ee1eecf62d2060b9b53$80cfb0d58148d7375fa637e92e9751af68a9ef060eaff3d0ff30b8190d1e5b58",
       "preferredTrack": "Artificial Intelligence & Machine Learning",
       "members": [
         {
@@ -110,7 +110,7 @@
       "regNumber": "CODE-2026-003",
       "teamName": "r3",
       "leaderEmail": "3r",
-      "accessPassword": "CODE2026#9283",
+      "accessPassword": "pbkdf2_sha256$5710977e3b202d24ad46146737df947e$85b55ea0318308a295ad86d231091ae35276d33f0c16a737b31c803039149d50",
       "preferredTrack": "Artificial Intelligence & Machine Learning",
       "members": [
         {
@@ -151,7 +151,7 @@
       "regNumber": "CODE-2026-004",
       "teamName": "soumya",
       "leaderEmail": "kgsoumya1605@gmail.com",
-      "accessPassword": "CODE2026#3912",
+      "accessPassword": "pbkdf2_sha256$e2e321680792051a24f09cf118766e3d$c834f24b682d3c08b12d6840a2883e4ab7de1320e1515914cb077ceb56d6bfd0",
       "preferredTrack": "Artificial Intelligence & Machine Learning",
       "members": [
         {
@@ -213,11 +213,67 @@
   ],
   "adminUsers": [
     {
+      "id": "adm-1",
+      "email": "superadmin@kssem.edu.in",
+      "username": "superadmin",
+      "password": "pbkdf2_sha256$128fe15bf9f2bfcbf06ac23d7b52fd54$99c6ea89139f194086a983a45d8439c1a58d972844276bd0dde920814536a10d",
+      "name": "Dr. K Venkata Rao",
+      "role": "SUPER_ADMIN",
+      "status": "Active",
+      "createdAt": "2026-08-01",
+      "twoFactorEnabled": true,
+      "lastLogin": "2026-09-12T15:26:32.583Z"
+    },
+    {
+      "id": "adm-2",
+      "email": "regmanager@kssem.edu.in",
+      "username": "regmanager",
+      "password": "pbkdf2_sha256$3933547bcf3b5c2d8cf83abec1011843$ea74ea481c63f814faae56af36ceb73a1b28b36acba223a9f2fe93c2e1522458",
+      "name": "Prof. Rajesh Kumar",
+      "role": "REGISTRATION_MANAGER",
+      "status": "Active",
+      "createdAt": "2026-08-02",
+      "twoFactorEnabled": false
+    },
+    {
+      "id": "adm-3",
+      "email": "contentmanager@kssem.edu.in",
+      "username": "contentmanager",
+      "password": "pbkdf2_sha256$b66dae6d3cadb8d812d1191fc6c863b6$ad7d4377f3ac3e239ef62b6c84bba4756cf5b536c1711d59f7c5fb701afd782f",
+      "name": "Prof. Sneha V",
+      "role": "CONTENT_MANAGER",
+      "status": "Active",
+      "createdAt": "2026-08-03",
+      "twoFactorEnabled": true
+    },
+    {
+      "id": "adm-4",
+      "email": "judge1@bosch.com",
+      "username": "judge1",
+      "password": "pbkdf2_sha256$7f82e29c6844dc80848908a37b86f1a9$38c2c2e01b06995b9f2d1490f6c713faaddc652bc882c902324d82ed79712580",
+      "name": "Dr. Ramesh Kumar (Bosch)",
+      "role": "JUDGE",
+      "status": "Active",
+      "createdAt": "2026-08-04",
+      "twoFactorEnabled": false
+    },
+    {
+      "id": "adm-5",
+      "email": "checkin1@kssem.edu.in",
+      "username": "checkin1",
+      "password": "pbkdf2_sha256$5735240ecd1d1b7b95784567a2b8e7b7$e7af2e08151d1c90c21bb93f108a429d69fd59a1c6642f841ed200fd8f11ec1a",
+      "name": "Volunteer Gate Staff 1",
+      "role": "CHECKIN_STAFF",
+      "status": "Active",
+      "createdAt": "2026-08-05",
+      "twoFactorEnabled": false
+    },
+    {
       "id": "adm-1788712049849",
       "email": "kgsoumya1605@gmail.com",
       "name": "soumya",
       "username": "soumya",
-      "password": "sou_1605@",
+      "password": "pbkdf2_sha256$848385b661eda24bd9710ebb284a98c2$69112e0c4497d51ab5fda0d3ff622936df39d9baeb041e7e2d99e547f58587b6",
       "role": "ADMIN",
       "status": "Active",
       "createdAt": "2026-09-06",
@@ -249,6 +305,32 @@
       "description": "Completed Github repo, video recording, and slides.",
       "time": "07:00 AM (Day 2)",
       "status": "Open"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log-101",
+      "timestamp": "2026-09-12T15:16:21.905Z",
+      "actorEmail": "superadmin@kssem.edu.in",
+      "actorRole": "SUPER_ADMIN",
+      "action": "CMS Config Update",
+      "target": "Website CMS Settings",
+      "beforeValue": "Registration Open = true",
+      "afterValue": "Total Prize Pool = ₹2,00,000+",
+      "reason": "Super Admin updated prize pool details",
+      "ipAddress": "192.168.1.10"
+    },
+    {
+      "id": "log-102",
+      "timestamp": "2026-09-12T14:16:21.906Z",
+      "actorEmail": "superadmin@kssem.edu.in",
+      "actorRole": "SUPER_ADMIN",
+      "action": "Checkpoint Approved",
+      "target": "Team Neural Ninjas (CT-101)",
+      "beforeValue": "Pending",
+      "afterValue": "Approved",
+      "reason": "Review completed by Jury Panel",
+      "ipAddress": "192.168.1.10"
     }
   ],
   "nextTeamNumber": 4

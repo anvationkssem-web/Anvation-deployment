@@ -26,11 +26,12 @@ with thousands of concurrent visitors**, and what has already been wired in.
    when you put the app behind nginx/caddy the real visitor IP is used for rate
    limiting and audit logs.
 
-5. **Reliable data persistence** — registration/check-in/scoring/admin writes
-   are flushed to disk within ~200 ms (debounced) instead of only every 5 s,
-   written atomically (temp file + rename, so a crash can never corrupt the
-   store), and forced again on graceful shutdown. The server also survives
-   `SIGINT`/`SIGTERM` cleanly without losing data.
+5. **Reliable data persistence** — with a PostgreSQL URL configured,
+   registration/check-in/scoring/admin writes are flushed to the shared database
+   within ~200 ms (debounced), allowing multiple instances to use the same
+   state. Without PostgreSQL, local development falls back to the JSON file and
+   writes it atomically (temp file + rename, so a crash can never corrupt the
+   store).
 
 6. **Multi-core (cluster) mode** — *optional*, see below.
 
@@ -113,18 +114,12 @@ shape this architecture is designed for.
    Static files are served by Node but an nginx-layer `expires` cache for
    `/assets/` adds another layer, and keep-alive reduces per-connection cost.
 
-3. **If you need more than one machine** (horizontal scale), move the mutable
-   state out of the file store into a shared database, because the current
-   in-memory + `server-data.json` store is single-node by design:
-
-   * Add **PostgreSQL** (or SQLite with WAL if staying single-node).
-   * New tables: `teams`, `members`, `submissions`, `checkins`, `scorecards`,
-     `announcements`, `cms_config`.
-   * Replace the `teams.push(...)` / `markDirty()` mutations with `INSERT/UPDATE`
-     queries, and read aggregations (`GET /api/teams`) with `SELECT`.
-   * Point all cluster workers (or multiple hosts) at the DB. At that point you
-     can run many identical instances behind a load balancer with full
-     redundancy.
+3. **Configure PostgreSQL for horizontal scale.** Set `POSTGRES_URL` (or
+    `STORAGE_URL` / `DATABASE_URL`) in the deployment environment. The app uses
+    normalized registration tables plus a shared JSONB website-state row for
+    submissions, check-ins, scoring, CMS content, admin data, and the remaining
+    portal features. The idempotent schema is in `database/schema.sql`, and the
+    server also initializes it automatically at startup.
 
 4. **Monitor during the event.** Health check at `/api/health`. Watch memory of
    each process, disk on the data file host, and network egress (compression
@@ -138,6 +133,7 @@ shape this architecture is designed for.
 | `INTERNAL_PORT`    | `3002`  | Private loopback port used by the cluster authority.          |
 | `CLUSTER_WORKERS`  | off     | `auto` (all cores − 1) or a number of worker processes; empty disables. |
 | `NODE_ENV`         | —       | `production` serves the built `dist/`; otherwise Vite dev.    |
+| `POSTGRES_URL`     | —       | PostgreSQL connection URL used by the shared production store. |
 | `SMTP_*`           | —       | Email delivery (see `.env.example`).                          |
 
 > Existing `.env` values are only read if the matching OS env var is not already

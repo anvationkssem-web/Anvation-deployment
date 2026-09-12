@@ -1,5 +1,32 @@
 import { neon } from '@neondatabase/serverless';
+import fs from 'node:fs';
+import path from 'node:path';
 import type { AdminUser, AuditLog, Checkpoint, Team } from '../types';
+
+// Load the local connection string before the store is initialized. server.ts
+// imports this module before its later application-level .env loader runs.
+if (!process.env.VERCEL) {
+  try {
+    const envFile = path.join(process.cwd(), '.env');
+    if (fs.existsSync(envFile)) {
+      for (const rawLine of fs.readFileSync(envFile, 'utf8').split(/\r?\n/)) {
+        const line = rawLine.trim();
+        if (!line || line.startsWith('#')) continue;
+        const separator = line.indexOf('=');
+        if (separator === -1) continue;
+        const key = line.slice(0, separator).trim();
+        if (!key || process.env[key] !== undefined) continue;
+        let value = line.slice(separator + 1).trim();
+        if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+          value = value.slice(1, -1);
+        }
+        process.env[key] = value;
+      }
+    }
+  } catch (error) {
+    console.warn('[DATABASE] Could not load local .env:', error);
+  }
+}
 
 // The Neon client needs a standard PostgreSQL URL. POSTGRES_PRISMA_URL can be
 // a Prisma Accelerate URL, so prefer the regular pooled/non-pooled URLs.
