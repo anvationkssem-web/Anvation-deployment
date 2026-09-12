@@ -18,6 +18,7 @@ import { SEED_ANNOUNCEMENTS, SPONSORS } from "./src/data/mockData";
 import { Team, ProjectSubmission, JudgeScorecard, Announcement, SupportTicket, Participant, MilestoneReport, MentorBooking, WebsiteCMSConfig, AuditLog, AdminUser, AdminRole, RulebookVersion, EmailCampaign, RoomAllocation, JudgingRound, ScheduleItem, Checkpoint, Sponsor } from "./src/types";
 import { HACKATHON_TRACKS } from "./src/data/mockData";
 import { PAYMENT_UPI_ID, ocrContainsTransactionId } from "./src/utils/upiVerification";
+import { resolveAdminBootstrapPassword } from "./src/utils/adminAuth";
 import { clearProductionTeams, ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
 
 const execFileAsync = promisify(execFile);
@@ -489,7 +490,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
   const AUTH_COOKIE = "anvation_session_v2";
   const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
   const SESSION_SECRET = process.env.SESSION_SECRET || process.env.GATE_SCAN_SECRET_KEY || "change-this-anvation-session-secret";
-  const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_BOOTSTRAP_PASSWORD?.trim() || "password123";
+  const DEFAULT_ADMIN_PASSWORD = resolveAdminBootstrapPassword();
   if (process.env.VERCEL && !process.env.ADMIN_BOOTSTRAP_PASSWORD) {
     console.warn("[AUTH] ADMIN_BOOTSTRAP_PASSWORD missing in Vercel; using built-in fallback to keep admin login active.");
   }
@@ -3938,6 +3939,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       ipAddress: req.ip || "127.0.0.1"
     });
 
+    markDirty();
     res.json({ success: true, config: cmsConfig });
   });
 
@@ -4142,6 +4144,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
   // Participants cannot download certificates until this is set to true.
   app.post("/api/certificate-issue", requireAdmin, (req, res) => {
     cmsConfig.enableCertificateDownloads = true;
+    markDirty();
     res.json({ success: true, enabled: true, config: cmsConfig, message: "Certificates released to all verified participants!" });
   });
 

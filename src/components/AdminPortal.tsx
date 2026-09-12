@@ -263,10 +263,35 @@ export const AdminPortal: React.FC = () => {
   const [emailBody, setEmailBody] = useState('');
 
   useEffect(() => {
-    fetchAdminData();
-    const interval = setInterval(fetchAdminData, 15000);
-    return () => clearInterval(interval);
-  }, []);
+    let cancelled = false;
+
+    const restoreAdminSession = async () => {
+      try {
+        const res = await fetch('/api/session');
+        const data = await res.json();
+        if (cancelled) return;
+
+        if (data.authenticated && data.user?.type === 'admin') {
+          setIsAuthenticated(true);
+          setAdminEmail(data.user.email || data.user.username || 'Administrator');
+          await fetchAdminData();
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch {
+        if (!cancelled) setIsAuthenticated(false);
+      }
+    };
+
+    restoreAdminSession();
+    const interval = setInterval(() => {
+      if (!cancelled && isAuthenticated) fetchAdminData();
+    }, 15000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [isAuthenticated]);
 
   const fetchAdminData = async () => {
     try {
@@ -374,7 +399,12 @@ export const AdminPortal: React.FC = () => {
     }
   };
 
-  const handleAdminLogout = () => {
+  const handleAdminLogout = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch {
+      // Clear the local UI even if the network is unavailable.
+    }
     setIsAuthenticated(false);
     setInputPassword('');
     setAuthError('');
