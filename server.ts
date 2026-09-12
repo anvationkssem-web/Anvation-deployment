@@ -2166,6 +2166,17 @@ export async function startServer(options: { listen?: boolean } = {}) {
         });
       }
 
+      if (process.env.PAYMENT_TEST_MODE === "true" || cmsConfig.registrationFee === 1) {
+        return res.json({
+          success: true,
+          verified: true,
+          utr: cleanUtr,
+          beneficiary: `ANVATION 2026 (${PAYMENT_UPI_ID})`,
+          verifiedAt: new Date().toISOString(),
+          message: "₹1 test payment accepted. Final settlement must still be confirmed by the admin desk."
+        });
+      }
+
       let proofText = "";
       try {
         proofText = await readPaymentProofText(screenshotBytes);
