@@ -153,6 +153,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setPaymentFailError(null);
     setPaymentErrorKind('verification');
     setShowPaymentFailModal(false);
+    setShowPendingPopup(false);
     setDuplicateFieldErrors({});
     setCheckingDuplicates(false);
     setRegisteredTeam(null);
@@ -447,6 +448,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         onSuccess(registrationTeam);
 
         confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+        setStep(5);
         setShowPendingPopup(true);
       } else {
         setPaymentErrorKind('registration');

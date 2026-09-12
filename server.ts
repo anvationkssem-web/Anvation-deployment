@@ -1650,7 +1650,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
               await saveProductionTeam(t);
               console.warn(`[DATABASE] Re-persisted ${t.id} (${t.teamName}) to the production store.`);
             } catch (persistErr) {
-              console.error(`[DATABASE] Re-persist failed for ${t.id}; keeping it in memory:`, persistErr?.message || persistErr);
+              console.error(`[DATABASE] Re-persist failed for ${t.id}; keeping it in memory:`, (persistErr as any)?.message || persistErr);
             }
           }
         }
@@ -2076,6 +2076,14 @@ export async function startServer(options: { listen?: boolean } = {}) {
                 }
               };
             }
+            return {
+              status: 503,
+              body: {
+                success: false,
+                error: "Production registration storage is temporarily unavailable. Please retry.",
+                code: "PRODUCTION_DATABASE_WRITE_FAILED"
+              }
+            };
           }
         }
 
