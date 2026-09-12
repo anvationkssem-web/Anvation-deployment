@@ -683,9 +683,15 @@ export async function startServer(options: { listen?: boolean } = {}) {
   let sponsors: Sponsor[] = [...SPONSORS];
   let milestoneReports: MilestoneReport[] = [];
   let mentorBookings: MentorBooking[] = [];
+  let productionDatabaseReady = productionStoreEnabled;
 
   if (productionStoreEnabled) {
-    await ensureProductionSchema();
+    try {
+      await ensureProductionSchema();
+    } catch (databaseError) {
+      productionDatabaseReady = false;
+      console.error("[DATABASE] Could not initialize production schema:", databaseError);
+    }
   }
 
   // Monotonic sequence for collision-free team/member identity.
@@ -1496,7 +1502,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
 
   // API Routes
   app.get("/api/health", (req, res) => {
-    res.json({ status: "ok", timestamp: new Date().toISOString() });
+    res.json({ status: "ok", databaseConfigured: productionDatabaseReady, timestamp: new Date().toISOString() });
   });
 
   // Get Registration & CMS Status
@@ -2915,18 +2921,23 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
   // first run, and then auto-save the JSON store on a periodic heartbeat.
   if (!productionStoreEnabled) loadPersisted();
   if (productionStoreEnabled) {
-    const savedAdminState = await loadProductionAdminState();
-    if (savedAdminState) {
-      adminUsers = savedAdminState.adminUsers || adminUsers;
-      checkpoints = savedAdminState.checkpoints || checkpoints;
-      auditLogs = savedAdminState.auditLogs || auditLogs;
+    try {
+      const savedAdminState = await loadProductionAdminState();
+      if (savedAdminState) {
+        adminUsers = savedAdminState.adminUsers || adminUsers;
+        checkpoints = savedAdminState.checkpoints || checkpoints;
+        auditLogs = savedAdminState.auditLogs || auditLogs;
+      }
+      teams = await loadProductionTeams();
+      nextTeamNumber = teams.reduce((highest, team) => {
+        const match = String(team.id || '').match(/(\d+)$/);
+        return Math.max(highest, match ? Number(match[1]) : 0);
+      }, nextTeamNumber);
+      rebuildUniquenessIndexes();
+    } catch (databaseError) {
+      productionDatabaseReady = false;
+      console.error("[DATABASE] Could not load production data:", databaseError);
     }
-    teams = await loadProductionTeams();
-    nextTeamNumber = teams.reduce((highest, team) => {
-      const match = String(team.id || '').match(/(\d+)$/);
-      return Math.max(highest, match ? Number(match[1]) : 0);
-    }, nextTeamNumber);
-    rebuildUniquenessIndexes();
   }
   try {
     if (!productionStoreEnabled) initialiseParticipantRegistrationBackup();
@@ -3564,8 +3575,9 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
   });
 
   if (productionStoreEnabled) {
-    const savedWebsiteState = await loadProductionWebsiteState();
-    if (savedWebsiteState) {
+    try {
+      const savedWebsiteState = await loadProductionWebsiteState();
+      if (savedWebsiteState) {
       if (Array.isArray(savedWebsiteState.submissions)) submissions = savedWebsiteState.submissions as ProjectSubmission[];
       if (Array.isArray(savedWebsiteState.scorecards)) scorecards = savedWebsiteState.scorecards as JudgeScorecard[];
       if (Array.isArray(savedWebsiteState.announcements)) announcements = savedWebsiteState.announcements as Announcement[];
@@ -3585,6 +3597,10 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       if (Array.isArray(savedWebsiteState.scheduleItems)) scheduleItems = savedWebsiteState.scheduleItems as ScheduleItem[];
       if (Array.isArray(savedWebsiteState.policies)) policies = savedWebsiteState.policies as typeof policies;
       if (typeof savedWebsiteState.nextTeamNumber === "number") nextTeamNumber = savedWebsiteState.nextTeamNumber;
+      }
+    } catch (databaseError) {
+      productionDatabaseReady = false;
+      console.error("[DATABASE] Could not load website state:", databaseError);
     }
   }
 

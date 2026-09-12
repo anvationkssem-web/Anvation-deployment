@@ -11,9 +11,7 @@ const databaseUrl = String(
   process.env.DATABASE_URL ||
   ''
 ).trim();
-if (process.env.VERCEL && !databaseUrl) {
-  throw new Error('A standard PostgreSQL URL is required: POSTGRES_URL, STORAGE_URL, or DATABASE_URL.');
-}
+if (process.env.VERCEL && !databaseUrl) console.error('[DATABASE] No standard PostgreSQL URL configured. Set POSTGRES_URL, STORAGE_URL, or DATABASE_URL.');
 const sql = databaseUrl ? neon(databaseUrl) : null;
 
 export const productionStoreEnabled = Boolean(sql);
