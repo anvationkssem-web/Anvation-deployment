@@ -446,8 +446,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         onSuccess(registrationTeam);
 
         confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
-        window.alert('Registration submitted successfully. The admin team will verify your payment and share your participant portal credentials after approval.');
-        onClose();
+        setStep(5);
       } else {
         setPaymentErrorKind('registration');
         if (res.status === 409 || data.error === 'duplicate_registration') {
@@ -1412,27 +1411,49 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
             {/* STEP 5 - SUCCESS & WAITING FOR APPROVAL */}
             {step === 5 && registeredTeam && (
-              <div className="space-y-6 text-center animate-fadeIn">
-                <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.5)]">
-                  <CheckCircle2 className="w-10 h-10" />
+              <div className="space-y-5 text-center animate-fadeIn">
+                <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.5)]">
+                  <CheckCircle2 className="w-11 h-11" />
                 </div>
 
-                <div>
-                  <h3 className="text-2xl font-black text-white">Registration Confirmed!</h3>
-                  <p className="text-xs text-slate-300 mt-1">
-                    Please wait for the admin's approval and keep checking your Gmail for further updates.
-                  </p>
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-black text-white">Registration Submitted!</h3>
+                  <p className="text-sm font-bold text-emerald-400">Your application is under review</p>
                 </div>
 
-                <div className="flex justify-center">
-                  <button
-                    onClick={onClose}
-                    className="py-3 px-6 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs"
-                    id="reg-done-btn"
-                  >
-                    Done
-                  </button>
+                <div className="p-4 rounded-2xl bg-cyan-950/40 border border-cyan-500/40 text-left space-y-3">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0 mt-0.5">
+                      <Sparkles className="w-4 h-4 text-cyan-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-black text-white">Credentials will be shared shortly</p>
+                      <p className="text-xs text-slate-300 mt-1 leading-relaxed">
+                        Once the admin team verifies your payment, your participant portal login credentials will be sent to the team leader's registered Gmail address.
+                      </p>
+                    </div>
+                  </div>
                 </div>
+
+                <div className="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300 space-y-1 text-left">
+                  <div className="font-bold text-white">Team: <span className="text-cyan-400">{registeredTeam.teamName || registeredTeam.name}</span></div>
+                  <div className="text-slate-400">Keep an eye on <span className="text-cyan-300 font-semibold">{registeredTeam.leader?.email || leader.email}</span> for your login details.</div>
+                </div>
+
+                <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-[11px] text-slate-400">
+                  Questions? Contact coordinators:
+                  <div className="mt-1 font-mono text-cyan-300 font-bold">
+                    Bhaskar S: +91 9663949447 | Dr. Sivasubramanyam: +91 8309763125
+                  </div>
+                </div>
+
+                <button
+                  onClick={onClose}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-sm shadow-lg hover:from-cyan-400 hover:to-blue-500 transition-all"
+                  id="reg-done-btn"
+                >
+                  Close
+                </button>
               </div>
             )}
           </>
