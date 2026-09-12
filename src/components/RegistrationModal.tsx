@@ -445,8 +445,9 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         setRegisteredTeam(registrationTeam);
         onSuccess(registrationTeam);
 
-        setStep(5); // Go straight to confirmation slip!
         confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+        window.alert('Registration submitted successfully. The admin team will verify your payment and share your participant portal credentials after approval.');
+        onClose();
       } else {
         setPaymentErrorKind('registration');
         if (res.status === 409 || data.error === 'duplicate_registration') {
@@ -548,7 +549,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         setPaymentVerifiedSuccess(true);
         setPaymentConfirmed(true);
 
-        window.alert('Payment verified successfully. Your registration will be sent to the admin desk for payment approval. Login credentials will be shared only after the admin completes verification.');
         setTimeout(() => {
           handleSubmitRegistration(verifiedUtr);
         }, 150);

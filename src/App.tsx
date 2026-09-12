@@ -133,6 +133,8 @@ export default function App() {
 
   const handleRegistrationSuccess = () => {
     fetchLiveStats();
+    navigateToView('landing');
+    setIsRegisterModalOpen(false);
   };
 
   const scrollToTop = () => {
