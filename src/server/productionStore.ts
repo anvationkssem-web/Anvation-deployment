@@ -28,17 +28,19 @@ if (!process.env.VERCEL) {
   }
 }
 
-// The Neon client needs a standard PostgreSQL URL. POSTGRES_PRISMA_URL can be
-// a Prisma Accelerate URL, so prefer the regular pooled/non-pooled URLs.
+// Use the connection variables supplied by the existing Vercel Prisma
+// Postgres integration. These values remain server-only and are never bundled
+// into the frontend because this module is imported only by the backend.
 const databaseUrl = String(
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_PRISMA_URL ||
+  process.env.POSTGRES_URL ||
   process.env.POSTGRES_URL_NON_POOLING ||
   process.env.STORAGE_URL_NON_POOLING ||
-  process.env.POSTGRES_URL ||
   process.env.STORAGE_URL ||
-  process.env.DATABASE_URL ||
   ''
 ).trim();
-if (process.env.VERCEL && !databaseUrl) console.error('[DATABASE] No standard PostgreSQL URL configured. Set POSTGRES_URL, STORAGE_URL, or DATABASE_URL.');
+if (process.env.VERCEL && !databaseUrl) console.error('[DATABASE] No Prisma Postgres URL configured. Vercel should provide DATABASE_URL, POSTGRES_PRISMA_URL, or POSTGRES_URL.');
 const sql = databaseUrl ? neon(databaseUrl) : null;
 
 export let productionStoreEnabled = Boolean(sql);
