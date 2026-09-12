@@ -486,7 +486,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
     }
   }
 
-  const AUTH_COOKIE = "anvation_session";
+  const AUTH_COOKIE = "anvation_session_v2";
   const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
   const SESSION_SECRET = process.env.SESSION_SECRET || process.env.GATE_SCAN_SECRET_KEY || "change-this-anvation-session-secret";
   const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_BOOTSTRAP_PASSWORD?.trim() || "password123";

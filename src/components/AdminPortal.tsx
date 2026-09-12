@@ -286,6 +286,12 @@ export const AdminPortal: React.FC = () => {
         fetch('/api/sponsors')
       ]);
 
+      if ([tRes, sRes, aRes, tkRes, mRes, cmsRes, logRes, admRes, rbRes, emRes, jrRes, schRes, polRes, cpRes, spRes].some((response) => response.status === 401)) {
+        setIsAuthenticated(false);
+        setAuthError('Your admin session expired. Please sign in again.');
+        return;
+      }
+
       const tData = await tRes.json();
       const sData = await sRes.json();
       const aData = await aRes.json();
@@ -757,6 +763,11 @@ export const AdminPortal: React.FC = () => {
           password: newAdminPassword
         })
       });
+      if (res.status === 401) {
+        setIsAuthenticated(false);
+        setAuthError('Your admin session expired. Please sign in again.');
+        return;
+      }
       const data = await res.json();
       if (data.success) {
         showToast(`✓ New Admin Role Created! Username: ${data.user?.username || newAdminUsername}`);
