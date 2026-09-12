@@ -2006,9 +2006,6 @@ export async function startServer(options: { listen?: boolean } = {}) {
                 }
               };
             }
-            // DB unavailable — fall back to local in-memory store so the
-            // participant still gets a successful registration confirmation.
-            console.warn("[DATABASE] Falling back to local store for team:", newTeam.id);
           }
         }
 
