@@ -35,7 +35,7 @@ export const COLLEGE_INFO = {
   dates: '8th - 9th October 2026',
   time: '9:30 AM to 9:30 AM (24-Hour Non-stop Hackathon)',
   venue: 'KSSEM Campus, Bengaluru',
-  entryFee: '₹250 per participant',
+  entryFee: '₹1 per participant',
   teamSize: '2-4 Members',
   prizePool: '₹50,000',
   totalSeats: 350,
@@ -324,7 +324,7 @@ export const FAQS: FAQItem[] = [
   },
   {
     question: 'Is there any registration fee?',
-    answer: 'The registration fee is ₹250 per head payable via PhonePe (test mode). Food, snacks, high-speed Wi-Fi, and overnight accommodation are fully provided by KSSEM.',
+    answer: 'The registration fee is ₹1 per head payable via PhonePe (temporary test amount). Food, snacks, high-speed Wi-Fi, and overnight accommodation are fully provided by KSSEM.',
     category: 'Registration'
   },
   {

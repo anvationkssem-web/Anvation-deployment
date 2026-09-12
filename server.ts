@@ -752,7 +752,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
     },
     maxTeamSize: 4,
     minTeamSize: 2,
-    registrationFee: 250,
+    registrationFee: 1,
     gateScanSecretKey: process.env.GATE_SCAN_SECRET_KEY || ""
   };
 
@@ -3632,6 +3632,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       console.error("[DATABASE] Could not load website state:", databaseError);
     }
   }
+  cmsConfig.registrationFee = 1;
 
   // Payment UTR Verification API
   app.post("/api/admin/teams/:teamId/approve", requireAdmin, async (req, res) => {
