@@ -69,9 +69,7 @@ export type ProductionWebsiteState = Record<string, unknown>;
 
 function requireProductionDatabase(operation: string): void {
   if (sql && productionStoreEnabled) return;
-  if (process.env.VERCEL) {
-    throw new Error(`[DATABASE] ${operation} requires a configured PostgreSQL connection.`);
-  }
+  throw new Error(`[DATABASE] ${operation} requires a configured PostgreSQL connection.`);
 }
 
 export async function ensureProductionSchema(): Promise<void> {
@@ -177,6 +175,7 @@ export async function findProductionDuplicate(conflict: {
   teamName?: string;
   participants?: Array<{ email?: string; usn?: string; phone?: string }>;
 }): Promise<{ code: DuplicateCode; value: string } | null> {
+  requireProductionDatabase('Checking registration duplicates');
   if (!sql || !productionStoreEnabled) return null;
   try {
     await ensureProductionSchema();
@@ -204,11 +203,8 @@ export async function findProductionDuplicate(conflict: {
     }
     return null;
   } catch (e) {
-    if (process.env.VERCEL) throw e;
-    // DB unavailable — skip duplicate check, local indexes will catch it
-    console.error('[DATABASE] findProductionDuplicate failed, skipping:', e);
-    productionStoreEnabled = false;
-    return null;
+    console.error('[DATABASE] Registration duplicate check failed:', e);
+    throw e;
   }
 }
 

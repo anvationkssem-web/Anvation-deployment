@@ -72,12 +72,29 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   // Form State
   const [teamName, setTeamName] = useState('');
   const [domain, setDomain] = useState(HACKATHON_TRACKS[0].title);
+  const [teamSize, setTeamSize] = useState<2 | 3 | 4>(2);
   const [paymentUtr, setPaymentUtr] = useState('');
+  const [paymentDate, setPaymentDate] = useState('');
   const [paymentConfirmed, setPaymentConfirmed] = useState(false);
-  const [registrationFee, setRegistrationFee] = useState(1);
+  const [whatsappJoined, setWhatsappJoined] = useState(false);
+  const [registrationFee, setRegistrationFee] = useState(250);
 
   // Leader State (Member 1)
   const [leader, setLeader] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    usn: '',
+    college: '',
+    department: '',
+    yearOfStudy: '',
+    state: '',
+    gender: '',
+    accommodationRequired: false,
+  });
+
+  // Members State (1 to 3 additional members: Members 2, 3, 4)
+  const createDefaultMember = () => ({
     fullName: '',
     email: '',
     phone: '',
@@ -88,19 +105,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     accommodationRequired: false,
   });
 
-  // Members State (1 to 3 additional members: Members 2, 3, 4)
-  const createDefaultMembers = () => [
-    {
-      fullName: '',
-      email: '',
-      phone: '',
-      usn: '',
-      college: '',
-      state: '',
-      gender: '',
-      accommodationRequired: false,
-    },
-  ];
+  const createDefaultMembers = (size = 2) =>
+    Array.from({ length: size - 1 }, createDefaultMember);
 
   const [members, setMembers] = useState<
     Array<{
@@ -115,28 +121,13 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     }>
   >(createDefaultMembers());
 
-  const handleAddMember = () => {
-    if (members.length < 3) {
-      setMembers([
-        ...members,
-        {
-          fullName: '',
-          email: '',
-          phone: '',
-          usn: '',
-          college: '',
-          state: '',
-          gender: '',
-          accommodationRequired: false,
-        },
-      ]);
-    }
-  };
-
-  const handleRemoveMember = (idx: number) => {
-    if (members.length > 1) {
-      setMembers(members.filter((_, i) => i !== idx));
-    }
+  const handleTeamSizeChange = (value: 2 | 3 | 4) => {
+    setTeamSize(value);
+    setMembers((currentMembers) => {
+      const nextMembers = currentMembers.slice(0, value - 1);
+      while (nextMembers.length < value - 1) nextMembers.push(createDefaultMember());
+      return nextMembers;
+    });
   };
 
   // Fresh start every time the modal is opened. Clears any previously shown
@@ -162,7 +153,10 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setSlipSaveSuccess(false);
     setTeamName('');
     setDomain(HACKATHON_TRACKS[0].title);
+    setTeamSize(2);
     setPaymentUtr('');
+    setPaymentDate('');
+    setWhatsappJoined(false);
     setPaymentScreenshotData(null);
     setPaymentScreenshotName('');
     paymentScreenshotReadRef.current += 1;
@@ -173,11 +167,13 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       phone: '',
       usn: '',
       college: '',
+      department: '',
+      yearOfStudy: '',
       state: '',
       gender: '',
       accommodationRequired: false,
     });
-    setMembers(createDefaultMembers());
+    setMembers(createDefaultMembers(2));
   };
 
   useEffect(() => {
@@ -186,7 +182,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       fetch('/api/registration-status')
         .then((res) => res.json())
         .then((data) => {
-          setRegistrationFee(Number(data?.registrationFee) || 1);
+          setRegistrationFee(Number(data?.registrationFee) || 250);
           if (data && (data.freezeRegistrations || !data.registrationOpen)) {
             setIsFrozen(true);
           } else {
@@ -244,7 +240,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     reader.readAsDataURL(file);
   };
 
-  const currentFeePerParticipant = 1;
+  const currentFeePerParticipant = registrationFee || 250;
   const currentParticipantCount = 1 + members.length;
   const currentTotalFee = currentFeePerParticipant * currentParticipantCount;
 
@@ -254,25 +250,21 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       leader.usn.trim() &&
       leader.phone.trim() &&
       leader.college.trim() &&
-      leader.state.trim() &&
-      leader.gender.trim() &&
-      /^[^\s@]+@gmail\.com$/i.test(leader.email.trim()) &&
+      leader.department.trim() &&
+      leader.yearOfStudy.trim() &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(leader.email.trim()) &&
       /^\d{10}$/.test(leader.phone.trim())
   );
 
   const areAllMembersFilled =
-    members.length >= 1 &&
-    members.length <= 3 &&
+    members.length === teamSize - 1 &&
     members.every((m) =>
       Boolean(
         m.fullName.trim() &&
           m.email.trim() &&
           m.usn.trim() &&
           m.phone.trim() &&
-          m.college.trim() &&
-          m.state.trim() &&
-          m.gender.trim() &&
-          /^[^\s@]+@gmail\.com$/i.test(m.email.trim()) &&
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(m.email.trim()) &&
           /^\d{10}$/.test(m.phone.trim())
       )
     );
@@ -352,7 +344,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   const handleStep3Next = async () => {
     if (!isStep3Valid) {
       setDuplicateFieldErrors({
-        form: 'Complete every required participant field with a valid Gmail address and exactly 10-digit phone number before continuing.',
+        form: 'Complete every required participant field with a valid email address and exactly 10-digit phone number before continuing.',
       });
       return;
     }
@@ -393,6 +385,14 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         return;
       }
 
+      if (!paymentDate || !paymentConfirmed || !whatsappJoined) {
+        submittingRef.current = false;
+        setLoading(false);
+        setPaymentFailError('Confirm the payment date, payment confirmation, and WhatsApp group join status before submitting.');
+        setShowPaymentFailModal(true);
+        return;
+      }
+
       // Check team completeness
       if (members.length < 1 || members.length > 3 || !areAllMembersFilled) {
         submittingRef.current = false;
@@ -422,6 +422,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             phone: leader.phone,
             usn: leader.usn,
             college: leader.college,
+            department: leader.department,
+            yearOfStudy: leader.yearOfStudy,
             state: leader.state,
             gender: leader.gender,
             accommodationRequired: leader.accommodationRequired,
@@ -437,6 +439,11 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             accommodationRequired: member.accommodationRequired,
           })),
           paymentUtr: finalUtr,
+          paymentDate,
+          totalAmount: currentTotalFee,
+          teamSize,
+          accommodationRequired: leader.accommodationRequired,
+          whatsappJoined,
           paymentScreenshot: paymentScreenshotData || null,
         }),
       });
@@ -448,7 +455,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         onSuccess(registrationTeam);
 
         confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
-        setStep(5);
+        setStep(6);
         setShowPendingPopup(true);
       } else {
         setPaymentErrorKind('registration');
@@ -551,9 +558,9 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         setPaymentVerifiedSuccess(true);
         setPaymentConfirmed(true);
 
-        setTimeout(() => {
-          handleSubmitRegistration(verifiedUtr);
-        }, 150);
+        setPaymentVerifying(false);
+        verifyingRef.current = false;
+        setStep(5);
       } else {
           setPaymentErrorKind('verification');
         setPaymentFailError(
@@ -671,7 +678,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         ) : (
           <>
             {/* Step Indicator */}
-            {step < 5 && (
+            {step < 6 && (
               <div className="flex items-center justify-between text-[11px] text-slate-400 px-2 flex-wrap gap-y-1">
                 <span className={`font-bold ${step >= 1 ? 'text-cyan-400' : ''}`}>1. Domain</span>
                 <span>→</span>
@@ -729,6 +736,20 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   </select>
                 </div>
 
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1">Team Size (Required)</label>
+                  <select
+                    value={teamSize}
+                    onChange={(e) => handleTeamSizeChange(Number(e.target.value) as 2 | 3 | 4)}
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:border-cyan-500 focus:outline-none"
+                    id="reg-team-size-select"
+                  >
+                    <option value={2}>2 Members - ₹500</option>
+                    <option value={3}>3 Members - ₹750</option>
+                    <option value={4}>4 Members - ₹1,000</option>
+                  </select>
+                </div>
+
                 <div className="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-cyan-200 space-y-1">
                   <div className="font-bold text-white flex items-center gap-1.5">
                     <Shield className="w-3.5 h-3.5 text-cyan-400" />
@@ -778,25 +799,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
                   <div>
                     <label className="block text-xs font-bold text-slate-300 mb-1">
-                      State / Union Territory *
-                    </label>
-                    <select
-                      required
-                      value={leader.state}
-                      onChange={(e) => setLeader({ ...leader, state: e.target.value })}
-                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
-                    >
-                      <option value="">Select State </option>
-                      {INDIA_STATES_AND_UTS.map((state) => (
-                        <option key={state} value={state}>
-                          {state}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-slate-300 mb-1">
                       Email Address *
                     </label>
                     <input
@@ -805,7 +807,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                       value={leader.email}
                       onChange={(e) => setLeader({ ...leader, email: e.target.value })}
                       placeholder="akash@gmail.com"
-                      pattern="[^\s@]+@gmail\.com"
+                      pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
                       className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
                       id="reg-leader-email-input"
                     />
@@ -851,6 +853,30 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   </div>
 
                   <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">Department *</label>
+                    <input
+                      type="text"
+                      required
+                      value={leader.department}
+                      onChange={(e) => setLeader({ ...leader, department: e.target.value })}
+                      placeholder="Computer Science & Engineering"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-slate-300 mb-1">Year of Study *</label>
+                    <input
+                      type="text"
+                      required
+                      value={leader.yearOfStudy}
+                      onChange={(e) => setLeader({ ...leader, yearOfStudy: e.target.value })}
+                      placeholder="2nd Year"
+                      className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
+                    />
+                  </div>
+
+                  <div>
                     <label className="block text-xs font-bold text-slate-300 mb-1">
                       Phone Number *
                     </label>
@@ -873,23 +899,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   </div>
 
                   <div>
-  <label className="block text-xs font-bold text-slate-300 mb-1">Gender</label>
-  <select
-    value={leader.gender || ''}
-    onChange={(e) => setLeader({ ...leader, gender: e.target.value })}
-    className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
-  >
-    <option value="">Select Gender</option>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Other">Other</option>
-    <option value="Prefer not to say">Prefer not to say</option>
-  </select>
-</div>
-
-                  <div>
                     <label className="block text-xs font-bold text-slate-300 mb-1">
-                      Accommodation required
+                      Do you require accommodation?
                     </label>
                     <select
                       value={leader.accommodationRequired ? 'yes' : 'no'}
@@ -938,18 +949,9 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                       {1 + members.length} Participants Total)
                     </h4>
                     <p className="text-[11px] text-slate-400">
-                      Add 1 to 3 additional members (Team size: 2-4 members)
+                      Participant details for the selected {teamSize}-member team
                     </p>
                   </div>
-                  {members.length < 3 && (
-                    <button
-                      type="button"
-                      onClick={handleAddMember}
-                      className="px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 hover:bg-cyan-500/30 border border-cyan-500/40 text-xs font-bold flex items-center gap-1.5 transition-colors"
-                    >
-                      <Plus className="w-3.5 h-3.5" /> Add Member ({1 + members.length}/4)
-                    </button>
-                  )}
                 </div>
 
                 {/* Validation warnings for duplicates or missing fields */}
@@ -996,15 +998,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                         <span className="text-xs font-black text-cyan-400">
                           Member #{idx + 2}
                         </span>
-                        {members.length > 1 && (
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveMember(idx)}
-                            className="text-rose-400 hover:text-rose-300 p-1 rounded hover:bg-rose-950/40 text-xs flex items-center gap-1"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" /> Remove
-                          </button>
-                        )}
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
@@ -1023,25 +1016,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
                         <div>
                           <label className="block text-xs font-bold text-slate-300 mb-1">
-                            State / Union Territory *
-                          </label>
-                          <select
-                            required
-                            value={mem.state}
-                            onChange={(e) => handleUpdateMember(idx, 'state', e.target.value)}
-                            className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
-                          >
-                            <option value="">Select State</option>
-                            {INDIA_STATES_AND_UTS.map((state) => (
-                              <option key={state} value={state}>
-                                {state}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-slate-300 mb-1">
                             Email Address *
                           </label>
                           <input
@@ -1050,7 +1024,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                             value={mem.email}
                             onChange={(e) => handleUpdateMember(idx, 'email', e.target.value)}
                             placeholder="akash@gmail.com"
-                            pattern="[^\s@]+@gmail\.com"
+                            pattern="[^\s@]+@[^\s@]+\.[^\s@]+"
                             className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
                           />
                           {duplicateFieldErrors[`members.${idx}.email`] && (
@@ -1081,20 +1055,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
                         <div>
                           <label className="block text-xs font-bold text-slate-300 mb-1">
-                            College Name *
-                          </label>
-                          <input
-                            type="text"
-                            required
-                            value={mem.college}
-                            onChange={(e) => handleUpdateMember(idx, 'college', e.target.value)}
-                            placeholder="College / Institute"
-                            className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-slate-300 mb-1">
                             Phone Number *
                           </label>
                           <input
@@ -1114,43 +1074,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                           )}
                         </div>
 
-                        <div>
-                          <label className="block text-xs font-bold text-slate-300 mb-1">
-                            Gender
-                          </label>
-                          <select
-                            required
-                            value={mem.gender || ''}
-                            onChange={(e) => handleUpdateMember(idx, 'gender', e.target.value)}
-                            className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
-                          >
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                            <option value="Prefer not to say">Prefer not to say</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-bold text-slate-300 mb-1">
-                            Accommodation required
-                          </label>
-                          <select
-                            value={mem.accommodationRequired ? 'yes' : 'no'}
-                            onChange={(e) =>
-                              handleUpdateMember(
-                                idx,
-                                'accommodationRequired',
-                                e.target.value === 'yes'
-                              )
-                            }
-                            className="w-full px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs"
-                          >
-                            <option value="no">No</option>
-                            <option value="yes">Yes</option>
-                          </select>
-                        </div>
                       </div>
                     </div>
                   ))}
@@ -1247,6 +1170,12 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
                   {/* PhonePe QR Component - EXACT UNALTERED QR */}
                   <div>
+                    <div className="mb-3 rounded-xl bg-white p-3 text-[11px] leading-relaxed text-slate-900">
+                      <div className="font-black">KS SCHOOL OF ENGINEERING &amp; MANAGEMENT</div>
+                      <div>Axis Bank, JP Nagar 6th Phase Branch</div>
+                      <div>A/C No.: 9110100557611116</div>
+                      <div>IFSC Code: UTIB0001513</div>
+                    </div>
                     <PhonePeQRCode
                       upiId={PAYMENT_UPI_ID}
                       amount={String(currentTotalFee)}
@@ -1412,8 +1341,40 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               </div>
             )}
 
-            {/* STEP 5 - SUCCESS & WAITING FOR APPROVAL */}
-            {step === 5 && registeredTeam && (
+            {/* STEP 5 - WHATSAPP CONFIRMATION */}
+            {step === 5 && (
+              <div className="space-y-5 animate-fadeIn">
+                <div className="p-4 rounded-2xl bg-slate-900 border border-cyan-500/40 space-y-3">
+                  <h4 className="font-bold text-white text-sm">Join the official WhatsApp group</h4>
+                  <p className="text-xs text-slate-300">Only the Team Leader needs to join the official Anvation 2026 WhatsApp group.</p>
+                  <a
+                    href="https://chat.whatsapp.com/Ii0rD31Qz7hD2HpBWBj4p5?s=cl&p=a&mlu=4&ilr=4"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex w-full items-center justify-center rounded-xl bg-emerald-600 px-4 py-3 text-sm font-black text-white hover:bg-emerald-500"
+                  >
+                    JOIN ANVATION WHATSAPP GROUP
+                  </a>
+                  <label className="flex items-center gap-2 text-xs text-slate-200">
+                    <input type="checkbox" checked={whatsappJoined} onChange={(e) => setWhatsappJoined(e.target.checked)} />
+                    Yes, I have joined the Anvation 2026 WhatsApp group
+                  </label>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => setStep(4)} className="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Back</button>
+                  <button
+                    disabled={!whatsappJoined || loading}
+                    onClick={() => handleSubmitRegistration(paymentUtr)}
+                    className="flex-1 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-sm shadow-lg disabled:opacity-50"
+                  >
+                    {loading ? 'Submitting...' : 'Submit Registration'}
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 6 - SUCCESS & WAITING FOR APPROVAL */}
+            {step === 6 && registeredTeam && (
               <div className="space-y-5 text-center animate-fadeIn">
                 <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.5)]">
                   <CheckCircle2 className="w-11 h-11" />
@@ -1429,16 +1390,34 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                     <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center shrink-0 mt-0.5">
                       <Sparkles className="w-4 h-4 text-cyan-400" />
                     </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                      <div>
+                        <label className="text-xs font-bold text-slate-300 block">Payment Date *</label>
+                        <input
+                          type="date"
+                          value={paymentDate}
+                          onChange={(e) => setPaymentDate(e.target.value)}
+                          className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"
+                          id="reg-payment-date-input"
+                        />
+                      </div>
+                      <label className="flex items-center gap-2 self-end text-xs text-slate-200">
+                        <input type="checkbox" checked={paymentConfirmed} onChange={(e) => setPaymentConfirmed(e.target.checked)} />
+                        I confirm this payment was made for my team
+                      </label>
+                    </div>
                     <div>
                       <p className="text-sm font-black text-white">Credentials will be shared shortly</p>
                       <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                        Once the admin team verifies your payment, your participant portal login credentials will be sent to the team leader's registered Gmail address.
+                        Once the admin team verifies your payment, your participant portal login credentials will be sent to the team leader's registered email address.
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-900 border border-slate-700 text-xs text-slate-300 space-y-1 text-left">
+                  <div className="font-bold text-white">Registration ID: <span className="text-emerald-400 font-mono">{registeredTeam.id}</span></div>
                   <div className="font-bold text-white">Team: <span className="text-cyan-400">{registeredTeam.teamName || registeredTeam.name}</span></div>
                   <div className="text-slate-400">Keep an eye on <span className="text-cyan-300 font-semibold">{registeredTeam.leader?.email || leader.email}</span> for your login details.</div>
                 </div>
@@ -1477,7 +1456,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             <div className="p-3.5 rounded-xl bg-cyan-950/40 border border-cyan-500/30 text-xs text-slate-300 leading-relaxed text-left space-y-2">
               <p>✅ Your registration has been received successfully.</p>
               <p>🔐 <span className="text-white font-bold">Your participant portal credentials will be shared once the admin verifies your payment.</span></p>
-              <p>📧 Credentials will be sent to your registered Gmail address after approval.</p>
+              <p>📧 Credentials will be sent to your registered email address after approval.</p>
             </div>
             <button
               onClick={() => { setShowPendingPopup(false); setStep(5); }}

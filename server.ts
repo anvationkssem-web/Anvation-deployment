@@ -799,7 +799,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
     },
     maxTeamSize: 4,
     minTeamSize: 2,
-    registrationFee: 1,
+    registrationFee: 250,
     gateScanSecretKey: process.env.GATE_SCAN_SECRET_KEY || ""
   };
 
@@ -1187,7 +1187,8 @@ export async function startServer(options: { listen?: boolean } = {}) {
           participants: [req.body?.leader, ...(Array.isArray(req.body?.members) ? req.body.members : [])]
         });
       } catch (databaseError) {
-        console.error('[DATABASE] Duplicate check unavailable; continuing with local validation:', databaseError);
+        console.error('[DATABASE] Duplicate check unavailable:', databaseError);
+        return res.status(503).json({ success: false, error: 'The registration database is unavailable. Please retry.' });
       }
       if (productionConflict && !conflicts.some((conflict) => conflict.code === productionConflict.code)) {
         conflicts.push({
@@ -1259,8 +1260,8 @@ export async function startServer(options: { listen?: boolean } = {}) {
     if (!leader.fullName?.trim()) {
       return { valid: false, error: "Leader full name is required." };
     }
-    if (!leader.email?.trim() || !/^[^\s@]+@gmail\.com$/i.test(leader.email.trim())) {
-      return { valid: false, error: "Leader email must be a valid @gmail.com address." };
+    if (!leader.email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(leader.email.trim())) {
+      return { valid: false, error: "Leader email must be valid." };
     }
     if (!leader.usn?.trim()) {
       return { valid: false, error: "Leader USN / roll number is required." };
@@ -1272,8 +1273,11 @@ export async function startServer(options: { listen?: boolean } = {}) {
     if (!leader.college?.trim()) {
       return { valid: false, error: "Leader college name is required." };
     }
-    if (!leader.state?.trim()) {
-      return { valid: false, error: "Leader state is required." };
+    if (!leader.department?.trim()) {
+      return { valid: false, error: "Leader department is required." };
+    }
+    if (!leader.yearOfStudy?.trim()) {
+      return { valid: false, error: "Leader year of study is required." };
     }
 
     // 3. Team Size Validation (1 leader + 1 to 3 members = 2 to 4 total)
@@ -1293,8 +1297,8 @@ export async function startServer(options: { listen?: boolean } = {}) {
       if (!m.fullName?.trim()) {
         return { valid: false, error: `Member #${i + 2} full name is required.` };
       }
-      if (!m.email?.trim() || !/^[^\s@]+@gmail\.com$/i.test(m.email.trim())) {
-        return { valid: false, error: `Member #${i + 2} email must be a valid @gmail.com address.` };
+      if (!m.email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/i.test(m.email.trim())) {
+        return { valid: false, error: `Member #${i + 2} email must be valid.` };
       }
       if (!m.usn?.trim()) {
         return { valid: false, error: `Member #${i + 2} USN / roll number is required.` };
@@ -1302,12 +1306,6 @@ export async function startServer(options: { listen?: boolean } = {}) {
       const memberPhone = String(m.phone || "").replace(/[^0-9]/g, "");
       if (memberPhone.length !== 10 || !/^\d{10}$/.test(memberPhone)) {
         return { valid: false, error: `Member #${i + 2} phone number must contain exactly 10 digits.` };
-      }
-      if (!m.college?.trim()) {
-        return { valid: false, error: `Member #${i + 2} college name is required.` };
-      }
-      if (!m.state?.trim()) {
-        return { valid: false, error: `Member #${i + 2} state is required.` };
       }
     }
 
@@ -1969,8 +1967,23 @@ export async function startServer(options: { listen?: boolean } = {}) {
           return { status: 400, body: { success: false, error: teamValidation.error } };
         }
 
-        const { teamName, domain, preferredTrack, leader, members = [], paymentUtr, paymentUtrConfirm, paymentScreenshot } = req.body;
+        const { teamName, domain, preferredTrack, leader, members = [], paymentUtr, paymentUtrConfirm, paymentScreenshot, paymentDate, totalAmount, teamSize, accommodationRequired, whatsappJoined, paymentConfirmed } = req.body;
         const selectedDomain = typeof domain === "string" && domain.trim() ? domain.trim() : preferredTrack;
+
+        const parsedTeamSize = Number(teamSize);
+        const expectedAmount = parsedTeamSize * (cmsConfig.registrationFee || 250);
+        if (![2, 3, 4].includes(parsedTeamSize) || members.length !== parsedTeamSize - 1) {
+          return { status: 400, body: { success: false, error: "Team size must be 2, 3, or 4 participants." } };
+        }
+        if (!paymentDate || !/^\d{4}-\d{2}-\d{2}$/.test(String(paymentDate))) {
+          return { status: 400, body: { success: false, error: "Payment date is required." } };
+        }
+        if (Number(totalAmount) !== expectedAmount) {
+          return { status: 400, body: { success: false, error: `The payment amount must be ₹${expectedAmount} for this team size.` } };
+        }
+        if (paymentConfirmed !== true || whatsappJoined !== true) {
+          return { status: 400, body: { success: false, error: "Payment confirmation and WhatsApp group confirmation are required." } };
+        }
 
         // 2. Validate Payment UTR
         const utrValidation = validatePaymentUtr(paymentUtr, paymentUtrConfirm);
@@ -1995,9 +2008,6 @@ export async function startServer(options: { listen?: boolean } = {}) {
         const teamId = `AN-${String(teamIndex).padStart(3, '0')}`;
         const genderAllowed = new Set(['Male', 'Female', 'Other', 'Prefer not to say']);
         const leaderGender = typeof leader.gender === 'string' && genderAllowed.has(leader.gender) ? leader.gender : '';
-        if (!leaderGender) {
-          return { status: 400, body: { success: false, error: 'Lead participant gender is required.' } };
-        }
         const leaderParticipant: Participant = {
           id: `p-${teamIndex}-1`,
           fullName: sanitizeInputString(leader.fullName),
@@ -2006,6 +2016,8 @@ export async function startServer(options: { listen?: boolean } = {}) {
           email: sanitizeInputString(leader.email.trim().toLowerCase()),
           phone: sanitizeInputString(leader.phone || ''),
           usn: sanitizeInputString(leader.usn.trim().toUpperCase()),
+          department: sanitizeInputString(leader.department || ''),
+          yearOfStudy: sanitizeInputString(leader.yearOfStudy || ''),
           gender: leaderGender,
           role: 'Leader',
           teamId,
@@ -2016,9 +2028,6 @@ export async function startServer(options: { listen?: boolean } = {}) {
 
         const formattedMembers: Participant[] = members.map((m: any, idx: number) => {
           const memberGender = typeof m.gender === 'string' && genderAllowed.has(m.gender) ? m.gender : '';
-          if (!memberGender) {
-            throw new Error(`Member #${idx + 2} gender is required.`);
-          }
           return {
             id: `p-${teamIndex}-${idx + 2}`,
             fullName: sanitizeInputString(m.fullName),
@@ -2054,6 +2063,11 @@ export async function startServer(options: { listen?: boolean } = {}) {
           paymentStatus: 'PENDING_PAYMENT_AUDIT' as any,
           paymentAmountDetail: `Pending admin payment audit for ${cmsConfig.registrationFee || 0} INR`,
           paymentScreenshot: paymentScreenshot || null,
+          teamSize: parsedTeamSize as 2 | 3 | 4,
+          totalAmount: expectedAmount,
+          paymentDate: String(paymentDate),
+          accommodationRequired: accommodationRequired === true,
+          whatsappJoined: whatsappJoined === true,
           credentialDeliveryStatus: 'queued',
           approvalStatus: 'PENDING',
           approvalTimestamp: '',
@@ -3741,7 +3755,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       console.error("[DATABASE] Could not load website state:", databaseError);
     }
   }
-  cmsConfig.registrationFee = 1;
+  cmsConfig.registrationFee = 250;
 
   // Payment UTR Verification API
   app.post("/api/admin/teams/:teamId/approve", requireAdmin, async (req, res) => {

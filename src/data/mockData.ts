@@ -324,7 +324,7 @@ export const FAQS: FAQItem[] = [
   },
   {
     question: 'Is there any registration fee?',
-    answer: 'The registration fee is ₹1 per head payable via PhonePe (temporary test amount). Food, snacks, high-speed Wi-Fi, and overnight accommodation are fully provided by KSSEM.',
+    answer: 'The registration fee is ₹250 per participant payable via the official payment QR. Food, snacks, high-speed Wi-Fi, and overnight accommodation are fully provided by KSSEM.',
     category: 'Registration'
   },
   {

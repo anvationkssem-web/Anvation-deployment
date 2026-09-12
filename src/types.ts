@@ -4,6 +4,8 @@ export interface Participant {
   id: string;
   fullName: string;
   college: string;
+  department?: string;
+  yearOfStudy?: string;
   state: string;
   email: string;
   phone: string;
@@ -40,6 +42,11 @@ export interface Team {
   paymentStatus?: 'Pending' | 'Verified' | 'Rejected' | 'PENDING_PAYMENT_AUDIT' | 'PAYMENT_APPROVED' | 'APPROVED' | 'REJECTED';
   paymentAmountDetail?: string;
   paymentScreenshot?: string | null;
+  teamSize?: 2 | 3 | 4;
+  totalAmount?: number;
+  paymentDate?: string;
+  accommodationRequired?: boolean;
+  whatsappJoined?: boolean;
   credentialDeliveryStatus?: 'queued' | 'accepted' | 'failed' | 'delivered';
   approvalStatus?: 'PENDING' | 'APPROVED' | 'REJECTED';
   approvalTimestamp?: string;

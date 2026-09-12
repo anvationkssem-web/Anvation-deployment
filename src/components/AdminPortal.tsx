@@ -1932,7 +1932,7 @@ export const AdminPortal: React.FC = () => {
                     <div className="text-xs space-y-1">
                       <div className="text-slate-300">Domain: <span className="text-purple-300 font-bold">{t.domain || t.preferredTrack || 'Not specified'}</span></div>
                       <div className="text-slate-400 text-[11px]">Leader Email: {t.leaderEmail}</div>
-                      <div className="text-slate-400 text-[11px]">Members Count: {t.members.length} Hacker(s)</div>
+                      <div className="text-slate-400 text-[11px]">Team Size: {t.teamSize || t.members.length} Member(s)</div>
                       <div className="space-y-1 pt-1">
                         {t.members.map((member, index) => (
                           <div key={member.id} className="text-[11px] text-slate-400">
@@ -1941,7 +1941,10 @@ export const AdminPortal: React.FC = () => {
                         ))}
                       </div>
                       <div className="text-slate-400 text-[11px] flex items-center gap-1">Portal Password: <span className="text-emerald-300 font-mono font-bold">Stored securely</span></div>
-                      <div className="text-slate-400 text-[11px]">Payment: <span className={t.paymentStatus === 'Verified' || t.paymentStatus === 'PAYMENT_APPROVED' ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold'}>{t.paymentStatus || 'Verified'}</span> (UTR: {t.paymentUtr || 'N/A'})</div>
+                      <div className="text-slate-400 text-[11px]">Payment: <span className={t.paymentStatus === 'Verified' || t.paymentStatus === 'PAYMENT_APPROVED' ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold'}>{t.paymentStatus || 'Pending'}</span> (UTR: {t.paymentUtr || 'N/A'})</div>
+                      <div className="text-slate-400 text-[11px]">Amount: <span className="text-emerald-300 font-bold">₹{t.totalAmount || t.members.length * (cmsConfig.registrationFee || 250)}</span> · Payment date: {t.paymentDate || 'N/A'}</div>
+                      <div className="text-slate-400 text-[11px]">Accommodation: {t.accommodationRequired ? 'Yes' : 'No'} · WhatsApp: {t.whatsappJoined ? 'Joined' : 'Not confirmed'}</div>
+                      <div className="text-slate-400 text-[11px]">Registration date: {t.createdAt ? new Date(t.createdAt).toLocaleString() : 'N/A'}</div>
                     </div>
 
                     <div className="pt-2 flex items-center justify-between gap-2 border-t border-slate-900">

@@ -302,7 +302,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">Registration cost: ₹1 per member</span>
+                    <span className="leading-relaxed">Registration cost: ₹250 per member</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
