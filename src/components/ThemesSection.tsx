@@ -86,20 +86,7 @@ export const ThemesSection: React.FC<ThemesSectionProps> = ({ onOpenRegister }) 
               </div>
 
               {/* Action Button Footer */}
-              <div className="pt-4 flex items-center justify-between border-t border-slate-800/80 mt-5 relative z-10">
-                {onOpenRegister ? (
-                  <button
-                    onClick={onOpenRegister}
-                    className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-950 to-blue-950 hover:from-cyan-900 hover:to-blue-900 border border-cyan-500/40 text-cyan-300 hover:text-white text-xs font-bold flex items-center justify-center gap-2 group-hover:border-cyan-400 transition-all shadow-sm"
-                    id={`track-register-${track.id}-btn`}
-                  >
-                    <span>Register in this Track</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-0.5 transition-transform" />
-                  </button>
-                ) : (
-                  <span className="text-[11px] text-slate-400 font-mono">Available for 24-Hour Hack</span>
-                )}
-              </div>
+              
             </div>
           ))}
         </div>

@@ -50,28 +50,23 @@ export const PrizesSection: React.FC = () => {
               <Medal className="w-8 h-8 text-sky-300" />
             </div>
             <div>
-              <span className="text-xs font-extrabold uppercase text-sky-400 tracking-wider font-mono">1st Runner Up</span>
-              <h3 className="text-3xl font-black text-white mt-1 font-['Orbitron',sans-serif]">₹15,000</h3>
+              <h3 className="text-3xl font-black text-white mt-1 font-['Orbitron',sans-serif]">Internship Opportunities</h3>
             </div>
-            <p className="text-xs text-slate-300 font-medium">Prize Money+ Trophy + Winner Certificate</p>
           </div>
 
           {/* Winner 1st Place */}
           <div className="order-1 md:order-2 p-8 rounded-3xl bg-gradient-to-b from-cyan-950/40 via-slate-950 to-slate-950 border-2 border-cyan-400 backdrop-blur-md shadow-[0_0_50px_rgba(6,182,212,0.3)] text-center space-y-4 relative transform hover:-translate-y-3 transition-transform scale-105 z-10">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-cyan-400 text-slate-950 font-black text-xs uppercase tracking-widest shadow-md font-['Orbitron',sans-serif]">
-              GRAND CHAMPION
-            </div>
+      
             <div className="w-20 h-20 mx-auto rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
               <Trophy className="w-10 h-10 animate-pulse text-yellow-300" />
             </div>
             <div>
-              <span className="text-xs font-extrabold uppercase text-cyan-300 tracking-wider font-mono">OVERALL WINNER</span>
               <h3 className="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-emerald-300 mt-1 font-['Orbitron',sans-serif]">
-                ₹25,000
+                ₹50,000
               </h3>
             </div>
             <p className="text-xs text-slate-200 font-medium">
-              Prize Money+ Trophy + Winner Certificate
+              Prize pool
             </p>
           </div>
 
@@ -81,10 +76,9 @@ export const PrizesSection: React.FC = () => {
               <Medal className="w-8 h-8" />
             </div>
             <div>
-              <span className="text-xs font-extrabold uppercase text-amber-400 tracking-wider font-mono">2nd Runner Up</span>
-              <h3 className="text-3xl font-black text-white mt-1 font-['Orbitron',sans-serif]">₹10,000</h3>
+              
+              <h3 className="text-3xl font-black text-white mt-1 font-['Orbitron',sans-serif]">Participant certificates</h3>
             </div>
-            <p className="text-xs text-slate-300 font-medium">Prize Money + Winner Certificate</p>
           </div>
         </div>
       </div>
