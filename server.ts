@@ -694,6 +694,34 @@ export async function startServer(options: { listen?: boolean } = {}) {
   });
   app.use(["/api/participant-login", "/api/participant/request-password-reset", "/api/participant/reset-password", "/api/send-registration-email", "/api/register", "/api/verify-payment", "/api/finance/verify-utr"], authLimiter);
 
+  // Vercel functions do not provide durable local files or shared memory.
+  // Never report a successful write when the production database is missing;
+  // otherwise a cold start could make a registration/admin edit disappear.
+  // The read-only site and login endpoints remain available so the deployment
+  // can show a useful setup error instead of taking the whole site offline.
+  app.use("/api", (req, res, next) => {
+    if (!process.env.VERCEL || ["GET", "HEAD", "OPTIONS"].includes(String(req.method || "GET").toUpperCase())) {
+      return next();
+    }
+    const pathName = String(req.path || "");
+    const allowedWithoutDatabase = new Set([
+      "/health",
+      "/registration-status",
+      "/admin-login",
+      "/admin/logout",
+      "/participant-login",
+    ]);
+    if (allowedWithoutDatabase.has(pathName)) return next();
+    if (!productionStoreEnabled || !productionDatabaseReady) {
+      return res.status(503).json({
+        success: false,
+        error: "Production database is not configured. Add POSTGRES_URL, STORAGE_URL, or DATABASE_URL in Vercel Environment Variables and redeploy.",
+        code: "PRODUCTION_DATABASE_REQUIRED",
+      });
+    }
+    next();
+  });
+
   // In-Memory Data Store (Clean initialization)
   let teams: Team[] = [];
   let submissions: ProjectSubmission[] = [];
