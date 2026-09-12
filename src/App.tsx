@@ -90,7 +90,7 @@ export default function App() {
 
   const fetchHomeSections = async () => {
     try {
-      const res = await fetch('/api/cms-config');
+      const res = await fetch('/api/cms-config', { cache: 'no-store' });
       const data = await res.json();
       if (data.success && data.config && data.config.homeSections) {
         const s = data.config.homeSections;
@@ -124,6 +124,12 @@ export default function App() {
     fetchLiveStats();
     fetchHomeSections();
     fetchLiveSchedule();
+    const refreshCms = () => { void fetchHomeSections(); };
+    const handleStorageUpdate = (event: StorageEvent) => {
+      if (event.key === 'anvation-cms-updated') refreshCms();
+    };
+    window.addEventListener('anvation:cms-updated', refreshCms);
+    window.addEventListener('storage', handleStorageUpdate);
     const sectionsTimer = setInterval(() => {
       fetchHomeSections();
       fetchLiveSchedule();
@@ -141,6 +147,8 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('anvation:cms-updated', refreshCms);
+      window.removeEventListener('storage', handleStorageUpdate);
       clearInterval(sectionsTimer);
     };
   }, []);

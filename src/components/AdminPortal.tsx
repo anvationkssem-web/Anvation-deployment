@@ -360,6 +360,15 @@ export const AdminPortal: React.FC = () => {
     setTimeout(() => setToastMsg(null), 3500);
   };
 
+  const notifyCmsUpdated = () => {
+    window.dispatchEvent(new Event('anvation:cms-updated'));
+    try {
+      localStorage.setItem('anvation-cms-updated', String(Date.now()));
+    } catch {
+      // Ignore restricted/private browsing storage failures.
+    }
+  };
+
   // Helper Stats Calculations
   const allParticipants = (teams || []).flatMap(t => t?.members || []);
   const totalVerifiedParticipants = allParticipants.length;
@@ -551,6 +560,7 @@ export const AdminPortal: React.FC = () => {
       const data = await res.json();
       if (data.success) {
         setCmsConfig(prev => ({ ...prev, homeSections: nextSections }));
+        notifyCmsUpdated();
         showToast(`${next ? 'SHOW' : 'HIDE'} — ${label} is now ${next ? 'visible on the home page' : 'hidden from the home page'}`);
       } else {
         showToast(`✕ Failed to update ${label}`);

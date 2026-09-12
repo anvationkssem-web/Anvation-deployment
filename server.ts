@@ -4125,6 +4125,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
 
   // Developer & Website Super Admin Live CMS Config
   app.get("/api/cms-config", (req, res) => {
+    res.setHeader("Cache-Control", "no-store, max-age=0");
     res.json({ success: true, config: cmsConfig });
   });
 
