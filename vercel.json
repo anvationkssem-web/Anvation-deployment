@@ -5,13 +5,11 @@
     "api/[[...path]].ts": {
       "maxDuration": 60,
       "memory": 1024,
-      "includeFiles": "dist/** eng.traineddata"
+      "includeFiles": "dist/**"
     }
   },
   "rewrites": [
-    {
-      "source": "/((?!api/).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/api/(.*)", "destination": "/api/[[...path]]" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
   ]
 }
