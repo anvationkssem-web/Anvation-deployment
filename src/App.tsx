@@ -18,12 +18,6 @@ import { ScheduleItem } from './types';
 import { PortalView } from './types';
 import { Heart, Globe, ArrowUp } from 'lucide-react';
 
-// All "Register Now" / "Register" CTAs route here. Registration is handled
-// externally through the official Google Form, so every CTA opens it in a new
-// tab rather than showing the in-app registration modal.
-const REGISTRATION_FORM_URL =
-  'https://docs.google.com/forms/d/e/1FAIpQLSe3t8qwKOL4RFlVk_z7VWdZ8IBmEuIrqPgEWWFestI9Q-5MLA/viewform?usp=dialog';
-
 export default function App() {
   const getViewFromPath = (path: string): PortalView => {
     const normalizedPath = path.toLowerCase().replace(/\/+$/, '') || '/';
@@ -162,11 +156,9 @@ export default function App() {
   };
 
   const openRegistration = () => {
-    // Registration is handled externally via the official Google Form. Navigate
-    // directly (rather than window.open) because some browsers/popup blockers
-    // silently suppress programmatic new-window opens; a direct location
-    // navigation always redirects to the form.
-    window.location.assign(REGISTRATION_FORM_URL);
+    // Keep registration inside the website so the complete team, payment,
+    // accommodation, UTR, and screenshot flow is handled by our backend.
+    setIsRegisterModalOpen(true);
   };
 
   return (
