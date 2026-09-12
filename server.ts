@@ -18,7 +18,7 @@ import { SEED_ANNOUNCEMENTS, SPONSORS } from "./src/data/mockData";
 import { Team, ProjectSubmission, JudgeScorecard, Announcement, SupportTicket, Participant, MilestoneReport, MentorBooking, WebsiteCMSConfig, AuditLog, AdminUser, AdminRole, RulebookVersion, EmailCampaign, RoomAllocation, JudgingRound, ScheduleItem, Checkpoint, Sponsor } from "./src/types";
 import { HACKATHON_TRACKS } from "./src/data/mockData";
 import { PAYMENT_UPI_ID, ocrContainsTransactionId } from "./src/utils/upiVerification";
-import { ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
+import { clearProductionTeams, ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
 
 const execFileAsync = promisify(execFile);
 
@@ -1552,6 +1552,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
       const { freeze } = req.body;
       cmsConfig.freezeRegistrations = typeof freeze === 'boolean' ? freeze : !cmsConfig.freezeRegistrations;
       cmsConfig.registrationOpen = !cmsConfig.freezeRegistrations;
+      markDirty();
       
       console.log(`[REGISTRATION STATUS] Freeze is now: ${cmsConfig.freezeRegistrations}`);
       
@@ -1567,9 +1568,10 @@ export async function startServer(options: { listen?: boolean } = {}) {
   });
 
   // Clear / Reset All Registered Teams (Admin Control)
-  app.post("/api/admin/clear-all-teams", requireSuperAdmin, (req, res) => {
+  app.post("/api/admin/clear-all-teams", requireSuperAdmin, async (req, res) => {
     try {
       const previousCount = teams.length;
+      if (productionStoreEnabled) await clearProductionTeams();
       teams = [];
       submissions = [];
       milestoneReports = [];
@@ -1584,12 +1586,21 @@ export async function startServer(options: { listen?: boolean } = {}) {
         teamsCount: 0
       });
     } catch (err: any) {
-      res.status(500).json({ success: false, error: err.message });
+      res.status(503).json({ success: false, error: "Could not purge registered teams from the production database. No teams were deleted." });
     }
   });
 
   // Teams & Registrations
-  app.get("/api/teams", (req, res) => {
+  app.get("/api/teams", async (req, res) => {
+    if (productionStoreEnabled) {
+      try {
+        teams = await loadProductionTeams();
+        rebuildUniquenessIndexes();
+      } catch (error) {
+        console.error("[DATABASE] Could not refresh teams for admin portal:", error);
+        return res.status(503).json({ success: false, error: "Registration database is unavailable." });
+      }
+    }
     // Calculate live real-time statistics
     const totalParticipants = teams.reduce((acc, t) => acc + t.members.length, 0);
     const uniqueColleges = new Set(teams.flatMap(t => t.members.map(m => m.college))).size;

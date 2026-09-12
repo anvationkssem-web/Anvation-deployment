@@ -191,3 +191,9 @@ export async function deleteProductionTeam(teamId: string): Promise<void> {
     sql`DELETE FROM registrations WHERE team_id = ${teamId}`
   ]);
 }
+
+export async function clearProductionTeams(): Promise<void> {
+  if (!sql) throw new Error('DATABASE_URL is required for production registration storage.');
+  await ensureProductionSchema();
+  await sql`DELETE FROM registrations`;
+}
