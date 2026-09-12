@@ -31,19 +31,30 @@ if (!process.env.VERCEL) {
 // Use the connection variables supplied by the existing Vercel Prisma
 // Postgres integration. These values remain server-only and are never bundled
 // into the frontend because this module is imported only by the backend.
-const databaseUrl = String(
+export const databaseUrl = String(
   process.env.DATABASE_URL ||
   process.env.POSTGRES_PRISMA_URL ||
   process.env.POSTGRES_URL ||
-  process.env.POSTGRES_URL_NON_POOLING ||
-  process.env.STORAGE_URL_NON_POOLING ||
-  process.env.STORAGE_URL ||
   ''
 ).trim();
 if (process.env.VERCEL && !databaseUrl) console.error('[DATABASE] No Prisma Postgres URL configured. Vercel should provide DATABASE_URL, POSTGRES_PRISMA_URL, or POSTGRES_URL.');
 const sql = databaseUrl ? neon(databaseUrl) : null;
 
 export let productionStoreEnabled = Boolean(sql);
+
+export async function checkProductionDatabase(): Promise<{
+  configured: boolean;
+  connected: boolean;
+}> {
+  if (!databaseUrl || !sql) return { configured: false, connected: false };
+  try {
+    await sql`SELECT 1 AS ok`;
+    return { configured: true, connected: true };
+  } catch (error) {
+    console.error('[DATABASE] Health check failed:', error);
+    return { configured: true, connected: false };
+  }
+}
 
 function handleDbError(error: any): never {
   // Neon 404 means the project/endpoint doesn't exist — disable the store

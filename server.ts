@@ -19,7 +19,7 @@ import { Team, ProjectSubmission, JudgeScorecard, Announcement, SupportTicket, P
 import { HACKATHON_TRACKS } from "./src/data/mockData";
 import { PAYMENT_UPI_ID, ocrContainsTransactionId } from "./src/utils/upiVerification";
 import { resolveAdminBootstrapPassword } from "./src/utils/adminAuth";
-import { clearProductionTeams, ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
+import { checkProductionDatabase, clearProductionTeams, ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
 
 const execFileAsync = promisify(execFile);
 
@@ -1579,8 +1579,14 @@ export async function startServer(options: { listen?: boolean } = {}) {
   }
 
   // API Routes
-  app.get("/api/health", (req, res) => {
-    res.json({ status: "ok", databaseConfigured: productionDatabaseReady, timestamp: new Date().toISOString() });
+  app.get("/api/health", async (req, res) => {
+    const database = await checkProductionDatabase();
+    res.status(database.connected ? 200 : 503).json({
+      status: database.connected ? "ok" : "degraded",
+      databaseConfigured: database.configured,
+      databaseConnected: database.connected,
+      timestamp: new Date().toISOString()
+    });
   });
 
   // Get Registration & CMS Status
