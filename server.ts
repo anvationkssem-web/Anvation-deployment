@@ -685,8 +685,17 @@ export async function startServer(options: { listen?: boolean } = {}) {
         ended = true;
         if (res.statusCode >= 500) return originalEnd(chunk, encoding, callback);
         void persistMutationResponse()
-          .catch((error) => console.error("[DATABASE] Mutation persistence failed before response:", error))
-          .finally(() => originalEnd(chunk, encoding, callback));
+          .then(() => originalEnd(chunk, encoding, callback))
+          .catch((error) => {
+            console.error("[DATABASE] Mutation persistence failed before response:", error);
+            if (res.headersSent) return originalEnd(chunk, encoding, callback);
+            res.statusCode = 503;
+            res.setHeader("Content-Type", "application/json; charset=utf-8");
+            return originalEnd(JSON.stringify({
+              success: false,
+              error: "The change could not be saved to the production database. Please retry."
+            }));
+          });
         return res;
       };
     }

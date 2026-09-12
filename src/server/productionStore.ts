@@ -65,6 +65,13 @@ export interface ProductionAdminState {
 
 export type ProductionWebsiteState = Record<string, unknown>;
 
+function requireProductionDatabase(operation: string): void {
+  if (sql && productionStoreEnabled) return;
+  if (process.env.VERCEL) {
+    throw new Error(`[DATABASE] ${operation} requires a configured PostgreSQL connection.`);
+  }
+}
+
 export async function ensureProductionSchema(): Promise<void> {
   if (!sql || !productionStoreEnabled) return;
   await sql`
@@ -118,6 +125,7 @@ export async function loadProductionWebsiteState(): Promise<ProductionWebsiteSta
 }
 
 export async function saveProductionWebsiteState(state: ProductionWebsiteState): Promise<void> {
+  requireProductionDatabase('Saving website state');
   if (!sql || !productionStoreEnabled) return;
   try {
     await ensureProductionSchema();
@@ -141,6 +149,7 @@ export async function loadProductionAdminState(): Promise<ProductionAdminState |
 }
 
 export async function saveProductionAdminState(state: ProductionAdminState): Promise<void> {
+  requireProductionDatabase('Saving admin state');
   if (!sql || !productionStoreEnabled) return;
   try {
     await ensureProductionSchema();
@@ -193,6 +202,7 @@ export async function findProductionDuplicate(conflict: {
     }
     return null;
   } catch (e) {
+    if (process.env.VERCEL) throw e;
     // DB unavailable — skip duplicate check, local indexes will catch it
     console.error('[DATABASE] findProductionDuplicate failed, skipping:', e);
     productionStoreEnabled = false;
@@ -201,6 +211,7 @@ export async function findProductionDuplicate(conflict: {
 }
 
 export async function saveProductionTeam(team: Team): Promise<void> {
+  requireProductionDatabase('Saving registration');
   if (!sql || !productionStoreEnabled) return;
   try {
     await ensureProductionSchema();
@@ -222,6 +233,7 @@ export async function saveProductionTeam(team: Team): Promise<void> {
 }
 
 export async function updateProductionTeam(team: Team): Promise<void> {
+  requireProductionDatabase('Updating registration');
   if (!sql || !productionStoreEnabled) return;
   try {
     await ensureProductionSchema();
@@ -247,6 +259,7 @@ export async function updateProductionTeam(team: Team): Promise<void> {
 }
 
 export async function deleteProductionTeam(teamId: string): Promise<void> {
+  requireProductionDatabase('Deleting registration');
   if (!sql || !productionStoreEnabled) return;
   try {
     await ensureProductionSchema();
@@ -258,6 +271,7 @@ export async function deleteProductionTeam(teamId: string): Promise<void> {
 }
 
 export async function clearProductionTeams(): Promise<void> {
+  requireProductionDatabase('Clearing registrations');
   if (!sql || !productionStoreEnabled) return;
   try {
     await ensureProductionSchema();
