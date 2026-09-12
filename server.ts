@@ -236,7 +236,7 @@ async function startupWorker() {
   app.use("/api", proxyApiToAuthority);
 
   const distPath = path.join(process.cwd(), "dist");
-  if (process.env.NODE_ENV !== "production") {
+  if (!process.env.VERCEL && process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({ server: { middlewareMode: true }, appType: "spa" });
     app.use(vite.middlewares);
   } else {
@@ -4122,7 +4122,12 @@ if (isDirectExecution) {
 
 let vercelAppPromise: Promise<any> | null = null;
 export default async function vercelHandler(req: any, res: any) {
-  if (!vercelAppPromise) vercelAppPromise = startServer({ listen: false });
-  const app = await vercelAppPromise;
-  return app(req, res);
+  try {
+    if (!vercelAppPromise) vercelAppPromise = startServer({ listen: false });
+    const app = await vercelAppPromise;
+    return app(req, res);
+  } catch (error: any) {
+    console.error("[VERCEL] API initialization failed:", error);
+    return res.status(503).json({ success: false, error: "API initialization failed. Check Vercel function logs." });
+  }
 }
