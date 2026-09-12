@@ -729,6 +729,10 @@ export async function startServer(options: { listen?: boolean } = {}) {
       "/admin-login",
       "/admin/logout",
       "/participant-login",
+      // Payment proof validation only checks the submitted UTR and image. It
+      // does not write registration data; the final /api/register call remains
+      // database-protected.
+      "/verify-payment",
     ]);
     if (allowedWithoutDatabase.has(pathName)) return next();
     if (!productionStoreEnabled || !productionDatabaseReady) {
