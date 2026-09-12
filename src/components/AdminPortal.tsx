@@ -3377,12 +3377,11 @@ export const AdminPortal: React.FC = () => {
                       <tr>
                         <th className="p-3">Team ID & Name</th>
                         <th className="p-3">Leader Email</th>
+                        <th className="p-3">Portal Password</th>
                         <th className="p-3">Amount</th>
-                        <th className="p-3">Payment Detail</th>
                         <th className="p-3">UTR Reference No</th>
                         <th className="p-3">Screenshot</th>
                         <th className="p-3">Status</th>
-                        <th className="p-3">Team Status</th>
                         <th className="p-3">Action</th>
                       </tr>
                     </thead>
@@ -3394,8 +3393,12 @@ export const AdminPortal: React.FC = () => {
                             <div className="font-mono text-[10px] text-cyan-400">{t.id}</div>
                           </td>
                           <td className="p-3 text-slate-300 text-[11px]">{t.leaderEmail}</td>
+                          <td className="p-3">
+                            <div className="font-mono text-[11px] text-purple-300 font-bold">
+                              {(t as any).portalPasswordPlain || <span className="text-slate-500 italic">hidden</span>}
+                            </div>
+                          </td>
                           <td className="p-3 font-mono font-bold text-emerald-400">₹{t.members.length * (cmsConfig.registrationFee || 1)}</td>
-                          <td className="p-3 text-slate-300 text-[11px] min-w-48">{t.paymentAmountDetail || 'Not specified'}</td>
                           <td className="p-3 font-mono text-amber-300 font-bold">{t.paymentUtr || 'N/A'}</td>
                           <td className="p-3">
                             {t.paymentScreenshot ? (
@@ -3419,20 +3422,33 @@ export const AdminPortal: React.FC = () => {
                               {t.paymentStatus === 'PENDING_PAYMENT_AUDIT' ? 'Pending Audit' : (t.paymentStatus || 'Pending')}
                             </span>
                           </td>
-                          <td className="p-3 text-slate-300 text-[11px]">{t.status}</td>
-                          <td className="p-3 flex items-center gap-2">
-                            <button
-                              onClick={() => handleVerifyUTR(t.id, 'Verified')}
-                              className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px]"
-                            >
-                              Approve
-                            </button>
-                            <button
-                              onClick={() => handleVerifyUTR(t.id, 'Rejected')}
-                              className="px-2.5 py-1 rounded-lg bg-red-950 hover:bg-red-900 text-red-300 border border-red-800 font-bold text-[10px]"
-                            >
-                              Reject
-                            </button>
+                          <td className="p-3">
+                            <div className="flex flex-col gap-1.5">
+                              <button
+                                onClick={() => handleVerifyUTR(t.id, 'Verified')}
+                                className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px]"
+                              >
+                                Approve
+                              </button>
+                              <button
+                                onClick={() => handleVerifyUTR(t.id, 'Rejected')}
+                                className="px-2.5 py-1 rounded-lg bg-red-950 hover:bg-red-900 text-red-300 border border-red-800 font-bold text-[10px]"
+                              >
+                                Reject
+                              </button>
+                              <button
+                                onClick={async () => {
+                                  try {
+                                    const r = await fetch(`/api/registration/${t.id}/deliver-credentials`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+                                    const d = await r.json();
+                                    showToast(d.success ? `✓ Credentials sent to ${d.deliveredCount} recipient(s)` : `✕ ${d.error || 'Email delivery failed'}`);
+                                  } catch { showToast('✕ Network error sending credentials'); }
+                                }}
+                                className="px-2.5 py-1 rounded-lg bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-800 font-bold text-[10px] flex items-center gap-1"
+                              >
+                                <Mail className="w-3 h-3" /> Send Creds
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}

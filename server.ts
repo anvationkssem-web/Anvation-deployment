@@ -1597,8 +1597,8 @@ export async function startServer(options: { listen?: boolean } = {}) {
         teams = await loadProductionTeams();
         rebuildUniquenessIndexes();
       } catch (error) {
-        console.error("[DATABASE] Could not refresh teams for admin portal:", error);
-        return res.status(503).json({ success: false, error: "Registration database is unavailable." });
+        console.error("[DATABASE] Could not refresh teams; serving in-memory data:", error);
+        // Fall through — serve whatever is in memory rather than returning 503
       }
     }
     // Calculate live real-time statistics
