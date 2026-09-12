@@ -1065,8 +1065,12 @@ export const AdminPortal: React.FC = () => {
       });
       const data = await res.json();
       if (data.success) {
-        showToast(`✓ Payment status updated to ${status}!`);
+        showToast(status === 'Verified'
+          ? '✓ Payment approved. Team credentials were sent to the registered email addresses when SMTP is configured.'
+          : `✓ Payment status updated to ${status}!`);
         fetchAdminData();
+      } else {
+        alert(data.error || 'The payment status could not be saved.');
       }
     } catch (err) {
       alert("Error updating payment status");

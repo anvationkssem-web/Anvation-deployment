@@ -3678,7 +3678,12 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       team.approvalEmailStatus = 'PENDING';
 
       if (productionStoreEnabled) {
-        try { await updateProductionTeam(team); } catch (storageErr) { console.error('[DATABASE] Production approval update failed:', storageErr); }
+        try {
+          await updateProductionTeam(team);
+        } catch (storageErr) {
+          console.error('[DATABASE] Production approval update failed:', storageErr);
+          return res.status(503).json({ success: false, error: 'Payment was verified, but the team could not be saved to the production database.' });
+        }
       }
       markDirty();
 
@@ -3831,6 +3836,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
         await updateProductionTeam(team);
       } catch (storageErr) {
         console.error('[DATABASE] Production verification update failed:', storageErr);
+        return res.status(503).json({ success: false, error: 'Payment was verified, but the team could not be saved to the production database.' });
       }
     }
 
