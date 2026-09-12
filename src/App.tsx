@@ -162,10 +162,11 @@ export default function App() {
   };
 
   const openRegistration = () => {
-    // Registration is handled externally via the official Google Form. Open it
-    // in a new tab so the participant can complete registration on Google Forms
-    // while the event site stays available in the background.
-    window.open(REGISTRATION_FORM_URL, '_blank', 'noopener');
+    // Registration is handled externally via the official Google Form. Navigate
+    // directly (rather than window.open) because some browsers/popup blockers
+    // silently suppress programmatic new-window opens; a direct location
+    // navigation always redirects to the form.
+    window.location.assign(REGISTRATION_FORM_URL);
   };
 
   return (
