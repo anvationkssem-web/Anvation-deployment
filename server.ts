@@ -1133,10 +1133,15 @@ export async function startServer(options: { listen?: boolean } = {}) {
   const checkRegistrationDuplicatesRoute = (req: any, res: any) => {
     const check = async () => {
       const conflicts = checkRegistrationDuplicates(req.body);
-      const productionConflict = await findProductionDuplicate({
-        teamName: req.body?.teamName,
-        participants: [req.body?.leader, ...(Array.isArray(req.body?.members) ? req.body.members : [])]
-      });
+      let productionConflict = null;
+      try {
+        productionConflict = await findProductionDuplicate({
+          teamName: req.body?.teamName,
+          participants: [req.body?.leader, ...(Array.isArray(req.body?.members) ? req.body.members : [])]
+        });
+      } catch (databaseError) {
+        console.error('[DATABASE] Duplicate check unavailable; continuing with local validation:', databaseError);
+      }
       if (productionConflict && !conflicts.some((conflict) => conflict.code === productionConflict.code)) {
         conflicts.push({
           code: productionConflict.code,
@@ -1146,7 +1151,10 @@ export async function startServer(options: { listen?: boolean } = {}) {
       }
       return res.json({ success: conflicts.length === 0, conflicts });
     };
-    return check().catch(() => res.status(503).json({ success: false, error: 'Production registration storage is unavailable.' }));
+    return check().catch((error) => {
+      console.error('[REGISTRATION] Duplicate validation failed:', error);
+      return res.status(500).json({ success: false, error: 'Could not validate registration details.' });
+    });
   };
   app.post("/api/registration/check-duplicates", checkRegistrationDuplicatesRoute);
   app.post("/api/check-registration-duplicates", checkRegistrationDuplicatesRoute);
