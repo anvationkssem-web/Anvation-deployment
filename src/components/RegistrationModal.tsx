@@ -300,7 +300,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setCheckingDuplicates(true);
     setDuplicateFieldErrors({});
     try {
-      const response = await fetch('/api/registration/check-duplicates', {
+      const response = await fetch('/api/check-registration-duplicates', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

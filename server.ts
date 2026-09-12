@@ -1130,7 +1130,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
     return conflicts;
   }
 
-  app.post("/api/registration/check-duplicates", (req, res) => {
+  const checkRegistrationDuplicatesRoute = (req: any, res: any) => {
     const check = async () => {
       const conflicts = checkRegistrationDuplicates(req.body);
       const productionConflict = await findProductionDuplicate({
@@ -1147,7 +1147,9 @@ export async function startServer(options: { listen?: boolean } = {}) {
       return res.json({ success: conflicts.length === 0, conflicts });
     };
     return check().catch(() => res.status(503).json({ success: false, error: 'Production registration storage is unavailable.' }));
-  });
+  };
+  app.post("/api/registration/check-duplicates", checkRegistrationDuplicatesRoute);
+  app.post("/api/check-registration-duplicates", checkRegistrationDuplicatesRoute);
 
   const validRegistrationDomains = new Set(HACKATHON_TRACKS.map((track) => track.title));
 
