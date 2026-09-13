@@ -1,33 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { COLLEGE_INFO } from '../data/mockData';
-import { Mail, Phone, MapPin, Send, CheckCircle2, Instagram, Linkedin, Youtube, Twitter } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Linkedin, Youtube, Twitter } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      await fetch('/api/tickets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          teamName: formData.name,
-          subject: formData.subject,
-          message: `${formData.message} (From: ${formData.email})`,
-          category: 'General'
-        })
-      });
-      setFormSubmitted(true);
-      setTimeout(() => {
-        setFormSubmitted(false);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-      }, 3000);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#0b192c] relative">
@@ -152,77 +127,6 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Quick Support Ticket Form */}
-          <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 space-y-4">
-            <h3 className="text-xl font-bold text-white">Send Quick Inquiry</h3>
-            <p className="text-xs text-slate-400">Submit a query directly to the KSSEM Hackathon desk.</p>
-
-            {formSubmitted ? (
-              <div className="p-4 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 text-xs font-semibold flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                <span>Thank you! Your inquiry has been submitted to the organizing committee.</span>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">Your Name / Team:</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"
-                    id="contact-name-input"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">Email Address:</label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"
-                    id="contact-email-input"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">Subject:</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"
-                    id="contact-subject-input"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-slate-300 mb-1">Message:</label>
-                  <textarea
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs"
-                    id="contact-message-input"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs shadow-lg hover:from-cyan-400 hover:to-blue-500 flex items-center justify-center gap-2"
-                  id="contact-submit-btn"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Send Message</span>
-                </button>
-              </form>
-            )}
-          </div>
         </div>
       </div>
     </section>
