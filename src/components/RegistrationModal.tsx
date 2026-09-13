@@ -391,10 +391,10 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         return;
       }
 
-      if (!paymentDate || !paymentConfirmed || !whatsappJoined) {
+      if (!paymentDate || !paymentConfirmed) {
         submittingRef.current = false;
         setLoading(false);
-        setPaymentFailError('Confirm the payment date, payment confirmation, and WhatsApp group join status before submitting.');
+        setPaymentFailError('Confirm the payment date and payment confirmation before submitting.');
         setShowPaymentFailModal(true);
         return;
       }
@@ -445,6 +445,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             accommodationRequired: member.accommodationRequired,
           })),
           paymentUtr: finalUtr,
+          paymentConfirmed: true,
           paymentDate,
           totalAmount: currentTotalFee,
           teamSize,
@@ -1221,7 +1222,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                       <div className="p-3 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-300 text-xs flex items-center gap-2 animate-fadeIn shadow-lg">
                         <CheckCircle2 className="w-5 h-5 text-emerald-400" />
                           <span className="font-bold">
-                          ✓ Payment receipt received. Continue to complete the WhatsApp step and submit for admin review.
+                          ✓ Payment receipt received. Proceed to submit your registration for admin review.
                         </span>
                       </div>
                     )}
@@ -1386,7 +1387,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 <div className="flex gap-2">
                   <button onClick={() => setStep(4)} className="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-300 font-bold text-xs">Back</button>
                   <button
-                    disabled={!whatsappJoined || loading}
+                    disabled={loading}
                     onClick={() => handleSubmitRegistration(paymentUtr)}
                     className="flex-1 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black text-sm shadow-lg disabled:opacity-50"
                   >

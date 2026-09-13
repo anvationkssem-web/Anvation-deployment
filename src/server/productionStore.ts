@@ -63,13 +63,10 @@ export async function checkProductionDatabase(): Promise<{
 }
 
 function handleDbError(error: any): never {
-  // Neon 404 means the project/endpoint doesn't exist — disable the store
-  // so every subsequent call falls through to the local in-memory store.
   const msg = String(error?.message || error || '');
   const isNotFound = msg.includes('resource-not-found') || msg.includes('404') || (error?.status === 404);
   if (isNotFound) {
-    productionStoreEnabled = false;
-    console.error('[DATABASE] Neon endpoint not found — disabling production store, falling back to local.');
+    console.error('[DATABASE] Neon endpoint not found. All operations will fail until the connection is restored.');
   }
   throw error;
 }
@@ -136,6 +133,13 @@ export async function ensureProductionSchema(): Promise<void> {
       updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )
   `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS password_reset_tokens (
+      token_hash TEXT PRIMARY KEY,
+      team_id TEXT NOT NULL REFERENCES registrations(team_id) ON DELETE CASCADE,
+      expires_at TIMESTAMPTZ NOT NULL
+    )
+  `;
 }
 
 export async function loadProductionWebsiteState(): Promise<ProductionWebsiteState | null> {
@@ -199,7 +203,10 @@ export async function findProductionDuplicate(conflict: {
   teamName?: string;
   participants?: Array<{ email?: string; usn?: string; phone?: string }>;
 }): Promise<{ code: DuplicateCode; value: string } | null> {
-  requireProductionDatabase('Checking registration duplicates');
+  // When the production store is not configured (e.g. local dev without a
+  // Neon URL) this helper must silently no-op rather than throw. The
+  // in-memory uniqueness index in server.ts remains authoritative in that
+  // case, and registration must not be blocked by a missing database.
   if (!sql || !productionStoreEnabled) return null;
   try {
     await ensureProductionSchema();
@@ -304,5 +311,48 @@ export async function clearProductionTeams(): Promise<void> {
   try {
     await ensureProductionSchema();
     await sql`DELETE FROM registrations`;
+  } catch (e) { handleDbError(e); }
+}
+
+export async function savePasswordResetToken(tokenHash: string, teamId: string, expiresAt: number): Promise<void> {
+  requireProductionDatabase('Saving password reset token');
+  if (!sql || !productionStoreEnabled) return;
+  try {
+    await ensureProductionSchema();
+    await sql`
+      INSERT INTO password_reset_tokens (token_hash, team_id, expires_at)
+      VALUES (${tokenHash}, ${teamId}, ${expiresAt})
+      ON CONFLICT (token_hash) DO UPDATE
+      SET team_id = EXCLUDED.team_id, expires_at = EXCLUDED.expires_at
+    `;
+  } catch (e) { handleDbError(e); }
+}
+
+export async function loadPasswordResetToken(tokenHash: string): Promise<{ teamId: string; expiresAt: number } | null> {
+  if (!sql || !productionStoreEnabled) return null;
+  try {
+    await ensureProductionSchema();
+    const rows = await sql`SELECT team_id, expires_at FROM password_reset_tokens WHERE token_hash = ${tokenHash} LIMIT 1`;
+    if (!rows.length) return null;
+    const expiresAt = rows[0].expires_at as any;
+    const expiresMs = expiresAt instanceof Date ? expiresAt.getTime() : Number(expiresAt);
+    return { teamId: rows[0].team_id, expiresAt: expiresMs };
+  } catch (e) { handleDbError(e); }
+}
+
+export async function deletePasswordResetToken(tokenHash: string): Promise<void> {
+  requireProductionDatabase('Deleting password reset token');
+  if (!sql || !productionStoreEnabled) return;
+  try {
+    await ensureProductionSchema();
+    await sql`DELETE FROM password_reset_tokens WHERE token_hash = ${tokenHash}`;
+  } catch (e) { handleDbError(e); }
+}
+
+export async function cleanupExpiredPasswordResetTokens(): Promise<void> {
+  if (!sql || !productionStoreEnabled) return;
+  try {
+    await ensureProductionSchema();
+    await sql`DELETE FROM password_reset_tokens WHERE expires_at <= NOW()`;
   } catch (e) { handleDbError(e); }
 }

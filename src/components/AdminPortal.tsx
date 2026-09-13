@@ -3462,13 +3462,22 @@ export const AdminPortal: React.FC = () => {
                             )}
                           </td>
                           <td className="p-3">
-                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                              t.paymentStatus === 'Verified' || t.paymentStatus === 'PAYMENT_APPROVED' ? 'bg-emerald-950 text-emerald-400 border-emerald-800' :
-                              t.paymentStatus === 'Rejected' ? 'bg-red-950 text-red-400 border-red-800' :
-                              'bg-amber-950 text-amber-300 border-amber-800'
-                            }`}>
-                              {t.paymentStatus === 'PENDING_PAYMENT_AUDIT' ? 'Pending Audit' : (t.paymentStatus || 'Pending')}
-                            </span>
+                            <div className="flex flex-col gap-1">
+                              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                                t.approvalStatus === 'APPROVED' ? 'bg-emerald-950 text-emerald-400 border-emerald-800' :
+                                t.approvalStatus === 'REJECTED' ? 'bg-red-950 text-red-400 border-red-800' :
+                                'bg-amber-950 text-amber-300 border-amber-800'
+                              }`}>
+                                {t.approvalStatus === 'APPROVED' ? 'APPROVED ✓' : t.approvalStatus === 'REJECTED' ? 'REJECTED ✕' : 'PENDING AUDIT'}
+                              </span>
+                              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                                t.paymentStatus === 'Verified' || t.paymentStatus === 'PAYMENT_APPROVED' ? 'bg-emerald-950 text-emerald-400 border-emerald-800' :
+                                t.paymentStatus === 'Rejected' ? 'bg-red-950 text-red-400 border-red-800' :
+                                'bg-amber-950 text-amber-300 border-amber-800'
+                              }`}>
+                                {t.paymentStatus === 'PENDING_PAYMENT_AUDIT' ? 'Payment Pending' : (t.paymentStatus || 'Pending')}
+                              </span>
+                            </div>
                           </td>
                           <td className="p-3">
                             <div className="flex flex-col gap-1.5">

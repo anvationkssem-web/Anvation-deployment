@@ -19,7 +19,7 @@ import { Team, ProjectSubmission, JudgeScorecard, Announcement, SupportTicket, P
 import { HACKATHON_TRACKS } from "./src/data/mockData";
 import { PAYMENT_UPI_ID, ocrContainsTransactionId } from "./src/utils/upiVerification";
 import { resolveAdminBootstrapPassword } from "./src/utils/adminAuth";
-import { checkProductionDatabase, clearProductionTeams, describeDatabaseError, ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
+import { checkProductionDatabase, clearProductionTeams, describeDatabaseError, ensureProductionSchema, findProductionDuplicate, loadProductionTeams, loadProductionAdminState, loadProductionWebsiteState, productionStoreEnabled, saveProductionTeam, saveProductionWebsiteState, savePasswordResetToken, loadPasswordResetToken, deletePasswordResetToken, cleanupExpiredPasswordResetTokens, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
 
 const execFileAsync = promisify(execFile);
 
@@ -64,6 +64,24 @@ async function readPaymentProofText(imageBytes: Buffer): Promise<string> {
     }
   }
   return texts.join("\n");
+}
+
+/**
+ * Resolve a promise with a hard wall-clock timeout. On timeout the promise is
+ * rejected with a dedicated error so callers can surface a clean "please retry"
+ * message instead of a hung request or an unhandled rejection. OCR in
+ * particular can blow past serverless function budgets on a cold tesseract
+ * worker, so the caller decides the budget and treats a timeout as a failure
+ * (never a silent pass).
+ */
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, label = "Operation timed out"): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(`${label} (${timeoutMs}ms)`)), timeoutMs);
+    promise.then(
+      (value) => { clearTimeout(timer); resolve(value); },
+      (error) => { clearTimeout(timer); reject(error); }
+    );
+  });
 }
 
 declare global {
@@ -490,12 +508,14 @@ export async function startServer(options: { listen?: boolean } = {}) {
   const AUTH_COOKIE = "anvation_session_v2";
   const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
   const SESSION_SECRET = process.env.SESSION_SECRET || process.env.GATE_SCAN_SECRET_KEY || "change-this-anvation-session-secret";
+  if (process.env.VERCEL && !process.env.SESSION_SECRET && !process.env.GATE_SCAN_SECRET_KEY) {
+    throw new Error("SESSION_SECRET or GATE_SCAN_SECRET_KEY is required in production. Set the SESSION_SECRET environment variable.");
+  }
   const DEFAULT_ADMIN_PASSWORD = resolveAdminBootstrapPassword();
   if (process.env.VERCEL && !process.env.ADMIN_BOOTSTRAP_PASSWORD) {
     console.warn("[AUTH] ADMIN_BOOTSTRAP_PASSWORD missing in Vercel; using built-in fallback to keep admin login active.");
   }
   const sessionStore = new Map<string, { user: { id: string; type: "admin" | "participant"; role?: string; email?: string; username?: string; name?: string; teamId?: string; expiresAt: number; }; expiresAt: number }>();
-  const passwordResetTokens = new Map<string, { teamId: string; expiresAt: number }>();
   const PASSWORD_RESET_TTL_MS = 15 * 60 * 1000;
 
   function sanitizeAdminUser(user: Partial<AdminUser> | null | undefined) {
@@ -852,7 +872,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
   // event loop available to receive other requests while a write is pending.
   let participantBackupWriteQueue: Promise<void> = Promise.resolve();
   let githubBackupSyncQueue: Promise<void> = Promise.resolve();
-  const githubBackupSyncEnabled = /^(1|true|yes)$/i.test(String(process.env.GITHUB_BACKUP_SYNC || ""));
+  const githubBackupSyncEnabled = /^(1|true|yes)$/i.test(String(process.env.GITHUB_BACKUP_SYNC || "")) && !process.env.VERCEL;
   const githubBackupRepoDir = path.resolve((process.env.GITHUB_BACKUP_REPO_DIR || process.cwd()).trim());
   const githubBackupRelativePath = String(process.env.GITHUB_BACKUP_RELATIVE_PATH || "backups/participant-registration-backup.csv")
     .trim()
@@ -961,6 +981,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
   };
 
   const initialiseParticipantRegistrationBackup = () => {
+    if (process.env.VERCEL) return;
     fs.mkdirSync(PARTICIPANT_BACKUP_DIR, { recursive: true, mode: 0o700 });
     const hasData = fs.existsSync(PARTICIPANT_BACKUP_FILE) && fs.statSync(PARTICIPANT_BACKUP_FILE).size > 0;
     if (hasData) {
@@ -987,6 +1008,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
   };
 
   const appendParticipantRegistrationBackup = (team: Team): Promise<void> => {
+    if (process.env.VERCEL) return Promise.resolve();
     const rows = participantBackupRows(team);
     if (!rows) return Promise.resolve();
 
@@ -1572,13 +1594,26 @@ export async function startServer(options: { listen?: boolean } = {}) {
       auth: { user: String(process.env.SMTP_USER), pass: String(process.env.SMTP_PASS) }
     });
     const from = String(process.env.MAIL_FROM || process.env.SMTP_USER);
-    const recipients = team.members.map((m) => m.email);
+    // The SAME credentials go to the leader AND every participant so nobody
+    // is left without the portal password. Members[0] is the leader.
+    const recipients = team.members.map((m) => m.email).filter(Boolean);
     const password = String(team.portalPasswordPlain || team.accessPassword || '');
     const subject = `ANVATION 2026 Registration Approved — Team ${team.id}`;
-    const text = `Hello participants,\n\nYour team ${team.teamName} (${team.id}) has been approved by the admin.\n\nPayment of ₹${cmsConfig.registrationFee || 0} has been verified. Registration approved.\n\nPortal password: ${password}\n\nUse Team ID ${team.id} and this password to log in to the participant portal.\n\nTeam details:\n${team.members.map((m) => `${m.fullName} (${m.role})`).join(", ")}`;
-    const html = `<p>Hello participants,</p><p>Your team <b>${team.teamName}</b> (<b>${team.id}</b>) has been approved by the admin.</p><p><b>Payment of ₹${cmsConfig.registrationFee || 0} has been verified. Registration approved.</b></p><p><b>Portal password:</b> ${password}</p><p>Use Team ID <b>${team.id}</b> and this password to log in to the participant portal.</p><p>${team.members.map((m) => `${m.fullName} (${m.role})`).join(", ")}</p>`;
+
+    // Canonical gate pass QR — the same payload the scanner verifies server-side.
+    let gateQrDataUrl = "";
+    let gateQrBuffer: Buffer | null = null;
+    try {
+      gateQrDataUrl = await QRCode.toDataURL(`https://anvation.live/checkin?teamId=${team.id}`, { width: 220, margin: 1, errorCorrectionLevel: "H" });
+      gateQrBuffer = Buffer.from(gateQrDataUrl.split(",")[1], "base64");
+    } catch (qrErr) {
+      console.warn(`[QR ERROR] Could not generate gate QR for approval email team ${team.id}:`, qrErr);
+    }
+
+    const text = `Hello participants,\n\nYour team ${team.teamName} (${team.id}) has been approved by the admin.\n\nPayment of ₹${cmsConfig.registrationFee || 0} has been verified. Registration approved.\n\nPortal password: ${password}\n\nUse Team ID ${team.id} and this password to log in to the participant portal.\n\nGate Entry Pass: present this team ID (or the QR pass) at the KSSEM gate on Oct 8-9, 2026.\n\nTeam details:\n${team.members.map((m) => `${m.fullName} (${m.role}) — ${m.email}`).join("\n")}`;
+    const html = `<p>Hello participants,</p><p>Your team <b>${team.teamName}</b> (<b>${team.id}</b>) has been approved by the admin.</p><p><b>Payment of ₹${cmsConfig.registrationFee || 0} has been verified. Registration approved.</b></p><p><b>Portal password:</b> <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">${password}</code></p><p>Use Team ID <b>${team.id}</b> and this password to log in to the participant portal.</p><p><b>Gate Entry Pass:</b> present this team ID (or the QR pass below) at the KSSEM gate on Oct 8-9, 2026.</p>${gateQrDataUrl ? `<div style="text-align:center;margin:16px 0;"><img src="${gateQrDataUrl}" width="180" alt="Gate QR Pass"/><p style="font-size:11px;color:#64748b;">Show this QR at the KSSEM gate alongside your college ID.</p></div>` : ''}<p>${team.members.map((m) => `${m.fullName} (${m.role}) — ${m.email}`).join("<br/>")}</p>`;
     await transporter.verify();
-    await Promise.all(recipients.map((recipient) => transporter.sendMail({ from, to: recipient, subject, text, html })));
+    await Promise.all(recipients.map((recipient) => transporter.sendMail({ from, to: recipient, subject, text, html, attachments: gateQrBuffer ? [{ filename: `gate-pass-${team.id}.png`, content: gateQrBuffer, cid: "gate-pass-qr", contentType: "image/png" }] : undefined })));
   }
 
   // API Routes
@@ -1738,6 +1773,14 @@ export async function startServer(options: { listen?: boolean } = {}) {
       }
 
       const team = teams[index];
+      // The KSSEM gate only admits APPROVED teams whose payment audit passed.
+      if (team.approvalStatus === 'REJECTED') {
+        return res.status(403).json({ success: false, error: `Team ${team.teamName} (${team.id}) was REJECTED by the admin. Entry blocked.` });
+      }
+      if (team.approvalStatus !== 'APPROVED') {
+        return res.status(403).json({ success: false, error: `Team ${team.teamName} (${team.id}) has not been APPROVED yet. Complete the payment audit before admitting the team.` });
+      }
+
       const entryTime = new Date().toISOString();
       team.status = 'Checked-In';
       team.members = team.members.map(m => ({
@@ -1804,6 +1847,22 @@ export async function startServer(options: { listen?: boolean } = {}) {
         return res.status(401).json({ success: false, error: "Invalid credentials." });
       }
 
+      // REJECTED teams are permanently blocked from the participant portal.
+      // PENDING teams have not had their payment audited yet, so they cannot
+      // log in either — credentials are only issued on APPROVAL.
+      if (team.approvalStatus === 'REJECTED') {
+        return res.status(403).json({
+          success: false,
+          error: "This team's registration was rejected by the admin. Portal access is permanently blocked."
+        });
+      }
+      if (team.approvalStatus !== 'APPROVED') {
+        return res.status(403).json({
+          success: false,
+          error: "Your registration is still pending admin payment audit. Credentials will be sent to your email once approved."
+        });
+      }
+
       const storedHash = team.accessPassword || "";
       const passMatches = verifyPassword(cleanPass, storedHash);
 
@@ -1853,14 +1912,11 @@ export async function startServer(options: { listen?: boolean } = {}) {
 
     try {
       if (!getSmtpConfig().configured) return res.json({ success: true, message: genericMessage });
-      for (const [hash, record] of passwordResetTokens.entries()) {
-        if (record.expiresAt <= Date.now()) passwordResetTokens.delete(hash);
-      }
       const { rawToken, tokenHash } = generatePasswordResetToken();
       const resetUrl = new URL("/participant", `${req.protocol}://${req.get("host")}`);
       resetUrl.searchParams.set("resetToken", rawToken);
       await sendPortalResetEmail(team, resetUrl.toString());
-      passwordResetTokens.set(tokenHash, { teamId: team.id, expiresAt: Date.now() + PASSWORD_RESET_TTL_MS });
+      await savePasswordResetToken(tokenHash, team.id, Date.now() + PASSWORD_RESET_TTL_MS);
       auditLogs.unshift({
         id: `log-${Date.now()}`,
         timestamp: new Date().toISOString(),
@@ -1878,7 +1934,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
     }
   });
 
-  app.post("/api/participant/reset-password", (req, res) => {
+  app.post("/api/participant/reset-password", async (req, res) => {
     const token = String(req.body?.token || "").trim();
     const newPassword = String(req.body?.newPassword || "");
     if (!token || newPassword.length < 8 || newPassword.length > 128) {
@@ -1886,15 +1942,15 @@ export async function startServer(options: { listen?: boolean } = {}) {
     }
 
     const tokenHash = crypto.createHash("sha256").update(token).digest("hex");
-    const tokenRecord = passwordResetTokens.get(tokenHash);
+    const tokenRecord = await loadPasswordResetToken(tokenHash);
     if (!tokenRecord || tokenRecord.expiresAt <= Date.now()) {
-      passwordResetTokens.delete(tokenHash);
+      await deletePasswordResetToken(tokenHash);
       return res.status(400).json({ success: false, error: "The reset link is invalid or expired." });
     }
 
     const team = teams.find((candidate) => candidate.id === tokenRecord.teamId);
     if (!team) {
-      passwordResetTokens.delete(tokenHash);
+      await deletePasswordResetToken(tokenHash);
       return res.status(400).json({ success: false, error: "The reset link is invalid or expired." });
     }
 
@@ -1905,7 +1961,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
         team.accessPassword = previousHash;
         return res.status(500).json({ success: false, error: "The password could not be reset right now." });
       }
-      passwordResetTokens.delete(tokenHash);
+      await deletePasswordResetToken(tokenHash);
       for (const [sessionId, session] of sessionStore.entries()) {
         if (session.user.type === "participant" && session.user.teamId === team.id) sessionStore.delete(sessionId);
       }
@@ -1995,8 +2051,8 @@ export async function startServer(options: { listen?: boolean } = {}) {
         if (Number(totalAmount) !== expectedAmount) {
           return { status: 400, body: { success: false, error: `The payment amount must be ₹${expectedAmount} for this team size.` } };
         }
-        if (paymentConfirmed !== true || whatsappJoined !== true) {
-          return { status: 400, body: { success: false, error: "Payment confirmation and WhatsApp group confirmation are required." } };
+        if (paymentConfirmed !== true) {
+          return { status: 400, body: { success: false, error: "Payment confirmation is required." } };
         }
 
         // 2. Validate Payment UTR
@@ -2129,6 +2185,15 @@ export async function startServer(options: { listen?: boolean } = {}) {
               }
             };
           }
+        } else if (process.env.VERCEL) {
+          return {
+            status: 503,
+            body: {
+              success: false,
+              error: "The production database connection is unavailable. Verify the existing Prisma Postgres integration and redeploy.",
+              code: "PRODUCTION_DATABASE_UNAVAILABLE"
+            }
+          };
         }
 
         teams.push(newTeam);
@@ -2292,18 +2357,53 @@ export async function startServer(options: { listen?: boolean } = {}) {
         });
       }
 
-      // Do not run OCR in the serverless request. Tesseract can exceed the
-      // Vercel function timeout and turn a valid receipt into a 504. The proof
-      // is stored with the registration and the admin performs the authoritative
-      // amount/receipt verification before credentials are issued.
+      // The screenshot OCR is the authoritative gate check: the entered UTR
+      // MUST appear in the receipt image. A mismatch blocks registration and
+      // lets the participant retry with a corrected screenshot/UTR instead of
+      // silently accepting a fabricated reference. OCR runs with a hard
+      // wall-clock budget so a cold tesseract worker never hangs the request.
+      const ocrBudgetMs = Math.max(15000, Math.min(25000, Number(process.env.PAYMENT_OCR_BUDGET_MS) || 20000));
+      let ocrText = "";
+      let ocrError: string | null = null;
+      try {
+        ocrText = await withTimeout(readPaymentProofText(screenshotBytes), ocrBudgetMs, "Payment screenshot OCR timed out");
+      } catch (ocrErr: any) {
+        ocrError = String(ocrErr && ocrErr.message ? ocrErr.message : ocrErr);
+      }
+
+      if (ocrText) {
+        const containsUtr = ocrContainsTransactionId(ocrText, cleanUtr);
+        if (!containsUtr) {
+          return res.status(400).json({
+            success: false,
+            verified: false,
+            utr: cleanUtr,
+            verificationStatus: "UTR_MISMATCH",
+            error: `The entered transaction ID (${cleanUtr}) was not found on the uploaded payment screenshot. Please verify the 12-digit reference shown on your PhonePe receipt and retry.`
+          });
+        }
+      } else if (ocrError) {
+        // OCR could not run (cold worker, unsupported image, timeout). We must
+        // NOT silently accept the payment — block the registration and let the
+        // participant retry with a clearer screenshot so the admin can verify.
+        return res.status(400).json({
+          success: false,
+          verified: false,
+          utr: cleanUtr,
+          verificationStatus: "OCR_UNAVAILABLE",
+          error: `We could not read the payment receipt text automatically (${ocrError}). Please upload a clearer screenshot of the full PhonePe success screen (showing the 12-digit transaction ID) and retry.`
+        });
+      }
+
       res.json({
         success: true,
         verified: true,
         utr: cleanUtr,
         beneficiary: `ANVATION 2026 (${PAYMENT_UPI_ID})`,
         verifiedAt: new Date().toISOString(),
-        verificationStatus: "PENDING_ADMIN_REVIEW",
-        message: "Payment proof received. The admin will verify the payment amount and receipt before issuing portal credentials."
+        ocrText: ocrText.slice(0, 500),
+        verificationStatus: "UTR_VERIFIED_ON_PROOF",
+        message: "Payment proof verified: the entered transaction ID matches the uploaded receipt."
       });
     } catch (err: any) {
       res.status(500).json({ success: false, error: err.message });
@@ -2640,6 +2740,14 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
 
     if (!team) {
       return res.status(404).json({ success: false, error: "Participant or Team not found" });
+    }
+
+    // The gate only admits APPROVED teams; REJECTED and PENDING teams are blocked.
+    if (team.approvalStatus === 'REJECTED') {
+      return res.status(403).json({ success: false, error: `Team ${team.teamName} (${team.id}) was REJECTED. Entry blocked.` });
+    }
+    if (team.approvalStatus !== 'APPROVED') {
+      return res.status(403).json({ success: false, error: `Team ${team.teamName} (${team.id}) is still PENDING admin payment approval.` });
     }
 
     team.status = 'Checked-In';
@@ -3095,6 +3203,7 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
     console.error("[BACKUP] Could not initialise participant registration CSV:", backupError);
   }
   setInterval(persistNow, 5000);
+  setInterval(() => { void cleanupExpiredPasswordResetTokens(); }, 60000);
 
   // Rulebook Versions
   let rulebooks: RulebookVersion[] = [
@@ -3780,6 +3889,8 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
           console.error('[DATABASE] Production approval update failed:', storageErr);
           return res.status(503).json({ success: false, error: 'Payment was verified, but the team could not be saved to the production database.' });
         }
+      } else if (process.env.VERCEL) {
+        return res.status(503).json({ success: false, error: 'The production database connection is unavailable. Verify the existing Prisma Postgres integration and redeploy.' });
       }
       markDirty();
 
@@ -3834,7 +3945,13 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       team.approvalEmailStatus = 'PENDING';
 
       if (productionStoreEnabled) {
-        try { await updateProductionTeam(team); } catch (storageErr) { console.error('[DATABASE] Production rejection update failed:', storageErr); }
+        try { await updateProductionTeam(team); }
+        catch (storageErr) {
+          console.error('[DATABASE] Production rejection update failed:', storageErr);
+          return res.status(503).json({ success: false, error: 'The team was rejected but could not be saved to the production database.' });
+        }
+      } else if (process.env.VERCEL) {
+        return res.status(503).json({ success: false, error: 'The production database connection is unavailable. Verify the existing Prisma Postgres integration and redeploy.' });
       }
       markDirty();
 
@@ -3878,7 +3995,10 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
           await deleteProductionTeam(team.id);
         } catch (storageErr) {
           console.error('[DATABASE] Production team deletion for rejected payment failed:', storageErr);
+          return res.status(503).json({ success: false, error: 'The team rejection could not be saved to the production database.' });
         }
+      } else if (process.env.VERCEL) {
+        return res.status(503).json({ success: false, error: 'The production database connection is unavailable. Verify the existing Prisma Postgres integration and redeploy.' });
       }
 
       teams = teams.filter((candidate) => candidate.id.toLowerCase() !== team.id.toLowerCase() && (candidate.regNumber || '').toLowerCase() !== team.id.toLowerCase());
@@ -3886,7 +4006,9 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
       markDirty();
 
       try {
-        fs.writeFileSync(PARTICIPANT_BACKUP_FILE, participantBackupFileContents(teams), { encoding: 'utf8', mode: 0o600 });
+        if (!process.env.VERCEL) {
+          fs.writeFileSync(PARTICIPANT_BACKUP_FILE, participantBackupFileContents(teams), { encoding: 'utf8', mode: 0o600 });
+        }
       } catch (backupErr) {
         console.error('[BACKUP] Failed to rewrite participant registration CSV after payment rejection:', backupErr);
       }
@@ -3934,6 +4056,8 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
         console.error('[DATABASE] Production verification update failed:', storageErr);
         return res.status(503).json({ success: false, error: 'Payment was verified, but the team could not be saved to the production database.' });
       }
+    } else if (process.env.VERCEL) {
+      return res.status(503).json({ success: false, error: 'The production database connection is unavailable. Verify the existing Prisma Postgres integration and redeploy.' });
     }
 
     auditLogs.unshift({
