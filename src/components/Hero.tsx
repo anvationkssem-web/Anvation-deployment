@@ -33,7 +33,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
   const requirementItems = [
     { title: 'NETWORKING', text: 'Connect With Industry Mentors', accent: 'cyan' },
     { title: 'CERTFICATES', text: 'Verified E-Certificates', accent: 'sky' },
-    { title: 'KNOWLEDGE', text: 'Learn teamwork and skills', accent: 'emerald' }
+    { title: 'OPPERTUNITIES', text: 'Internship opportunities & more', accent: 'emerald' }
   ];
 
   // Dynamic Countdown Timer targeted precisely to October 8, 2026 09:30:00 AM IST
@@ -430,7 +430,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               </div>
               <div>
                 <div className="text-xs font-extrabold text-white uppercase tracking-wider font-mono">WIN ₹50,000</div>
-                <div className="text-[11px] text-slate-400">Cash awards, trophies & national glory</div>
+                <div className="text-[11px] text-slate-400">Cash , Trophies & Internship oppertunities</div>
               </div>
             </div>
 

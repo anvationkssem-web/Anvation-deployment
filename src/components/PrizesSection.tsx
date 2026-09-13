@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trophy, Award, Gift, Sparkles, Medal, Briefcase, Coins, Zap, Star } from 'lucide-react';
+import { Trophy, Award, Gift, Sparkles, Medal, Briefcase, Zap, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import confetti from 'canvas-confetti';
 
@@ -31,56 +31,54 @@ export const PrizesSection: React.FC = () => {
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-black uppercase tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.2)] hover:scale-105 btn-tactile cursor-pointer"
             id="prizes-confetti-btn"
           >
-            <span className="text-emerald-400 font-mono">//</span>
+            <span className="text-emerald-400 font-mono">06 //</span>
             <span>₹50,000 TOTAL PRIZE POOL & TROPHIES</span>
           </button>
           <h2 className="text-3xl sm:text-6xl font-black text-white tracking-tight font-['Orbitron',sans-serif]">
             Prizes & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-emerald-300">Accolades</span>
           </h2>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-medium">
-            Rewarding innovation, technical brilliance, and product execution with cash prizes, certificates, and internship opportunities.
+            Rewarding innovation, technical brilliance, and product execution across the 24-hour hackathon.
           </p>
         </motion.div>
 
-        {/* Rewards: Prize Pool, Certificates & Internship Opportunities */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
-          {/* Prize Pool */}
-          <div className="order-2 md:order-1 p-7 rounded-3xl bg-gradient-to-b from-emerald-950/40 via-slate-950 to-slate-950 border-2 border-emerald-400 backdrop-blur-md shadow-[0_0_40px_rgba(16,185,129,0.25)] text-center space-y-4 relative transform hover:-translate-y-2 transition-transform">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-widest shadow-md font-['Orbitron',sans-serif]">
-              CASH PRIZES
-            </div>
-            <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.5)]">
-              <Coins className="w-10 h-10 animate-pulse text-emerald-300" />
+        {/* Podium Top 3 - Exactly ₹50,000 (₹25k + ₹15k + ₹10k) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-end max-w-5xl mx-auto">
+          {/* Runner Up 2nd Place */}
+          <div className="order-2 md:order-1 p-6 rounded-3xl bg-slate-950/80 border border-slate-700 backdrop-blur-md shadow-xl text-center space-y-4 relative transform hover:-translate-y-2 transition-transform">
+            <div className="w-16 h-16 mx-auto rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center text-slate-200">
+              <Medal className="w-8 h-8 text-sky-300" />
             </div>
             <div>
-              <span className="text-xs font-extrabold uppercase text-emerald-300 tracking-wider font-mono">Prize Pool</span>
-              <h3 className="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-emerald-100 to-cyan-300 mt-1 font-['Orbitron',sans-serif]">₹50,000</h3>
+              <h3 className="text-3xl font-black text-white mt-1 font-['Orbitron',sans-serif]">Internship Opportunities</h3>
             </div>
-            <p className="text-xs text-slate-200 font-medium">Total cash prize pool with trophies across the winning teams, honouring the best builds of the hackathon.</p>
           </div>
 
-          {/* Certificates */}
-          <div className="order-1 md:order-2 p-7 rounded-3xl bg-slate-950/80 border-2 border-sky-400 backdrop-blur-md shadow-[0_0_30px_rgba(56,189,248,0.2)] text-center space-y-4 relative transform hover:-translate-y-2 transition-transform">
-            <div className="w-20 h-20 mx-auto rounded-full bg-sky-500/20 border-2 border-sky-400 flex items-center justify-center text-sky-300 shadow-[0_0_20px_rgba(56,189,248,0.4)]">
-              <Award className="w-10 h-10 text-sky-300" />
+          {/* Winner 1st Place */}
+          <div className="order-1 md:order-2 p-8 rounded-3xl bg-gradient-to-b from-cyan-950/40 via-slate-950 to-slate-950 border-2 border-cyan-400 backdrop-blur-md shadow-[0_0_50px_rgba(6,182,212,0.3)] text-center space-y-4 relative transform hover:-translate-y-3 transition-transform scale-105 z-10">
+      
+            <div className="w-20 h-20 mx-auto rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
+              <Trophy className="w-10 h-10 animate-pulse text-yellow-300" />
             </div>
             <div>
-              <span className="text-xs font-extrabold uppercase text-sky-300 tracking-wider font-mono">Official Recognition</span>
-              <h3 className="text-3xl sm:text-4xl font-black text-white mt-1 font-['Orbitron',sans-serif]">Certificates</h3>
+              <h3 className="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-emerald-300 mt-1 font-['Orbitron',sans-serif]">
+                ₹50,000
+              </h3>
             </div>
-            <p className="text-xs text-slate-300 font-medium">Official KSSEM certificates for every participant, plus special winner and runner-up certificates for the top teams.</p>
+            <p className="text-xs text-slate-200 font-medium">
+              Prize pool
+            </p>
           </div>
 
-          {/* Internship Opportunities */}
-          <div className="order-3 p-7 rounded-3xl bg-slate-950/80 border-2 border-purple-400 backdrop-blur-md shadow-[0_0_30px_rgba(192,132,252,0.2)] text-center space-y-4 relative transform hover:-translate-y-2 transition-transform">
-            <div className="w-20 h-20 mx-auto rounded-full bg-purple-500/20 border-2 border-purple-400 flex items-center justify-center text-purple-300 shadow-[0_0_20px_rgba(192,132,252,0.4)]">
-              <Briefcase className="w-10 h-10 text-purple-300" />
+          {/* 2nd Runner Up 3rd Place */}
+          <div className="order-3 p-6 rounded-3xl bg-slate-950/80 border border-slate-700 backdrop-blur-md shadow-xl text-center space-y-4 relative transform hover:-translate-y-2 transition-transform">
+            <div className="w-16 h-16 mx-auto rounded-full bg-amber-950/40 border border-amber-700 flex items-center justify-center text-amber-400">
+              <Medal className="w-8 h-8" />
             </div>
             <div>
-              <span className="text-xs font-extrabold uppercase text-purple-300 tracking-wider font-mono">Career Boost</span>
-              <h3 className="text-3xl sm:text-4xl font-black text-white mt-1 font-['Orbitron',sans-serif]">Internships</h3>
+              
+              <h3 className="text-3xl font-black text-white mt-1 font-['Orbitron',sans-serif]">Participant certificates</h3>
             </div>
-            <p className="text-xs text-slate-300 font-medium">Direct internship and FTE interview fast-track opportunities with leading hiring partners for standout teams.</p>
           </div>
         </div>
       </div>

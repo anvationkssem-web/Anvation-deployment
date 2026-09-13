@@ -1,13 +1,13 @@
 import React from 'react';
 import { HACKATHON_TRACKS } from '../data/mockData';
-import { Brain, ShieldAlert, Activity, Sprout, Coins, BookOpen, Building2, Leaf, Rocket } from 'lucide-react';
+import { Brain, ShieldAlert, Activity, Sprout, Coins, BookOpen, Building2, Leaf, Rocket, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface ThemesSectionProps {
   onOpenRegister?: () => void;
 }
 
-export const ThemesSection: React.FC<ThemesSectionProps> = () => {
+export const ThemesSection: React.FC<ThemesSectionProps> = ({ onOpenRegister }) => {
   const getTrackIcon = (iconName: string) => {
     switch (iconName) {
       case 'Brain': return <Brain className="w-6 h-6 text-cyan-300" />;
@@ -39,7 +39,7 @@ export const ThemesSection: React.FC<ThemesSectionProps> = () => {
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold tracking-wider shadow-[0_0_20px_rgba(6,182,212,0.2)]">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>05 INNOVATION DOMAINS</span>
+            <span>08 INNOVATION DOMAINS</span>
           </div>
           
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight font-['Space_Grotesk',sans-serif]">
@@ -47,11 +47,11 @@ export const ThemesSection: React.FC<ThemesSectionProps> = () => {
           </h2>
           
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
-            Choose from 5 cutting-edge technology domains to build breakthrough solutions during the 24-hour national hackathon.
+            Choose from 8 cutting-edge technology domains to build breakthrough solutions during the 24-hour national hackathon.
           </p>
         </motion.div>
 
-        {/* Tracks Grid - 5 Clean Domains */}
+        {/* Tracks Grid - 8 Clean Domains */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {HACKATHON_TRACKS.map((track) => (
             <div
@@ -84,6 +84,9 @@ export const ThemesSection: React.FC<ThemesSectionProps> = () => {
                   {track.description}
                 </p>
               </div>
+
+              {/* Action Button Footer */}
+              
             </div>
           ))}
         </div>

@@ -13,14 +13,13 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ isOpen, onClose })
   const handlePrintPDF = () => {
     const rulebookHtml = `
       <h2>1. ELIGIBILITY & TEAM COMPOSITION</h2>
-      <p>• Open to all undergraduate (B.E./B.Tech/BCA/B.Sc) and postgraduate (M.Tech/MCA/M.Sc) students across India.</p>
       <p>• Team size MUST be strictly 2 to 4 members.</p>
       <p>• Inter-departmental and inter-college teams are permitted.</p>
 
       <h2>2. CODE OF CONDUCT & ENVIRONMENT</h2>
       <p>• 24-Hour continuous hackathon at KSSEM Campus, Bengaluru.</p>
       <p>• Participants must wear their official college ID badge and Anvation wristband at all times.</p>
-      <p>• High-speed Wi-Fi, food, and designated overnight resting zones are provided.</p>
+      <p>• High-speed Wi-Fi, food, and designated overnight resting zones will be provided.</p>
 
       <h2>3. AI USAGE POLICY & PLAGIARISM</h2>
       <p>• Generative AI tools (Google Gemini, ChatGPT, GitHub Copilot) ARE PERMITTED for code scaffolding and research.</p>
@@ -75,7 +74,7 @@ export const RulebookModal: React.FC<RulebookModalProps> = ({ isOpen, onClose })
               1. Team Eligibility & Size
             </h4>
             <p className="text-xs leading-relaxed text-slate-300">
-              Open to all full-time undergraduate and postgraduate engineering & computer science students in India. Teams must consist of 2 to 4 members. Inter-college cross-teams are allowed.
+              Inter-departmental and inter-college teams are permitted. Team size MUST be strictly 2 to 4 members.
             </p>
           </div>
 
