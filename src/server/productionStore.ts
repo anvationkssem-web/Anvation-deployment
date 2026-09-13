@@ -1,13 +1,81 @@
-import { neon } from '@neondatabase/serverless';
-import type { Team } from '../types';
+import { Pool } from "pg";
+import type { PoolClient } from "pg";
+import type { Team } from "../types";
 
-const databaseUrl = String(process.env.DATABASE_URL || '').trim();
+const databaseUrl = String(process.env.DATABASE_URL || "").trim();
 if (process.env.VERCEL && !databaseUrl) {
-  throw new Error('DATABASE_URL must be configured for Vercel production deployments.');
+  throw new Error("DATABASE_URL must be configured for Vercel production deployments.");
 }
-const sql = databaseUrl ? neon(databaseUrl) : null;
 
-export const productionStoreEnabled = Boolean(sql);
+// Standard node-postgres pool. Kept small with short timeouts so a fresh serverless
+// function instance never leaves connections hanging between invocations.
+const pool = databaseUrl
+  ? new Pool({
+      connectionString: databaseUrl,
+      // Cloud Postgres providers expect TLS; rejectUnauthorized:false matches the
+      // `sslmode=require` included in these cloud connection strings.
+      ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : undefined,
+      max: 10,
+      idleTimeoutMillis: 30_000,
+      connectionTimeoutMillis: 10_000,
+    })
+  : null;
+
+// Minimal Neon-compatible `sql` template tag implemented on top of node-postgres,
+// so the existing queries and `sql.transaction([...])` calls below keep working
+// unchanged (parameteric `$1..$n` placeholders replace `${value}` interpolation).
+class PgQuery {
+  private text: string;
+  private params: unknown[];
+
+  constructor(strings: TemplateStringsArray, values: unknown[]) {
+    let text = "";
+    const params: unknown[] = [];
+    strings.forEach((chunk, i) => {
+      text += chunk;
+      if (i < values.length) {
+        params.push(values[i]);
+        text += `$${params.length}`;
+      }
+    });
+    this.text = text;
+    this.params = params;
+  }
+
+  then<R>(resolve: (value: any[]) => R, reject?: (reason?: any) => R): Promise<R> {
+    return this.run(pool).then(resolve, reject);
+  }
+
+  run(client?: PoolClient | Pool | null): Promise<any[]> {
+    const target: any = client || pool;
+    if (!target) throw new Error("DATABASE_URL is required for production registration storage.");
+    return target.query(this.text, this.params).then((result: any) => result.rows);
+  }
+}
+
+type SqlTag = ((strings: TemplateStringsArray, ...values: unknown[]) => PgQuery) & {
+  transaction: (queries: PgQuery[]) => Promise<void>;
+};
+
+const sql: SqlTag = (strings: TemplateStringsArray, ...values: unknown[]) =>
+  new PgQuery(strings, values);
+
+sql.transaction = async (queries: PgQuery[]): Promise<void> => {
+  if (!pool) throw new Error("DATABASE_URL is required for production registration storage.");
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+    for (const q of queries) await q.run(client);
+    await client.query("COMMIT");
+  } catch (err) {
+    try { await client.query("ROLLBACK"); } catch { /* noop */ }
+    throw err;
+  } finally {
+    client.release();
+  }
+};
+
+export const productionStoreEnabled = Boolean(pool);
 
 export type DuplicateCode = 'TEAM_NAME_EXISTS' | 'EMAIL_EXISTS' | 'USN_EXISTS' | 'PHONE_EXISTS';
 
