@@ -2,7 +2,14 @@ import { Pool } from "pg";
 import type { PoolClient } from "pg";
 import type { Team } from "../types";
 
-const databaseUrl = String(process.env.DATABASE_URL || "").trim();
+const databaseUrl = String(
+  process.env.DATABASE_URL ||
+    process.env.PRISMA_DATABASE_URL ||
+    process.env.POSTGRES_URL ||
+    process.env.POSTGRES_PRISMA_URL ||
+    process.env.POSTGRES_URL_NON_POOLING ||
+    ""
+).trim();
 if (process.env.VERCEL && !databaseUrl) {
   throw new Error("DATABASE_URL must be configured for Vercel production deployments.");
 }
