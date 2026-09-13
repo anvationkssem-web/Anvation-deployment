@@ -17,6 +17,9 @@ import { COLLEGE_INFO, HACKATHON_SCHEDULE } from './data/mockData';
 import { PortalView } from './types';
 import { Heart, Globe, ArrowUp } from 'lucide-react';
 
+const REGISTRATION_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSe3t8qwKOL4RFlVk_z7VWdZ8IBmEuIrqPgEWWFestI9Q-5MLA/viewform?usp=dialog';
+
 export default function App() {
   const getViewFromPath = (path: string): PortalView => {
     const normalizedPath = path.toLowerCase().replace(/\/+$/, '') || '/';
@@ -140,8 +143,7 @@ export default function App() {
   };
 
   const openRegistration = () => {
-    navigateToView('participant');
-    setIsRegisterModalOpen(true);
+    window.location.assign(REGISTRATION_FORM_URL);
   };
 
   return (
