@@ -11,7 +11,17 @@ const databaseUrl = String(
     ""
 ).trim();
 if (process.env.VERCEL && !databaseUrl) {
-  throw new Error("DATABASE_URL must be configured for Vercel production deployments.");
+  // Do NOT hard-throw here: this module is imported at API-function load time, so an
+  // unconditional throw would crash the whole serverless function with "API initialization
+  // failed" even for endpoints that never touch the database (e.g. admin login / credential
+  // flows, which run entirely in-memory). Instead warn and fall back to the in-memory/JSON
+  // store. Any operation that genuinely requires the DB still throws a clear error at call
+  // time (see PgQuery.run / saveProductionTeam / updateProductionTeam / deleteProductionTeam).
+  console.warn(
+    "[DATABASE] No DATABASE_URL (or PRISMA_DATABASE_URL / POSTGRES_URL) configured on Vercel. " +
+    "Falling back to the in-memory/JSON store. Admin/credential flows work; persistent DB " +
+    "operations will error until a database URL is provided."
+  );
 }
 
 // Standard node-postgres pool. Kept small with short timeouts so a fresh serverless

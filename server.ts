@@ -674,7 +674,13 @@ export async function startServer(options: { listen?: boolean } = {}) {
   let mentorBookings: MentorBooking[] = [];
 
   if (productionStoreEnabled) {
-    await ensureProductionSchema();
+    try {
+      await ensureProductionSchema();
+    } catch (schemaError) {
+      // A misconfigured/unreachable DB must not take the whole function down at init time.
+      // Degrade to the in-memory/JSON store so the site stays up.
+      console.error("[DATABASE] Production schema check failed; continuing without persistent store:", schemaError);
+    }
   }
 
   // Monotonic sequence for collision-free team/member identity.
@@ -2878,12 +2884,19 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
   // first run, and then auto-save the JSON store on a periodic heartbeat.
   if (!productionStoreEnabled) loadPersisted();
   if (productionStoreEnabled) {
-    teams = await loadProductionTeams();
-    nextTeamNumber = teams.reduce((highest, team) => {
-      const match = String(team.id || '').match(/(\d+)$/);
-      return Math.max(highest, match ? Number(match[1]) : 0);
-    }, nextTeamNumber);
-    rebuildUniquenessIndexes();
+    try {
+      teams = await loadProductionTeams();
+      nextTeamNumber = teams.reduce((highest, team) => {
+        const match = String(team.id || '').match(/(\d+)$/);
+        return Math.max(highest, match ? Number(match[1]) : 0);
+      }, nextTeamNumber);
+      rebuildUniquenessIndexes();
+    } catch (loadError) {
+      // DB configured but unreachable/broken: fall back to the JSON store so the API can
+      // still initialize and serve admin/credential flows instead of failing right here.
+      console.error("[DATABASE] Could not load teams from production store; using in-memory/JSON store:", loadError);
+      loadPersisted();
+    }
   }
   try {
     if (!productionStoreEnabled) initialiseParticipantRegistrationBackup();
