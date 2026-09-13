@@ -1,0 +1,24 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+# Keep the participant CSV available in the repository for admin downloads.
+backups/*
+!backups/participant-registration-backup.csv
+!backups/.gitkeep
+*.traineddata
+# Ignore all environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.test
+
+# But keep the template for teammates
+!.env.example
+!.env.sample   
