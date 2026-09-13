@@ -830,6 +830,36 @@ export const AdminPortal: React.FC = () => {
     }
   };
 
+  // Enable / Disable an admin account (Activate or Suspend) — wired to /api/admin-users/status.
+  const handleToggleAdminStatus = async (u: AdminUser) => {
+    const nextStatus = u.status === 'Active' ? 'Suspended' : 'Active';
+    const isSelf = adminEmail && (u.email === adminEmail || u.username === adminEmail);
+    if (nextStatus === 'Suspended' && (isSelf || u.role === 'SUPER_ADMIN')) {
+      alert(isSelf
+        ? 'You cannot suspend the account you are currently signed in with.'
+        : 'You cannot suspend a Super Admin account.');
+      return;
+    }
+    const actionLabel = nextStatus === 'Active' ? 'activate' : 'suspend';
+    if (!window.confirm(`Are you sure you want to ${actionLabel} "${u.name}" (${u.email})?`)) return;
+    try {
+      const res = await fetch('/api/admin-users/status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: u.id, status: nextStatus })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(`✓ ${u.name} ${nextStatus === 'Active' ? 'ACTIVATED' : 'SUSPENDED'}. Access ${nextStatus === 'Active' ? 'enabled' : 'blocked'}.`);
+        fetchAdminData();
+      } else {
+        alert(data.error || `Failed to ${actionLabel} admin user`);
+      }
+    } catch (err) {
+      alert(`Error updating admin status`);
+    }
+  };
+
   const handleAddCheckpoint = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!cpTitle.trim()) {
@@ -1179,6 +1209,26 @@ export const AdminPortal: React.FC = () => {
                 <ShieldCheck className="w-4 h-4" /> Authorize Super Admin Session
               </button>
             </form>
+
+            {/* Default Access Credentials */}
+            <div className="space-y-2">
+              <p className="text-[11px] font-bold text-purple-400 uppercase tracking-wider flex items-center gap-2">
+                <Key className="w-3.5 h-3.5" /> Default Access Credentials
+              </p>
+              <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-slate-400">Username / Email</span>
+                  <code className="text-cyan-300 font-mono">superadmin</code>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-slate-400">Default Password</span>
+                  <code className="text-cyan-300 font-mono">AnvationAdmin@2026!</code>
+                </div>
+                <p className="text-[10px] text-slate-500 pt-1.5 mt-1 border-t border-slate-800">
+                  Override via the <code className="text-slate-300">ADMIN_BOOTSTRAP_PASSWORD</code> env var. Change it after your first sign-in.
+                </p>
+              </div>
+            </div>
 
             <div className="pt-2 text-center">
               <p className="text-[10px] text-slate-500">
@@ -2645,6 +2695,18 @@ export const AdminPortal: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex flex-col gap-1.5 shrink-0">
+                        <button
+                          onClick={() => handleToggleAdminStatus(u)}
+                          className={`px-2.5 py-1 rounded-lg font-bold text-[10px] flex items-center gap-1 transition-colors border ${
+                            u.status === 'Active'
+                              ? 'bg-amber-950/60 hover:bg-amber-900 text-amber-300 border-amber-700/60'
+                              : 'bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border-emerald-700/60'
+                          }`}
+                          title={u.status === 'Active' ? 'Disable / suspend this account' : 'Enable / activate this account'}
+                        >
+                          {u.status === 'Active' ? <UserMinus className="w-3 h-3" /> : <UserCheck className="w-3 h-3" />}
+                          {u.status === 'Active' ? 'Disable' : 'Enable'}
+                        </button>
                         <button
                           onClick={() => handleOpenEditAdmin(u)}
                           className="px-2.5 py-1 rounded-lg bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-700/60 font-bold text-[10px] flex items-center gap-1 transition-colors"

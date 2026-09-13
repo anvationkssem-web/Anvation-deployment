@@ -19,6 +19,7 @@ import { Team, ProjectSubmission, JudgeScorecard, Announcement, SupportTicket, P
 import { HACKATHON_TRACKS } from "./src/data/mockData";
 import { PAYMENT_UPI_ID, ocrContainsTransactionId } from "./src/utils/upiVerification";
 import { ensureProductionSchema, findProductionDuplicate, loadProductionTeams, productionStoreEnabled, saveProductionTeam, updateProductionTeam, deleteProductionTeam } from "./src/server/productionStore";
+import { resolveAdminBootstrapPassword } from "./src/utils/adminAuth";
 
 const execFileAsync = promisify(execFile);
 
@@ -488,7 +489,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
 
   const AUTH_COOKIE = "anvation_session";
   const SESSION_TTL_MS = 12 * 60 * 60 * 1000;
-  const DEFAULT_ADMIN_PASSWORD = process.env.ADMIN_BOOTSTRAP_PASSWORD?.trim() || "password123";
+  const DEFAULT_ADMIN_PASSWORD = resolveAdminBootstrapPassword(process.env);
   if (process.env.VERCEL && !process.env.ADMIN_BOOTSTRAP_PASSWORD) {
     console.warn("[AUTH] ADMIN_BOOTSTRAP_PASSWORD missing in Vercel; using built-in fallback to keep admin login active.");
   }
