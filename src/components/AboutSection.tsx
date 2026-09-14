@@ -97,8 +97,13 @@ export const AboutSection: React.FC = () => {
           {activeTab === 'college' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="space-y-5">
-                <div className="inline-block px-3 py-1 rounded bg-red-600/20 border border-red-500/40 text-red-400 font-bold text-xs uppercase tracking-wider">
-                  Established by Kammavari Sangham (1952)
+                <div className="space-y-0.5 text-xs text-slate-300 font-medium border-l-2 border-cyan-500/50 pl-3">
+                  <p className="text-cyan-300 font-bold">Kammavari Sangham (R) 1952</p>
+                  <p className="font-black text-white text-sm">K. S. GROUP OF INSTITUTIONS</p>
+                  <p className="font-black text-white text-sm">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</p>
+                  <p className="text-slate-400">Affiliated to VTU | Approved by AICTE | Accredited by NAAC &amp; NBA (CSE, ECE, ME &amp; CIV)</p>
+                  <p className="text-slate-400">No. 15, Mallasandra, off. Kanakapura Road, Bengaluru - 560109</p>
+                  <p className="text-cyan-400">www.kssem.edu.in</p>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
                   K. S. School of Engineering & Management
