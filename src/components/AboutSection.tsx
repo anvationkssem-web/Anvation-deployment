@@ -111,8 +111,8 @@ export const AboutSection: React.FC = () => {
                     className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover shadow-lg border border-cyan-300/40"
                   />
                   <div>
-                    <h4 className="text-xl sm:text-2xl font-black text-white">{COLLEGE_INFO.hodName}</h4>
-                    <p className="text-xs text-slate-300 font-medium">{COLLEGE_INFO.hodTitle}</p>
+                    <h4 className="text-2xl sm:text-3xl font-black text-white">{COLLEGE_INFO.hodName}</h4>
+                    <p className="text-sm sm:text-base text-slate-300 font-medium">{COLLEGE_INFO.hodTitle}</p>
                   </div>
                 </div>
                
@@ -132,7 +132,7 @@ export const AboutSection: React.FC = () => {
    
                 </div>
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
-                  <div className="text-cyan-400 font-bold text-lg mb-1">Research & Grants</div>
+                  <div className="text-cyan-400 font-bold text-lg mb-1">Research & Innovations</div>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
                   <div className="text-emerald-400 font-bold text-lg mb-1">Industry Mentorship</div>
