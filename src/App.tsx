@@ -313,8 +313,6 @@ export default function App() {
             </p>
             <p>Department of Computer Science and Engineering</p>
             <p>No. 15, Mallasandra, off. Kanakapura Road,<br />Bengaluru - 560109, Karnataka, India</p>
-            <p className="pt-1">📞 +91 9900710055 / +91 80 28425012</p>
-            <p>✉ <a href="mailto:anvation2026@kssem.edu.in" className="text-cyan-400 hover:underline">anvation2026@kssem.edu.in</a></p>
           </div>
 
           {/* Links & Copyright */}
