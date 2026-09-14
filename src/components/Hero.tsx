@@ -258,7 +258,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                   <Sparkles className="w-5 h-5 text-cyan-400" />
                   <span className="font-['Orbitron',sans-serif] text-[15px]">ANVATION 2026 LAUNCH</span>
                 </div>
-                <span className="font-mono text-[13px] text-emerald-400">OCT 8, 2026 • 09:30 AM IST</span>
+                <span className="font-mono text-[16px] text-emerald-400">OCT 8, 2026 • 09:30 AM IST</span>
               </div>
               <div className="grid grid-cols-4 gap-2 text-center">
                 <div className="relative overflow-hidden p-2 h-[90px] sm:p-3 rounded-xl bg-gradient-to-b from-slate-900/90 to-cyan-950/60 border border-cyan-500/40 shadow-[inset_0_0_18px_rgba(34,211,238,0.14)]">
