@@ -17,7 +17,7 @@ import { PortalView } from './types';
 import { ArrowUp, Instagram, Linkedin, Youtube, Facebook } from 'lucide-react';
 
 const REGISTRATION_FORM_URL =
-  'https://docs.google.com/forms/d/e/1FAIpQLSe3t8qwKOL4RFlVk_z7VWdZ8IBmEuIrqPgEWWFestI9Q-5MLA/viewform?usp=dialog';
+  'https://docs.google.com/forms/d/e/1FAIpQLScacG97t6_3G332fSbltEDabqbs0RZQU-6osYPMA-QNdhH1-A/viewform?usp=publish-editor';
 
 export default function App() {
   const getViewFromPath = (path: string): PortalView => {
