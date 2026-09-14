@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { COLLEGE_INFO } from '../data/mockData';
-import { MapPin } from 'lucide-react';
+import { MapPin, Target, Eye } from 'lucide-react';
 import campusBgImage from '../assets/images/kssem_campus_real_1788194089427.jpg';
 import hodimage from '../assets/images/hod.jpeg';
 import labimg from '../assets/images/lab.jpeg';

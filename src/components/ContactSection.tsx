@@ -1,6 +1,6 @@
 import React from 'react';
 import { COLLEGE_INFO } from '../data/mockData';
-import { MapPin, Instagram, Linkedin, Youtube, Twitter } from 'lucide-react';
+import { MapPin, Phone, Instagram, Linkedin, Youtube, Twitter } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
 
