@@ -298,36 +298,53 @@ export default function App() {
 
       {/* Footer */}
       <footer className="bg-[var(--surface-nav-solid)] border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div className="space-y-2">
-            <div className="flex items-center justify-center md:justify-start gap-2">
-              <span className="font-black text-white text-base tracking-wide animate-gradient-flow text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-300 to-orange-400">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
+
+          {/* Branding & Tagline */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap">
+              <span className="font-black text-white text-base tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-300 to-orange-400">
                 KSSEM Anvation 1.0
               </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-pink-950/80 text-pink-300 border border-pink-500/40 shadow-sm">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-pink-950/80 text-pink-300 border border-pink-500/40">
                 National Level 24-Hr Hackathon
               </span>
             </div>
-            <p className="max-w-md text-slate-300 text-xs font-medium">
-              {COLLEGE_INFO.name}, Kanakapura Road, Bengaluru.
+            <p className="text-slate-300 text-xs font-medium leading-relaxed">
+              KSSEM Anvation 1.0 — National Level 24-Hr Hackathon | Bengaluru Tech Innovation Hub
             </p>
             <p className="text-[11px] text-pink-400/90 flex items-center justify-center md:justify-start gap-1 font-mono">
               <Globe className="w-3.5 h-3.5 text-orange-400" />
-              <span>ಕನ್ನಡ ನೆಲದ ಹೆಮ್ಮೆಯ ತಂತ್ರಜ್ಞಾನ ಸಂಭ್ರಮ • Bengaluru Tech Innovation Hub</span>
+              <span>Bengaluru Tech Innovation Hub</span>
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-6 font-semibold">
-            <button onClick={() => { navigateToView('landing'); scrollToTop(); }} className="hover:text-pink-300 transition-colors">Home</button>
-            <button onClick={() => navigateToView('participant')} className="hover:text-fuchsia-300 transition-colors">Participant Portal</button>
+          {/* Venue & Contact */}
+          <div className="space-y-2 text-slate-300 text-xs leading-relaxed">
+            <p className="font-black text-white text-sm mb-1">Venue Address</p>
+            <p>
+              <a href="https://www.kssem.edu.in" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline font-semibold">K. S. School of Engineering &amp; Management</a>
+            </p>
+            <p>Department of Computer Science and Engineering</p>
+            <p>No. 15, Mallasandra, off. Kanakapura Road,<br />Bengaluru - 560109, Karnataka, India</p>
+            <p className="pt-1">📞 +91 9900710055 / +91 80 28425012</p>
+            <p>✉ <a href="mailto:anvation2026@kssem.edu.in" className="text-cyan-400 hover:underline">anvation2026@kssem.edu.in</a></p>
           </div>
 
-          <div className="text-[11px] text-slate-500 space-y-1">
-            <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
-            <p className="flex items-center justify-center md:justify-end gap-1">
-              Crafted with <Heart className="w-3 h-3 text-pink-500 fill-pink-500" /> for Indian Hackers
-            </p>
+          {/* Links & Copyright */}
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 font-semibold text-slate-400">
+              <button onClick={() => { navigateToView('landing'); scrollToTop(); }} className="hover:text-pink-300 transition-colors">Home</button>
+              <button onClick={() => navigateToView('participant')} className="hover:text-fuchsia-300 transition-colors">Participant Portal</button>
+            </div>
+            <div className="text-[11px] text-slate-500 space-y-1">
+              <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
+              <p className="flex items-center justify-center md:justify-start gap-1">
+                Crafted with <Heart className="w-3 h-3 text-pink-500 fill-pink-500" /> for Indian Hackers
+              </p>
+            </div>
           </div>
+
         </div>
       </footer>
     </div>
