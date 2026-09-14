@@ -178,10 +178,27 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
       <div className="relative z-10 w-full max-w-7xl mx-auto space-y-8 pt-2">
         
         {/* Content & 3D Interactive Hub Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-          
-          {/* Left: Event Details */}
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+          {/* Left: Poster */}
+          <div className="lg:col-span-7 relative rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
+            <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
+            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#00eaff 40%,#a855f7 60%,transparent)' }} />
+            <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-400/70 pointer-events-none rounded-tl-sm" />
+            <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-fuchsia-400/70 pointer-events-none rounded-tr-sm" />
+            <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-fuchsia-400/70 pointer-events-none rounded-bl-sm" />
+            <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-cyan-400/70 pointer-events-none rounded-br-sm" />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 45% at 50% 38%,rgba(0,180,255,0.09),transparent)' }} />
+            <img
+              src={anvation2026Poster}
+              alt="Anvation 2026 National Level Hackathon"
+              className="block h-full w-full object-cover drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
+            />
+            <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#a855f7 40%,#00eaff 60%,transparent)' }} />
+          </div>
+
+          {/* Right: Event Details */}
+          <div className="lg:col-span-5 space-y-4">
             <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.2)] space-y-4 card-gradient-border force-dark h-full">
               <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
                 <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10">
@@ -229,23 +246,6 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Right: Poster */}
-          <div className="relative rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
-            <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
-            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#00eaff 40%,#a855f7 60%,transparent)' }} />
-            <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-400/70 pointer-events-none rounded-tl-sm" />
-            <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-fuchsia-400/70 pointer-events-none rounded-tr-sm" />
-            <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-fuchsia-400/70 pointer-events-none rounded-bl-sm" />
-            <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-cyan-400/70 pointer-events-none rounded-br-sm" />
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 45% at 50% 38%,rgba(0,180,255,0.09),transparent)' }} />
-            <img
-              src={anvation2026Poster}
-              alt="Anvation 2026 National Level Hackathon"
-              className="block h-full w-full object-cover drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
-            />
-            <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#a855f7 40%,#00eaff 60%,transparent)' }} />
           </div>
 
         </div>
