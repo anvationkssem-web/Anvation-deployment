@@ -251,9 +251,8 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
         </div>
 
         {/* Countdown and requirements panel aligned below the hero cards without resizing the existing windows */}
-        <div className="flex w-full justify-center lg:justify-between">
-          <div className="grid w-full max-w-[1280px] grid-cols-1 gap-4 items-stretch justify-items-stretch lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
-            <div className="p-4 h-[180px] w-full rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.2)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          <div className="lg:col-span-7 p-4 h-[180px] w-full rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.2)]">
               <div className="font-extrabold text-cyan-300 uppercase tracking-widest mb-2.5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-cyan-400" />
@@ -285,7 +284,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               </div>
             </div>
 
-            <div className="p-4 h-[220px] w-full rounded-2xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-violet-500/35 shadow-[0_0_24px_rgba(168,85,247,0.18)]">
+          <div className="lg:col-span-5 p-4 h-[180px] w-full rounded-2xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-violet-500/35 shadow-[0_0_24px_rgba(168,85,247,0.18)]">
               <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[17px] font-black text-white tracking-wider uppercase">BENEFITS</span>
@@ -321,7 +320,6 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                 ))}
               </div>
             </div>
-          </div>
         </div>
 
         {/* Bottom 4 Feature Cards Bar */}
