@@ -573,7 +573,7 @@ export const ParticipantPortal: React.FC<ParticipantPortalProps> = ({ onOpenRule
                   type={showPassword ? 'text' : 'password'}
                   value={loginPass}
                   onChange={(e) => setLoginPass(e.target.value)}
-                  placeholder="Enter your team passphrase"
+                  placeholder="Enter your team password"
                   required
                   className="w-full pl-10 pr-10 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-xs font-medium focus:outline-none focus:border-cyan-400 transition-colors"
                   id="participant-login-pass-input"
