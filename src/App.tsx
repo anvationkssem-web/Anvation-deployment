@@ -174,7 +174,7 @@ export default function App() {
           {homeSections.hero && (
             <>
               {/* Institution Header */}
-              <div className="relative z-10 w-full overflow-hidden flex flex-col items-center justify-center gap-1 text-center px-6 py-5"
+              <div className="relative z-10 w-full overflow-hidden flex flex-col items-center justify-center gap-1 text-center px-4 sm:px-6 py-4 sm:py-5"
                 style={{
                   background: 'linear-gradient(135deg, rgba(2,8,28,0.98) 0%, rgba(4,18,48,0.97) 40%, rgba(6,12,36,0.98) 70%, rgba(2,8,28,0.98) 100%)',
                   borderTop: '1px solid rgba(34,211,238,0.5)',

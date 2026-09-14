@@ -253,12 +253,12 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
         {/* Countdown and requirements panel aligned below the hero cards without resizing the existing windows */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 xl:gap-8 items-stretch">
           <div className="lg:col-span-7 p-3 sm:p-4 min-h-[160px] w-full rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.2)]">
-              <div className="font-extrabold text-cyan-300 uppercase tracking-widest mb-2.5 flex items-center justify-between">
+              <div className="font-extrabold text-cyan-300 uppercase tracking-widest mb-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-cyan-400" />
-                  <span className="font-['Orbitron',sans-serif] text-[15px]">ANVATION 2026 LAUNCH</span>
+                  <span className="font-['Orbitron',sans-serif] text-[13px] sm:text-[15px]">ANVATION 2026 LAUNCH</span>
                 </div>
-                <span className="font-mono text-[16px] text-emerald-400">OCT 8, 2026 • 09:30 AM IST</span>
+                <span className="font-mono text-[12px] sm:text-[14px] text-emerald-400">OCT 8, 2026 • 09:30 AM IST</span>
               </div>
               <div className="grid grid-cols-4 gap-2 text-center">
                 <div className="relative overflow-hidden p-2 h-[90px] sm:p-3 rounded-xl bg-gradient-to-b from-slate-900/90 to-cyan-950/60 border border-cyan-500/40 shadow-[inset_0_0_18px_rgba(34,211,238,0.14)]">
@@ -291,7 +291,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                 </div>
               </div>
 
-              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3 min-h-[100px]">
+              <div className="mt-3 grid grid-cols-1 gap-2 min-[480px]:grid-cols-3">
                 {requirementItems.map((item) => (
                   <div
                     key={item.title}
