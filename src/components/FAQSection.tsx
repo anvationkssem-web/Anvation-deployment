@@ -35,7 +35,7 @@ export const FAQSection: React.FC = () => {
             Got Questions? <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-fuchsia-400 to-orange-400">We've Got Answers</span>
           </h2>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-medium">
-            Everything you need to know about team registration, venue logistics at KSSEM Bengaluru.
+            
           </p>
         </motion.div>
 

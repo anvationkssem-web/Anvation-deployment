@@ -36,7 +36,7 @@ export const PrizesSection: React.FC = () => {
         </motion.div>
 
         {/* Podium Top 3 - Exactly ₹50,000 (₹25k + ₹15k + ₹10k) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-end max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-end max-w-6xl mx-auto">
           {/* Runner Up 2nd Place */}
           <div className="order-2 md:order-1 p-6 rounded-3xl bg-slate-950/80 border border-slate-700 backdrop-blur-md shadow-xl text-center space-y-4 relative transform hover:-translate-y-2 transition-transform">
             <div className="w-16 h-16 mx-auto rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center text-slate-200">
@@ -48,13 +48,13 @@ export const PrizesSection: React.FC = () => {
           </div>
 
           {/* Winner 1st Place */}
-          <div className="order-1 md:order-2 w-full min-w-0 p-8 rounded-3xl bg-gradient-to-b from-cyan-950/40 via-slate-950 to-slate-950 border-2 border-cyan-400 backdrop-blur-md shadow-[0_0_50px_rgba(6,182,212,0.3)] text-center space-y-4 relative transform hover:-translate-y-3 transition-transform md:scale-105 z-10">
+          <div className="order-1 md:order-2 w-full min-w-0 p-4 sm:p-6 rounded-3xl bg-gradient-to-b from-cyan-950/40 via-slate-950 to-slate-950 border-2 border-cyan-400 backdrop-blur-md shadow-[0_0_50px_rgba(6,182,212,0.3)] text-center space-y-4 relative transform hover:-translate-y-3 transition-transform md:scale-105 z-10">
       
             <div className="w-20 h-20 mx-auto rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
               <Trophy className="w-10 h-10 animate-pulse text-yellow-300" />
             </div>
             <div>
-              <h3 className="whitespace-nowrap text-[clamp(2.75rem,10vw,5.5rem)] leading-none font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-emerald-300 mt-1 font-['Orbitron',sans-serif]">
+              <h3 className="whitespace-nowrap text-3xl sm:text-5xl lg:text-6xl leading-none font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-emerald-300 mt-1 font-['Orbitron',sans-serif]">
                 ₹50,000
               </h3>
             </div>

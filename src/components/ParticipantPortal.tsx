@@ -491,7 +491,6 @@ export const ParticipantPortal: React.FC<ParticipantPortalProps> = ({ onOpenRule
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-mono font-bold">
               <Shield className="w-3.5 h-3.5 text-cyan-400" />
-              <span>256-BIT AUTHENTICATED TEAM PORTAL</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-white font-['Orbitron',sans-serif]">
               ANVATION 2026
@@ -548,7 +547,7 @@ export const ParticipantPortal: React.FC<ParticipantPortalProps> = ({ onOpenRule
             <div>
               <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center justify-between">
                 <span>Team Access ID / Leader Email:</span>
-                <span className="text-[10px] text-cyan-400 font-mono">e.g. AN-001</span>
+                <span className="text-[10px] text-cyan-400 font-mono"></span>
               </label>
               <div className="relative">
                 <input
@@ -567,7 +566,7 @@ export const ParticipantPortal: React.FC<ParticipantPortalProps> = ({ onOpenRule
             <div>
               <label className="block text-xs font-bold text-slate-300 mb-1.5 flex items-center justify-between">
                 <span>Passphrase:</span>
-                <span className="text-[10px] text-slate-400">Default: team123</span>
+                <span className="text-[10px] text-slate-400"></span>
               </label>
               <div className="relative">
                 <input

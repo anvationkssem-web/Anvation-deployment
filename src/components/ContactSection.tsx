@@ -9,16 +9,14 @@ export const ContactSection: React.FC = () => {
       <div className="max-w-7xl mx-auto space-y-12">
         {/* Header */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-            <Mail className="w-3.5 h-3.5" />
-            <span>Organizing Team</span>
-          </div>
-          <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-            Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-amber-400">Coordinators</span>
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-400 to-amber-400">Organizing Team</span>
           </h2>
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300">
-            Have questions regarding registration and to reach the college? Reach out to our team.
-          </p>
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-16 bg-gradient-to-r from-transparent to-cyan-400" />
+            <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse" />
+            <span className="h-px w-16 bg-gradient-to-l from-transparent to-amber-400" />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
@@ -27,7 +25,7 @@ export const ContactSection: React.FC = () => {
 
               {/* Student Coordinators */}
               <div>
-                <div className="flex items-center gap-2 mb-2.5">
+                <div className="flex items-center justify-center gap-2 mb-2.5">
                   <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
                   <h4 className="text-xs font-black uppercase text-amber-300 tracking-wider font-mono">Student Co-ordinators</h4>
                 </div>
@@ -51,20 +49,22 @@ export const ContactSection: React.FC = () => {
 
               {/* Faculty Coordinators */}
               <div>
-                <div className="flex items-center gap-2 mb-2.5">
+                <div className="flex items-center justify-center gap-2 mb-2.5">
                   <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                   <h4 className="text-xs font-black uppercase text-cyan-300 tracking-wider font-mono">Faculty Co-ordinators</h4>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-cyan-500/30 space-y-1 shadow-lg">
+                  <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
                     <h5 className="font-bold text-white text-xs leading-snug">Dr. Sivasubramanyam Medasani</h5>
-                    <a href="tel:+918309763125" className="text-xs text-cyan-300 font-mono hover:underline flex items-center gap-1 font-bold">
+                    <p className="text-[11px] text-slate-400">Professor</p>
+                    <a href="tel:+918309763125" className="text-xs text-slate-300 font-mono hover:underline flex items-center gap-1">
                       <Phone className="w-3 h-3 text-cyan-400" />
                       <span>+91 8309763125</span>
                     </a>
                   </div>
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
                     <h5 className="font-bold text-white text-xs leading-snug">Prof. Harshavardhan J R</h5>
+                    <p className="text-[11px] text-slate-400">Associate Professor</p>
                     <a href="tel:+919448612519" className="text-xs text-slate-300 font-mono hover:underline flex items-center gap-1">
                       <Phone className="w-3 h-3 text-cyan-400" />
                       <span>+91 9448612519</span>
@@ -72,6 +72,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
                     <h5 className="font-bold text-white text-xs leading-snug">Prof. Vidyasre N</h5>
+                    <p className="text-[11px] text-slate-400">Assistant Professor</p>
                     <a href="tel:+917975940301" className="text-xs text-slate-300 font-mono hover:underline flex items-center gap-1">
                       <Phone className="w-3 h-3 text-cyan-400" />
                       <span>+91 7975940301</span>
@@ -82,30 +83,34 @@ export const ContactSection: React.FC = () => {
 
               {/* HODs & Leadership */}
               <div>
-                <div className="flex items-center gap-2 mb-2.5">
+                <div className="flex items-center justify-center gap-2 mb-2.5">
                   <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse" />
-                  <h4 className="text-xs font-black uppercase text-fuchsia-300 tracking-wider font-mono">Department Heads &amp; Leadership</h4>
+                  <h4 className="text-xs font-black uppercase text-fuchsia-300 tracking-wider font-mono">Department Heads</h4>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-3">
                   {[
                     { name: 'Dr. K Venkata Rao', role: 'Professor & Head, CSE' },
                     { name: 'Dr. Manjunath T K', role: 'Professor & Head, AI&DS' },
                     { name: 'Prof. Ramesh Babu. N', role: 'Professor & Head, CS&BS' },
                   ].map((p) => (
                     <div key={p.name} className="p-3.5 rounded-2xl bg-slate-900/90 border border-fuchsia-500/20 space-y-0.5">
-                      <h5 className="font-bold text-white text-xs">{p.name}</h5>
+                      <h5 className="font-bold text-white text-xs leading-snug">{p.name}</h5>
                       <p className="text-[11px] text-slate-400">{p.role}</p>
                     </div>
                   ))}
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                <div className="flex items-center justify-center gap-2 mb-2.5 mt-4">
+                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                  <h4 className="text-xs font-black uppercase text-amber-300 tracking-wider font-mono">Leadership</h4>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
                     { name: 'Prof. Suresh RamaswwamyReddy', role: 'Principal & Director, KSSEM' },
                     { name: 'Dr. K Channakeshavalu', role: 'Executive Director, KSGI' },
                   ].map((p) => (
-                    <div key={p.name} className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-fuchsia-950/30 border border-fuchsia-400/40 space-y-0.5 shadow-[0_0_12px_rgba(192,38,211,0.15)]">
+                    <div key={p.name} className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-amber-950/30 border border-amber-400/40 space-y-0.5 shadow-[0_0_12px_rgba(251,191,36,0.12)]">
                       <h5 className="font-bold text-white text-xs">{p.name}</h5>
-                      <p className="text-[11px] text-fuchsia-300">{p.role}</p>
+                      <p className="text-[11px] text-amber-300">{p.role}</p>
                     </div>
                   ))}
                 </div>

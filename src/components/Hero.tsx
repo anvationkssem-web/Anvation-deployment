@@ -195,74 +195,81 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
             </div>
 
             {/* Event Title Banner */}
-            <div className="relative min-h-[460px] rounded-[28px] bg-[radial-gradient(circle_at_50%_18%,rgba(14,165,233,0.16),transparent_34%),linear-gradient(145deg,rgba(8,24,45,0.97),rgba(2,6,23,0.97))] backdrop-blur-2xl overflow-hidden card-gradient-border force-dark flex flex-col justify-center items-center text-center px-5 py-10 sm:px-8 gap-0 shadow-[0_24px_80px_rgba(2,8,23,0.55)]">
+            <div className="relative rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
+
+              {/* Neon border glow */}
+              <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
+
+              {/* Top cyan bar */}
+              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#00eaff 40%,#a855f7 60%,transparent)' }} />
+
               {/* Corner accents */}
-              <div className="absolute top-2 left-2 w-5 h-5 border-t-2 border-l-2 border-cyan-400/60 pointer-events-none" />
-              <div className="absolute top-2 right-2 w-5 h-5 border-t-2 border-r-2 border-amber-400/60 pointer-events-none" />
-              <div className="absolute bottom-2 left-2 w-5 h-5 border-b-2 border-l-2 border-amber-400/60 pointer-events-none" />
-              <div className="absolute bottom-2 right-2 w-5 h-5 border-b-2 border-r-2 border-cyan-400/60 pointer-events-none" />
-              {/* Subtle inner glow */}
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.07),transparent_65%)] pointer-events-none" />
+              <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-400/70 pointer-events-none rounded-tl-sm" />
+              <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-fuchsia-400/70 pointer-events-none rounded-tr-sm" />
+              <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-fuchsia-400/70 pointer-events-none rounded-bl-sm" />
+              <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-cyan-400/70 pointer-events-none rounded-br-sm" />
 
-              {/* 1 — National Level pill */}
-              <div className="inline-flex items-center gap-2.5 mb-4 rounded-full border border-cyan-400/20 bg-cyan-950/30 px-3.5 py-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,0.9)]" />
-                <span className="text-[9px] font-black uppercase tracking-[3px] text-cyan-200 sm:text-[10px]">National Level · 24 Hours</span>
-              </div>
+              {/* Radial glow centre */}
+              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 45% at 50% 38%,rgba(0,180,255,0.09),transparent)' }} />
 
-              {/* 2 — HACKATHON label */}
-              <div
-                className="text-[12px] sm:text-[14px] font-black uppercase tracking-[6px] mb-2"
-                style={{
-                  background: 'linear-gradient(90deg,#c084fc,#f43f5e,#fb923c)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >Hackathon</div>
+              <div className="flex flex-col items-center text-center px-6 py-10 sm:px-10 gap-0">
 
-              {/* 3 — ANVATION logotype */}
-              <div className="flex w-full items-center justify-center px-2 sm:px-4">
-                <img
-                  src={anvationNavbarLogo}
-                  alt="Anvation"
-                  className="block h-auto w-full max-w-[660px] object-contain drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
-                />
-              </div>
+                {/* National Level pill */}
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style={{ background: 'rgba(0,200,255,0.07)', border: '1px solid rgba(0,200,255,0.25)' }}>
+                  <span className="w-2 h-2 rounded-full bg-cyan-300" style={{ boxShadow: '0 0 8px #67e8f9' }} />
+                  <span className="text-[10px] font-black uppercase tracking-[3.5px] text-cyan-200">National Level &nbsp;·&nbsp; 24 Hours</span>
+                </div>
 
-              {/* 4 — Year tag */}
-              <div className="text-[11px] font-black tracking-[5px] text-slate-400 uppercase mt-1 mb-4">2026</div>
+                {/* HACKATHON */}
+                <div className="text-[13px] sm:text-[15px] font-black uppercase tracking-[8px] mb-3" style={{ background: 'linear-gradient(90deg,#c084fc,#f43f5e,#fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  H A C K A T H O N
+                </div>
 
-              {/* 5 — Divider */}
-              <div className="my-1 h-px w-full max-w-sm bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+                {/* ANVATION logotype */}
+                <div className="flex w-full items-center justify-center px-2 sm:px-4">
+                  <img
+                    src={anvationNavbarLogo}
+                    alt="Anvation"
+                    className="block h-auto w-full max-w-[660px] object-contain drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
+                  />
+                </div>
 
-              {/* 6 — Organised By ribbon */}
-              <span
-                className="inline-block text-white text-[9px] font-black uppercase tracking-[2.5px] px-7 py-1.5 mb-4"
-                style={{
-                  background: 'linear-gradient(90deg,#db2777,#ea580c)',
-                  clipPath: 'polygon(10px 0%,calc(100% - 10px) 0%,100% 50%,calc(100% - 10px) 100%,10px 100%,0% 50%)',
-                }}
-              >Organised By</span>
+                {/* Year */}
+                <div className="text-[13px] font-black tracking-[8px] mt-1 mb-5" style={{ color: '#94a3b8' }}>2 0 2 6</div>
 
-              {/* 7 — Department stack */}
-              <div className="space-y-1">
-                <p className="text-[12px] sm:text-[13px] font-black text-white uppercase tracking-wide">
+                {/* Divider */}
+                <div className="w-full max-w-xs h-px mb-5" style={{ background: 'linear-gradient(90deg,transparent,rgba(0,200,255,0.5),transparent)' }} />
+
+                {/* Organised By ribbon */}
+                <span className="inline-block text-white text-[10px] font-black uppercase tracking-[3px] px-8 py-2 mb-5" style={{ background: 'linear-gradient(90deg,#be185d,#dc2626,#ea580c)', clipPath: 'polygon(12px 0%,calc(100% - 12px) 0%,100% 50%,calc(100% - 12px) 100%,12px 100%,0% 50%)', letterSpacing: '3px' }}>
+                  Organised By
+                </span>
+
+                {/* Department */}
+                <p className="text-[13px] sm:text-[14px] font-black text-white uppercase tracking-wider mb-1">
                   Dept. of Computer Science &amp; Engineering
                 </p>
-                <p className="text-[10px] text-slate-400 uppercase tracking-widest">
-                  In assoc. with AI&amp;DS · CS&amp;BS
+                <p className="text-[11px] font-semibold uppercase tracking-[3px] mb-5" style={{ color: '#64748b' }}>
+                  In assoc. with AI&amp;DS &nbsp;·&nbsp; CS&amp;BS
                 </p>
+
+                {/* Collaboration */}
+                <div className="flex items-center gap-3 w-full max-w-xs mb-3">
+                  <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(100,116,139,0.5))' }} />
+                  <span className="text-[9px] font-black uppercase tracking-[3px]" style={{ color: '#475569' }}>Collaboration with</span>
+                  <div className="flex-1 h-px" style={{ background: 'linear-gradient(270deg,transparent,rgba(100,116,139,0.5))' }} />
+                </div>
+                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl" style={{ background: 'rgba(0,200,255,0.06)', border: '1px solid rgba(0,200,255,0.2)' }}>
+                  <div className="w-5 h-5 rounded-full border-2 border-cyan-400 flex items-center justify-center shrink-0">
+                    <div className="w-2 h-2 rounded-full bg-cyan-400" style={{ boxShadow: '0 0 6px #22d3ee' }} />
+                  </div>
+                  <span className="text-[13px] font-black uppercase tracking-[2px] text-cyan-300">PyGenicArc Pvt. Ltd.</span>
+                </div>
+
               </div>
 
-              {/* 8 — Collaboration row */}
-              <div className="mt-4 flex items-center gap-2.5">
-                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-slate-700" />
-                <span className="text-[9px] uppercase tracking-[3px] text-slate-500 font-bold">Collaboration with</span>
-                <div className="h-px flex-1 bg-gradient-to-l from-transparent to-slate-700" />
-              </div>
-              <div className="mt-2 flex items-center gap-2">
-                <span className="text-[13px] font-black uppercase tracking-[2px] text-cyan-300">PyGenicArc Pvt. Ltd.</span>
-              </div>
+              {/* Bottom cyan bar */}
+              <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#a855f7 40%,#00eaff 60%,transparent)' }} />
             </div>
 
           </div>

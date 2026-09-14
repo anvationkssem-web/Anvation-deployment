@@ -14,7 +14,9 @@ export const INDIA_STATES_AND_UTS = [
 export const COLLEGE_INFO = {
   name: 'K. S. School of Engineering & Management',
   acronym: 'KSSEM',
-  trust: 'Kammavari Sangham (R) 1952 | K. S. Group of Institutions',
+  trust: 'Kammavari Sangham (R) 1952',
+  trustGroup: 'K. S. GROUP OF INSTITUTIONS',
+  trustCollege: 'K. S. SCHOOL OF ENGINEERING AND MANAGEMENT',
   department: 'Department of Computer Science and Engineering',
   associatedDepts: ['AI&DS', 'CS&BS', 'ECE'],
   hodName: 'Dr. K Venkata Rao',
