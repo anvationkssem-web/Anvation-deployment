@@ -8,7 +8,7 @@ export const FAQSection: React.FC = () => {
   const [filterCat, setFilterCat] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categories = ['All', 'Registration', 'Eligibility', 'Rules', 'Venue & Logistics', 'Submissions'];
+  const categories = ['All', 'Registration', 'Eligibility', 'Venue & Logistics'];
 
   const filteredFaqs = FAQS.filter(faq => {
     const matchesCat = filterCat === 'All' || faq.category === filterCat;
@@ -35,7 +35,7 @@ export const FAQSection: React.FC = () => {
             Got Questions? <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-fuchsia-400 to-orange-400">We've Got Answers</span>
           </h2>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-medium">
-            Everything you need to know about team registration, venue logistics, food, laptops, and evaluation at KSSEM Bengaluru.
+            Everything you need to know about team registration, venue logistics at KSSEM Bengaluru.
           </p>
         </motion.div>
 

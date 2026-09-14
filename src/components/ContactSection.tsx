@@ -17,7 +17,7 @@ export const ContactSection: React.FC = () => {
             Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-amber-400">Coordinators</span>
           </h2>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300">
-            Have questions regarding registration, travel guidelines, or sponsorships? Reach out to our team.
+            Have questions regarding registration and to reach the college? Reach out to our team.
           </p>
         </div>
 

@@ -48,19 +48,17 @@ export const PrizesSection: React.FC = () => {
           </div>
 
           {/* Winner 1st Place */}
-          <div className="order-1 md:order-2 p-8 rounded-3xl bg-gradient-to-b from-cyan-950/40 via-slate-950 to-slate-950 border-2 border-cyan-400 backdrop-blur-md shadow-[0_0_50px_rgba(6,182,212,0.3)] text-center space-y-4 relative transform hover:-translate-y-3 transition-transform scale-105 z-10">
+          <div className="order-1 md:order-2 w-full min-w-0 p-8 rounded-3xl bg-gradient-to-b from-cyan-950/40 via-slate-950 to-slate-950 border-2 border-cyan-400 backdrop-blur-md shadow-[0_0_50px_rgba(6,182,212,0.3)] text-center space-y-4 relative transform hover:-translate-y-3 transition-transform md:scale-105 z-10">
       
             <div className="w-20 h-20 mx-auto rounded-full bg-cyan-500/20 border-2 border-cyan-400 flex items-center justify-center text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.5)]">
               <Trophy className="w-10 h-10 animate-pulse text-yellow-300" />
             </div>
             <div>
-              <h3 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-emerald-300 mt-1 font-['Orbitron',sans-serif]">
+              <h3 className="whitespace-nowrap text-[clamp(2.75rem,10vw,5.5rem)] leading-none font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-emerald-300 mt-1 font-['Orbitron',sans-serif]">
                 ₹50,000
               </h3>
             </div>
-            <p className="text-xs text-slate-200 font-medium">
-              <h2>Prize pool</h2>
-            </p>
+            <p className="text-sm text-slate-200 font-semibold">Prize pool</p>
           </div>
 
           {/* 2nd Runner Up 3rd Place */}

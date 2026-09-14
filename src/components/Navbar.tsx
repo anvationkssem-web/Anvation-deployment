@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import anvationNavbarLogo from '../assets/branding/anvation-navbar-logo.png';
 import { PortalView } from '../types';
 import { useTheme } from '../theme';
-import { User, FileText, Menu, X, Rocket, Sparkles, Clock } from 'lucide-react';
+import { User, FileText, Menu, X, Rocket, Sparkles, Clock, Home } from 'lucide-react';
 
 interface NavbarProps {
   currentView: PortalView;
@@ -58,11 +58,22 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  const navItems = [
-    { label: 'About', id: 'about' },
-    { label: 'Domains', id: 'tracks' },
-    { label: 'Prizes', id: 'prizes' },
+  const scrollToTop = () => {
+    setMobileMenuOpen(false);
+    if (currentView !== 'landing') {
+      setCurrentView('landing');
+      setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
+  const navItems = [
+    { label: 'Domains', id: 'tracks' },
+    { label: 'About', id: 'about' },
+    { label: 'Prizes', id: 'prizes' },
+    { label: 'FAQs', id: 'faq' },
+    { label: 'Contact Us', id: 'contact' },
   ];
 
   return (
@@ -136,6 +147,16 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Shared Navigation Sub-bar */}
       <nav className="hidden lg:flex items-center justify-center gap-8 min-h-12 px-4 border-t border-slate-800/80 text-sm font-medium text-slate-300">
+        <button
+          onClick={scrollToTop}
+          className={`flex items-center gap-1.5 py-2 transition-colors hover:text-cyan-400 ${
+            currentView === 'landing' ? 'text-cyan-400' : ''
+          }`}
+          id="nav-home-btn"
+        >
+          <Home className="w-3.5 h-3.5" />
+          Home
+        </button>
         {navItems.map(item => (
           <button
             key={item.id}
@@ -162,6 +183,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           <div className="flex flex-col gap-3 font-medium text-slate-200 pt-2 border-t border-slate-800">
+            <button onClick={scrollToTop} className="text-left py-2 flex items-center gap-2 hover:text-cyan-400">
+              <Home className="w-4 h-4" />
+              Home
+            </button>
             {navItems.map(item => (
               <button
                 key={item.id}
