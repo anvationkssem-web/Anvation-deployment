@@ -290,7 +290,6 @@ export default function App() {
 
           <div className="flex flex-wrap items-center justify-center gap-6 font-semibold">
             <button onClick={() => { navigateToView('landing'); scrollToTop(); }} className="hover:text-pink-300 transition-colors">Home</button>
-            <button onClick={() => setIsRulebookModalOpen(true)} className="hover:text-orange-300 transition-colors">Rulebook PDF</button>
             <button onClick={() => navigateToView('participant')} className="hover:text-fuchsia-300 transition-colors">Participant Portal</button>
           </div>
 
