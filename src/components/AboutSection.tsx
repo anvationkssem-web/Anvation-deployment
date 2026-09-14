@@ -104,16 +104,8 @@ export const AboutSection: React.FC = () => {
                   K. S. School of Engineering & Management
                 </h3>
                 <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                K.S. School of Engineering and Management (KSSEM) is a premier institution under the umbrella of the Kammavari Sangham Group of Institutions (KSGI), which is run by the Kammavari Sangham, a voluntary, non-profit organization established in 1952 with a vision to serve society through impactful and inclusive education. With a rich heritage of philanthropic service, the Sangham has, over the decades, expanded its presence in the field of education by nurturing institutions that are committed to academic excellence and societal progress.                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs font-semibold text-slate-300">
-                  {COLLEGE_INFO.affiliations.map((aff, i) => (
-                    <div key={i} className="flex items-center gap-2 p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-cyan-300">
-                      <Award className="w-4 h-4 text-amber-400 shrink-0" />
-                      <span>{aff}</span>
-                    </div>
-                  ))}
-                </div>
+                K.S. School of Engineering and Management (KSSEM) is a premier institution under the umbrella of the Kammavari Sangham Group of Institutions (KSGI), which is run by the Kammavari Sangham, a voluntary, non-profit organization established in 1952 with a vision to serve society through impactful and inclusive education. With a rich heritage of philanthropic service, the Sangham has, over the decades, expanded its presence in the field of education by nurturing institutions that are committed to academic excellence and societal progress.
+                </p>
               </div>
 
               {/* Real Campus Building Photo Illustration */}
@@ -151,9 +143,7 @@ export const AboutSection: React.FC = () => {
                     <p className="text-xs text-slate-300 font-medium">{COLLEGE_INFO.hodTitle}</p>
                   </div>
                 </div>
-                <div className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-amber-300 font-semibold">
-                  Organizing Chair • Anvation 2026
-                </div>
+               
               </div>
 
               <div className="flex items-center gap-3">
@@ -166,21 +156,19 @@ export const AboutSection: React.FC = () => {
                 </div>
               </div>
               <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
-                The Department of Computer Science and Engineering (CSE) at KSSEM, under the visionary leadership of Dr. K. Venkata Rao, is committed to delivering quality education that develops strong technical knowledge, practical skills, and professional competence among students. The department is supported by state-of-the-art AI and Cloud laboratories, active IEEE/CIS and IEEE/RIS student chapters, and a strong track record of placements in top-tier MNCs and product unicorns. Through academic rigor, industry–academia interaction, interdisciplinary projects, research-oriented learning, and emphasis on soft skills, the department provides students with a well-rounded learning experience and prepares them to address evolving global challenges and excel as responsible Computer Science professionals.
+                The Department of Computer Science and Engineering (CSE) at KSSEM, under the visionary leadership of Dr. K. Venkata Rao, is committed to delivering quality education that develops strong technical knowledge, practical skills, and professional competence among students. The department is supported by state-of-the-art AI and Cloud laboratories, active IEEE Computational Intelligence Society and IEEE Robotics and Automation Society student chapters, and a strong track record of placements in top-tier MNCs and product unicorns. Through academic rigor, industry–academia interaction, interdisciplinary projects, research-oriented learning, and emphasis on soft skills, the department provides students with a well-rounded learning experience and prepares them to address evolving global challenges and excel as responsible Computer Science professionals.
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
                   <div className="text-amber-400 font-bold text-lg mb-1">State-of-the-Art Labs</div>
-                  <p className="text-xs text-slate-300">High-performance computing, GPU clusters for AI research, and high-speed fiber connectivity.</p>
+   
                 </div>
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
                   <div className="text-cyan-400 font-bold text-lg mb-1">Research & Grants</div>
-                  <p className="text-xs text-slate-300">Funded research projects by VTU, Management and industry partners in ML, IoT, and Cyber Security.</p>
                 </div>
                 <div className="p-4 rounded-xl bg-slate-800/60 border border-slate-700">
                   <div className="text-emerald-400 font-bold text-lg mb-1">Industry Mentorship</div>
-                  <p className="text-xs text-slate-300">Regular hackathons, Sill Labs,Placement Trainings and direct internship placement tie-ups.</p>
                 </div>
               </div>
             </div>

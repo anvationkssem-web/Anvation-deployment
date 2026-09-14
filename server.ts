@@ -689,6 +689,13 @@ export async function startServer(options: { listen?: boolean } = {}) {
   // Team IDs that would crash downstream lookups and React key rendering.
   let nextTeamNumber = 0;
 
+  // ---- Google Form integration (onFormSubmit webhook) ----
+  // Submissions landing through the site's public Google Form (Register Now button)
+  // are relayed here by a Google Apps Script trigger, converted into Teams, and
+  // pushed into the same team store that feeds /api/teams — so they appear in the
+  // admin portal's Participant Directory automatically. Guarded by a shared secret.
+  const googleFormWebhookSecret = String(process.env.GOOGLE_FORM_WEBHOOK_SECRET || '').trim();
+
   let cmsConfig: WebsiteCMSConfig = {
     eventName: "ANVATION 2026",
     eventSubName: "NATIONAL LEVEL 24-HOUR HACKATHON • EXPLORE, INNOVATE, TRANSFORM",
@@ -2021,6 +2028,125 @@ export async function startServer(options: { listen?: boolean } = {}) {
       console.error("[REGISTRATION ERROR]", err);
       res.status(500).json({ success: false, error: err.message || "An unexpected error occurred during registration." });
     }
+  });
+
+  // ============================================================================
+  // Google Form integration
+  // ============================================================================
+  // Converts a normalized Google Apps Script submission payload into a Team and
+  // appends it to the live store, so it shows up in /api/teams and the admin
+  // portal Participant Directory. See google/google-form-webhook.gs and the
+  // README "Google Form integration" section.
+  function buildTeamFromGooglePayload(p: any): { team: Team | null; missing: string[] } {
+    const missing: string[] = [];
+    const str = (v: any) => String(v == null ? '' : v).trim();
+    const teamName = str(p?.teamName);
+    const leader = p?.leader && typeof p?.leader === 'object' ? p.leader : {};
+    const leaderEmail = str(leader.email).toLowerCase();
+    const leaderName = str(leader.fullName);
+
+    if (!teamName) missing.push('teamName');
+    if (!leaderEmail) missing.push('leader.email');
+    if (!leaderName) missing.push('leader.fullName');
+    if (missing.length) return { team: null, missing };
+
+    const genderAllowed = new Set(['Male', 'Female', 'Other', 'Prefer not to say']);
+    const domain = str(p?.domain) || str(p?.preferredTrack) || 'General';
+
+    const teamIndex = ++nextTeamNumber;
+    const teamId = `AN-${String(teamIndex).padStart(3, '0')}`;
+
+    const mkParticipant = (pp: any, idx: number, role: 'Leader' | 'Member'): Participant => ({
+      id: `p-${teamIndex}-${idx}`,
+      fullName: sanitizeInputString(str(pp?.fullName)),
+      college: sanitizeInputString(str(pp?.college)),
+      state: sanitizeInputString(str(pp?.state)),
+      email: sanitizeInputString(str(pp?.email).toLowerCase()),
+      phone: sanitizeInputString(str(pp?.phone)),
+      usn: sanitizeInputString(str(pp?.usn).toUpperCase()),
+      gender: pp?.gender && genderAllowed.has(pp.gender) ? pp.gender : 'Other',
+      role,
+      teamId,
+      accommodationRequired: !!pp?.accommodationRequired,
+      checkedIn: false,
+      foodCouponsClaimed: { lunch1: false, dinner1: false, midnightSnack: false, breakfast2: false, lunch2: false }
+    });
+
+    const leaderParticipant = mkParticipant(leader, 1, 'Leader');
+    const formattedMembers: Participant[] = (Array.isArray(p?.members) ? p.members : [])
+      .filter((m: any) => m && typeof m === 'object' && str(m.email))
+      .map((m: any, i: number) => mkParticipant(m, i + 2, 'Member'));
+    const accessPassword = generatePortalPassword();
+
+    const team: Team = {
+      id: teamId,
+      teamName: sanitizeInputString(teamName),
+      leaderEmail,
+      accessPassword: hashPassword(accessPassword),
+      portalPasswordPlain: accessPassword,
+      domain: sanitizeInputString(domain),
+      preferredTrack: sanitizeInputString(domain),
+      members: [leaderParticipant, ...formattedMembers],
+      status: 'Registered',
+      createdAt: new Date().toISOString(),
+      projectSubmitted: false,
+      paymentStatus: 'Pending',
+      credentialDeliveryStatus: 'queued',
+      approvalStatus: 'PENDING',
+      approvalTimestamp: '',
+      approvalEmailStatus: 'PENDING',
+      approvalEmailSentAt: ''
+    };
+    return { team, missing };
+  }
+
+  app.post("/api/google-form/webhook", async (req, res) => {
+    if (!googleFormWebhookSecret) {
+      return res.status(503).json({ success: false, error: "Google Form webhook is disabled. Set the GOOGLE_FORM_WEBHOOK_SECRET environment variable." });
+    }
+    const provided = String(req.headers["x-webhook-secret"] || "").trim();
+    if (!provided || provided !== googleFormWebhookSecret) {
+      return res.status(401).json({ success: false, error: "Invalid or missing webhook secret." });
+    }
+    try {
+      const payload = req.body || {};
+
+      const result = await withRegistrationLock(async () => {
+        const { team, missing } = buildTeamFromGooglePayload(payload);
+        if (!team) {
+          return { status: 400, body: { success: false, stored: false, missing, message: `Missing required fields: ${missing.join(', ')}` } };
+        }
+        // Dedup against the live store (also catches re-sends across cold starts).
+        const existing = teams.find(t =>
+          t.leaderEmail.toLowerCase() === team.leaderEmail.toLowerCase() ||
+          t.teamName.toLowerCase() === team.teamName.toLowerCase()
+        );
+        if (existing) {
+          return { status: 200, body: { success: true, duplicate: true, team: sanitizeTeamForClient(existing), message: "Leader/team already registered." } };
+        }
+        teams.push(team);
+        markDirty();
+        rebuildUniquenessIndexes();
+        if (productionStoreEnabled) {
+          try {
+            await saveProductionTeam(team);
+          } catch (storageError: any) {
+            console.error("[DATABASE] Google Form team DB write failed:", storageError?.message || storageError);
+          }
+        }
+        return { status: 201, body: { success: true, team: sanitizeTeamForClient(team), message: "Google Form response registered as a team." } };
+      });
+
+      return res.status(result.status).json(result.body);
+    } catch (err: any) {
+      console.error("[GOOGLE-FORM] Webhook error:", err);
+      return res.status(500).json({ success: false, error: err?.message || "Webhook error" });
+    }
+  });
+
+  // Public-safe status used to confirm the webhook is configured (no sensitive data).
+  app.get("/api/google-form/status", (req, res) => {
+    res.json({ success: true, webhookConfigured: !!googleFormWebhookSecret });
   });
 
   // Admin Credential Re-delivery Endpoints

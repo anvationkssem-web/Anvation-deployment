@@ -238,6 +238,35 @@ Cluster mode keeps one authoritative process for data and API writes while
 workers serve static content and proxy API requests. It is optional; the
 default single-process mode is the simplest local setup.
 
+## Google Form integration
+
+The site's **Register Now** button links to a Google Form. To have those submissions
+appear in the admin portal automatically as team/participant entries:
+
+1. Set `GOOGLE_FORM_WEBHOOK_SECRET` (Vercel env var or local `.env`). This shared
+   secret guards the webhook.
+2. Copy `google/google-form-webhook.gs` into the Apps Script editor of the sheet
+   linked to your form's responses (Form → Responses → Link to Sheets, then
+   Extensions → Apps Script).
+3. In the script set `GOOGLE_FORM_WEBHOOK_URL` to
+   `https://<your-site>/api/google-form/webhook`, `GOOGLE_FORM_WEBHOOK_SECRET` to
+   the same secret, and edit `FIELD_MAP` so the question titles match your form's
+   exact column headers (you'll need the developer to supply the them).
+4. Save, authorize, then add an **On form submit** trigger (see the script header).
+
+Every response is POSTed to `/api/google-form/webhook`, which converts it into a
+`Team` (leader + required members) in the same store that feeds `/api/teams`, so it
+appears in the admin portal's Participant Directory. Behavior:
+
+- Required fields: `teamName`, `leader.email`, `leader.fullName`. If any are missing
+  the webhook returns `400` and names the missing fields (no team is created).
+- Re-submissions are deduplicated by leader email / team name.
+- Persisted to the JSON store and, when `DATABASE_URL` is set, to the production store.
+- Guarded by the shared secret: requests without the correct `x-webhook-secret`
+  header get a `401`.
+- `GET /api/google-form/status` returns `{ webhookConfigured }` so you can confirm
+  the secret is set on the server.
+
 ## Typical workflows
 
 ### Registration
