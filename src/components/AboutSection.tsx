@@ -74,7 +74,7 @@ export const AboutSection: React.FC = () => {
                   <p className="font-bold text-white text-xl leading-snug">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</p>
                   <p className="text-slate-400 text-[11px] leading-relaxed">Affiliated to VTU | Approved by AICTE | Accredited by NAAC &amp; NBA (CSE, ECE, ME &amp; CV)</p>
                   <p className="text-slate-400 text-[11px]">No. 15, Mallasandra, off. Kanakapura Road, Bengaluru - 560109</p>
-                  <p className="text-cyan-400 text-[11px] font-semibold">www.kssem.edu.in</p>
+                  <p className="text-cyan-400 text-[11px] font-semibold"><a href="https://kssem.edu.in/" target="_blank" rel="noopener noreferrer">www.kssem.edu.in</a></p>
                 </div>
               
                 <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
