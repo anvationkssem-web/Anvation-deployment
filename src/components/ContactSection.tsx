@@ -27,7 +27,7 @@ export const ContactSection: React.FC = () => {
               <div>
                 <div className="flex items-center justify-center gap-2 mb-2.5">
                   <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                  <h4 className="text-xs font-black uppercase text-amber-300 tracking-wider font-mono">Student Co-ordinators</h4>
+                  <h4 className="text-sm font-black uppercase text-amber-300 tracking-wider font-mono">Student Co-ordinators</h4>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 space-y-1 shadow-lg">
@@ -51,7 +51,7 @@ export const ContactSection: React.FC = () => {
               <div>
                 <div className="flex items-center justify-center gap-2 mb-2.5">
                   <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <h4 className="text-xs font-black uppercase text-cyan-300 tracking-wider font-mono">Faculty Co-ordinators</h4>
+                  <h4 className="text-sm font-black uppercase text-cyan-300 tracking-wider font-mono">Faculty Co-ordinators</h4>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
@@ -85,7 +85,7 @@ export const ContactSection: React.FC = () => {
               <div>
                 <div className="flex items-center justify-center gap-2 mb-2.5">
                   <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse" />
-                  <h4 className="text-xs font-black uppercase text-fuchsia-300 tracking-wider font-mono">Department Heads</h4>
+                  <h4 className="text-sm font-black uppercase text-fuchsia-300 tracking-wider font-mono">Department Heads</h4>
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   {[
@@ -101,7 +101,7 @@ export const ContactSection: React.FC = () => {
                 </div>
                 <div className="flex items-center justify-center gap-2 mb-2.5 mt-4">
                   <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                  <h4 className="text-xs font-black uppercase text-amber-300 tracking-wider font-mono">Leadership</h4>
+                  <h4 className="text-sm font-black uppercase text-amber-300 tracking-wider font-mono">Leadership</h4>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {[
