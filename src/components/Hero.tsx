@@ -181,20 +181,11 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 xl:gap-8 items-stretch">
 
           {/* Left: Poster */}
-          <div className="lg:col-span-7 relative rounded-[20px] xl:rounded-[28px] overflow-hidden"
-            style={{
-              background: 'linear-gradient(135deg, #020818 0%, #040c2e 30%, #06103a 55%, #0a0520 80%, #020818 100%)',
-              boxShadow: '0 0 60px rgba(34,211,238,0.15), 0 0 120px rgba(168,85,247,0.1), inset 0 0 80px rgba(6,182,212,0.05)',
-            }}>
-            {/* Corner glow accents */}
-            <div className="absolute top-0 left-0 w-40 h-40 rounded-full bg-cyan-500/20 blur-[60px] pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-40 h-40 rounded-full bg-violet-500/20 blur-[60px] pointer-events-none" />
-            <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: 'linear-gradient(90deg, transparent, rgba(34,211,238,0.6), rgba(168,85,247,0.4), transparent)' }} />
-            <div className="absolute bottom-0 left-0 right-0 h-[1px]" style={{ background: 'linear-gradient(90deg, transparent, rgba(168,85,247,0.4), rgba(34,211,238,0.6), transparent)' }} />
+          <div className="lg:col-span-7">
             <img
               src={anvation2026Poster}
               alt="Anvation 2026 National Level Hackathon"
-              className="relative z-10 block w-full h-auto"
+              className="block w-full h-auto rounded-[20px] xl:rounded-[28px]"
             />
           </div>
 
