@@ -299,9 +299,10 @@ export default function App() {
             {/* Branding & Tagline */}
             <div className="space-y-3">
               <p className="font-black text-base tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-white to-violet-300">
-                Anvation
+                Anvation 2026
               </p>
               <p className="text-slate-300 text-xs font-medium">National Level 24-Hr Hackathon</p>
+            <p className="text-xs text-slate-500 font-medium">KSSEM, Bengaluru, India</p>
               <p className="text-sm text-slate-400 flex items-center justify-center md:justify-start gap-1 font-mono">
                 <Globe className="w-4 h-4 text-cyan-500" />
                 <span>Bengaluru, Karnataka, India</span>
@@ -311,7 +312,7 @@ export default function App() {
             {/* Contact Us */}
             <div className="space-y-2 text-slate-300 text-sm leading-relaxed">
               <p className="font-black text-white text-base mb-1">Contact Us</p>
-              <p className="pt-1">📞 +91 9900710055 / +91 80 28425012</p>
+              <p className="pt-1">📞 +91 9663949447 / +91 9019302077</p>
               <p>✉ <a href="mailto:anvation2026@kssem.edu.in" className="text-cyan-400 hover:underline">anvation2026@kssem.edu.in</a></p>
             </div>
 
@@ -344,7 +345,7 @@ export default function App() {
 
           {/* Bottom copyright bar */}
           <div className="border-t border-slate-800/80 pt-6 text-center text-xs text-slate-500 space-y-1">
-            <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
+            <p>© 2026 Anvation2026. All rights reserved.</p>
             <p>Crafted by the Anvation Technical Team</p>
           </div>
 
