@@ -32,9 +32,9 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
   });
 
   const requirementItems = [
+    { title: 'OPPORTUNITIES', text: 'Internship opportunities & more', accent: 'emerald' },
+    { title: 'CERTFICATES', text: 'wining and participation Certificates', accent: 'sky' },
     { title: 'NETWORKING', text: 'Connect With Industry Mentors', accent: 'cyan' },
-    { title: 'CERTFICATES', text: 'Verified Certificates', accent: 'sky' },
-    { title: 'OPPORTUNITIES', text: 'Internship opportunities & more', accent: 'emerald' }
   ];
 
   // Dynamic Countdown Timer targeted precisely to October 8, 2026 09:30:00 AM IST
@@ -177,23 +177,11 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
       {/* Main Hero Grid Layout */}
       <div className="relative z-10 w-full max-w-7xl mx-auto space-y-8 pt-2">
         
-        {/* Top Badge Pill */}
-      
-
         {/* Content & 3D Interactive Hub Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Main Content Area (Left 7 cols) */}
           <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-            
-            {/* Host Institution Header */}
-            <div className="flex justify-center w-full">
-              <div className="flex flex-col items-center gap-1.5 text-center px-8 py-5 rounded-2xl bg-cyan-950/70 border border-cyan-400/50 w-full max-w-2xl shadow-[0_0_30px_rgba(34,211,238,0.15)]">
-                <span className="text-[13px] font-black tracking-[3px] text-cyan-300 uppercase w-full text-center">Kammavari Sangham (R) 1952</span>
-                <span className="text-[15px] font-black tracking-[3px] text-cyan-200 uppercase w-full text-center">K. S. GROUP OF INSTITUTIONS</span>
-                <span className="text-[17px] font-black tracking-[2px] uppercase w-full text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-white">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</span>
-              </div>
-            </div>
 
             {/* Event Title Banner */}
             <div className="relative aspect-[2.07/1] w-full rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
@@ -248,21 +236,21 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               <div className="grid grid-cols-2 gap-3">
                 <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-cyan-950/50 border border-cyan-500/25 flex items-center gap-3 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(34,211,238,0.18)] transition-all col-span-2">
                   <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 shrink-0">
-                    <Calendar className="w-4 h-4" />
+                    <Calendar className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-[14px] font-black text-white">OCT 8–9, 2026</div>
-                    <div className="text-[12px] text-cyan-200/80 font-semibold">24-Hour Non-stop</div>
+                    <div className="text-[17px] font-black text-white">OCT 8–9, 2026</div>
+                    <div className="text-[14px] text-cyan-200/80 font-semibold">24-Hour Non-stop</div>
                   </div>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-sky-950/50 border border-sky-500/25 flex items-center gap-3 hover:border-sky-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.18)] transition-all col-span-2">
                   <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-sky-400 shrink-0">
-                    <MapPin className="w-4 h-4" />
+                    <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-[14px] font-black text-white">KSSEM Bengaluru</div>
-                    <div className="text-[12px] text-sky-200/80 font-semibold">Campus Tech Labs</div>
+                    <div className="text-[17px] font-black text-white">KSSEM Bengaluru</div>
+                    <div className="text-[14px] text-sky-200/80 font-semibold"></div>
                   </div>
                 </div>
 
@@ -270,20 +258,20 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
 
               {/* Event Benefits Checklist */}
               <div className="pt-2 border-t border-slate-800 space-y-3 w-full">
-                <div className="text-[14px] font-bold text-slate-400 uppercase tracking-wider font-mono">
+                <div className="text-[15px] font-bold text-slate-400 uppercase tracking-wider font-mono">
                   REQUIREMENTS
                 </div>
-                <div className="grid grid-cols-1 gap-2 text-[13px] text-slate-300 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-2 text-[15px] text-slate-300 sm:grid-cols-2">
                   <div className="flex items-start gap-2">
-                    <Check className="w-3.5 h-3.5 text-cyan-400 shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                     <span className="leading-relaxed">Team: 2-4 Members</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span className="leading-relaxed">Registration cost: ₹250 per member</span>
                   </div>
                   <div className="flex items-start gap-2">
-                    <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span className="leading-relaxed">Bring your own Ethernet adapters</span>
                   </div>
                 </div>
@@ -298,12 +286,12 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
         <div className="flex w-full justify-center lg:justify-between">
           <div className="grid w-full max-w-[1280px] grid-cols-1 gap-4 items-stretch justify-items-stretch lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
             <div className="p-4 h-[180px] w-full rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.2)]">
-              <div className="text-xs font-extrabold text-cyan-300 uppercase tracking-widest mb-2.5 flex items-center justify-between">
+              <div className="font-extrabold text-cyan-300 uppercase tracking-widest mb-2.5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="font-['Orbitron',sans-serif]">ANVATION LAUNCH COUNTDOWN</span>
+                  <Sparkles className="w-5 h-5 text-cyan-400" />
+                  <span className="font-['Orbitron',sans-serif] text-[15px]">ANVATION 2026 LAUNCH</span>
                 </div>
-                <span className="font-mono text-[10px] text-emerald-400">OCT 8, 2026 • 09:30 AM IST</span>
+                <span className="font-mono text-[13px] text-emerald-400">OCT 8, 2026 • 09:30 AM IST</span>
               </div>
               <div className="grid grid-cols-4 gap-2 text-center">
                 <div className="relative overflow-hidden p-2 h-[90px] sm:p-3 rounded-xl bg-gradient-to-b from-slate-900/90 to-cyan-950/60 border border-cyan-500/40 shadow-[inset_0_0_18px_rgba(34,211,238,0.14)]">
@@ -329,10 +317,10 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               </div>
             </div>
 
-            <div className="p-4 h-[180px] w-full rounded-2xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-violet-500/35 shadow-[0_0_24px_rgba(168,85,247,0.18)]">
+            <div className="p-4 h-[220px] w-full rounded-2xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-violet-500/35 shadow-[0_0_24px_rgba(168,85,247,0.18)]">
               <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-[14px] font-black text-white tracking-wider uppercase">BENEFITS</span>
+                  <span className="font-mono text-[17px] font-black text-white tracking-wider uppercase">BENEFITS</span>
                 </div>
               </div>
 
@@ -348,18 +336,18 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                           : 'border-emerald-500/25 bg-gradient-to-br from-slate-900/90 to-emerald-950/50'
                     }`}
                   >
-                    <div className={`flex h-7 w-7 items-center justify-center rounded-lg ${
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${
                       item.accent === 'cyan'
                         ? 'bg-cyan-500/10 border border-cyan-500/30 text-cyan-400'
                         : item.accent === 'sky'
                           ? 'bg-sky-500/10 border border-sky-500/30 text-sky-400'
                           : 'bg-emerald-500/10 border border-emerald-500/30 text-emerald-400'
                     }`}>
-                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <CheckCircle2 className="w-4.5 h-4.5" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-[11px] font-black text-white uppercase tracking-wider leading-tight">{item.title}</div>
-                      <div className="mt-1 text-[10px] text-slate-300 leading-snug">{item.text}</div>
+                      <div className="text-[13px] font-black text-white uppercase tracking-wider leading-tight">{item.title}</div>
+                      <div className="mt-1 text-[12px] text-slate-300 leading-snug">{item.text}</div>
                     </div>
                   </div>
                 ))}
