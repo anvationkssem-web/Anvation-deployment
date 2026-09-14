@@ -181,23 +181,12 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 xl:gap-8 items-stretch">
 
           {/* Left: Poster */}
-          <div
-            className="lg:col-span-7 relative rounded-[20px] xl:rounded-[28px] overflow-hidden force-dark min-h-[340px] sm:min-h-[420px] lg:min-h-[500px] w-full"
-            style={{
-              backgroundImage: `url(${anvation2026Poster})`,
-              backgroundSize: '100% 100%',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-              backgroundColor: 'rgba(2,6,20,0.99)'
-            }}
-          >
-            <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
-            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#00eaff 40%,#a855f7 60%,transparent)' }} />
-            <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-400/70 pointer-events-none rounded-tl-sm" />
-            <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-fuchsia-400/70 pointer-events-none rounded-tr-sm" />
-            <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-fuchsia-400/70 pointer-events-none rounded-bl-sm" />
-            <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-cyan-400/70 pointer-events-none rounded-br-sm" />
-            <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#a855f7 40%,#00eaff 60%,transparent)' }} />
+          <div className="lg:col-span-7">
+            <img
+              src={anvation2026Poster}
+              alt="Anvation 2026 National Level Hackathon"
+              className="block w-full h-auto rounded-[20px] xl:rounded-[28px]"
+            />
           </div>
 
           {/* Right: Event Details */}
