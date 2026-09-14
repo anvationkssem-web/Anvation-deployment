@@ -15,7 +15,7 @@ import { AdminPortal } from './components/AdminPortal';
 import { CyberAtmosphereBackground } from './components/CyberAtmosphereBackground';
 import { COLLEGE_INFO, HACKATHON_SCHEDULE } from './data/mockData';
 import { PortalView } from './types';
-import { Heart, Globe, ArrowUp } from 'lucide-react';
+import { Globe, ArrowUp } from 'lucide-react';
 
 const REGISTRATION_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSe3t8qwKOL4RFlVk_z7VWdZ8IBmEuIrqPgEWWFestI9Q-5MLA/viewform?usp=dialog';
@@ -332,9 +332,7 @@ export default function App() {
             </div>
             <div className="text-[11px] text-slate-500 space-y-1">
               <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
-              <p className="flex items-center justify-center md:justify-start gap-1">
-                Crafted with <Heart className="w-3 h-3 text-pink-500 fill-pink-500" /> for Indian Hackers
-              </p>
+              <p>Crafted by the Anvation Technical Team</p>
             </div>
           </div>
 
