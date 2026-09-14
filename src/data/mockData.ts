@@ -66,7 +66,7 @@ export const COLLEGE_INFO = {
       badgeColor: 'from-amber-500 to-orange-600'
     },
     {
-      name: 'Prof. Ramesh Babu N',
+      name: 'Prof. Ramesh Babu. N',
       title: 'Professor & Head',
       dept: 'Department of CS&BS',
       badgeColor: 'from-cyan-600 to-blue-600'
