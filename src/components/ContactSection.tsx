@@ -91,7 +91,7 @@ export const ContactSection: React.FC = () => {
                   {[
                     { name: 'Dr. K Venkata Rao', role: 'Professor & Head, CSE' },
                     { name: 'Dr. Manjunath T K', role: 'Professor & Head, AI&DS' },
-                    { name: 'Prof. Ramesh Babu. N', role: 'Professor & Head, CS&BS' },
+                    { name: 'Prof. Ramesh Babu N', role: 'Professor & Head, CS&BS' },
                   ].map((p) => (
                     <div key={p.name} className="p-3.5 rounded-2xl bg-slate-900/90 border border-fuchsia-500/20 space-y-0.5">
                       <h5 className="font-bold text-white text-xs leading-snug">{p.name}</h5>

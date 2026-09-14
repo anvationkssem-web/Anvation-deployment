@@ -66,7 +66,7 @@ export const COLLEGE_INFO = {
       badgeColor: 'from-amber-500 to-orange-600'
     },
     {
-      name: 'Prof. Ramesh Babu. N',
+      name: 'Prof. Ramesh Babu N',
       title: 'Professor & Head',
       dept: 'Department of CS&BS',
       badgeColor: 'from-cyan-600 to-blue-600'
@@ -327,7 +327,7 @@ export const FAQS: FAQItem[] = [
 
   {
     question: 'What items should participants bring to the venue?',
-    answer: 'Participants must bring their college ID card, personal laptop, chargers, extension cords, ,Bring your own Ethernet adapters and necessary toiletries for overnight stay.',
+    answer: 'Participants must bring their college ID card, personal laptop, chargers, extension cords,bring your own Ethernet adapters and necessary toiletries for overnight stay.',
     category: 'Venue & Logistics'
   },
 ];
