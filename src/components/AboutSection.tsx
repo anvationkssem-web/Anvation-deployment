@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { COLLEGE_INFO } from '../data/mockData';
 import { Target, Eye, Award, MapPin } from 'lucide-react';
 import campusBgImage from '../assets/images/kssem_campus_real_1788194089427.jpg';
-import pygenarcBrandImage from '../assets/images/WhatsApp Image 2026-09-09 at 9.58.19 PM.jpeg';
 import hodimage from '../assets/images/hod.jpeg';
 import labimg from '../assets/images/lab.jpeg';
 import deptimg from '../assets/images/dept.jpeg';
 
 
 export const AboutSection: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'college' | 'ksgi' | 'dept' | 'vision' | 'campus'>('college');
+  const [activeTab, setActiveTab] = useState<'college' | 'dept' | 'campus'>('college');
 
   return (
     <section id="about" className="py-24 px-4 sm:px-6 lg:px-8 bg-transparent relative overflow-hidden">
@@ -60,41 +59,13 @@ export const AboutSection: React.FC = () => {
             >
               Campus Gallery
             </button>
-            <button
-              onClick={() => setActiveTab('ksgi')}
-              className={`flex-1 min-w-[130px] px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-                activeTab === 'ksgi'
-                  ? 'bg-gradient-to-r from-pink-600 via-fuchsia-600 to-orange-500 text-white shadow'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-              id="about-tab-ksgi-btn"
-            >
-              About PyGenicArc
-            </button>
+
           </div>
         </div>
 
         {/* Content Box */}
         <div className="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl">
-          {activeTab === 'ksgi' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              <div className="space-y-5">
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">PyGenicArc Technologies Pvt. Ltd</h3>
-                <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                  Education has evolved, but institutions still struggle with scattered systems and manual workloads. PyGenicArc integrates AI, Cloud, and Virtual Labs into one harmonized ecosystem, eliminating hardware limits and making accreditation audit-ready.
-                </p>
-              </div>
-              <div className="relative rounded-2xl overflow-hidden  p-8 text-center">
-                <img
-                  src={pygenarcBrandImage}
-                  alt="PyGenicArc - AI, Cloud, and Virtual Labs"
-                  className="mx-auto block w-full max-w-[320px] h-auto max-h-48 object-contain"
-                />
-              </div>
-            </div>
-          )}
-
-          {activeTab === 'college' && (
+{activeTab === 'college' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="space-y-5">
                 <div className="space-y-1 border-l-2 border-cyan-500/50 pl-4">
