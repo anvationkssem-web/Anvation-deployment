@@ -178,59 +178,16 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
       <div className="relative z-10 w-full max-w-7xl mx-auto space-y-8 pt-2">
         
         {/* Content & 3D Interactive Hub Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           
-          {/* Main Content Area (Left 7 cols) */}
-          <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-
-            {/* Event Title Banner */}
-            <div className="relative aspect-[2.07/1] w-full rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
-
-              {/* Neon border glow */}
-              <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
-
-              {/* Top cyan bar */}
-              <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#00eaff 40%,#a855f7 60%,transparent)' }} />
-
-              {/* Corner accents */}
-              <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-400/70 pointer-events-none rounded-tl-sm" />
-              <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-fuchsia-400/70 pointer-events-none rounded-tr-sm" />
-              <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-fuchsia-400/70 pointer-events-none rounded-bl-sm" />
-              <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-cyan-400/70 pointer-events-none rounded-br-sm" />
-
-              {/* Radial glow centre */}
-              <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 45% at 50% 38%,rgba(0,180,255,0.09),transparent)' }} />
-
-              <div className="absolute inset-0 flex items-center justify-center">
-                {/* Complete event artwork */}
-                <div className="absolute inset-0">
-                  <img
-                    src={anvation2026Poster}
-                    alt="Anvation 2026 National Level Hackathon"
-                    className="block h-full w-full object-cover drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
-                  />
-                </div>
-
-              </div>
-
-              {/* Bottom cyan bar */}
-              <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#a855f7 40%,#00eaff 60%,transparent)' }} />
-            </div>
-
-          </div>
-
-          {/* Right Column: Key Event Highlights & Live Operational Badges (5 cols) */}
-          <div className="lg:col-span-5 space-y-4 lg:pt-14">
-
-            {/* Quick Hackathon Key Highlights Card */}
-            <div className="p-5 sm:p-6 lg:h-[453px] rounded-3xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.2)] space-y-4 card-gradient-border force-dark">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10">
-                    <Radio className="h-3.5 w-3.5 text-cyan-400" />
-                  </span>
-                  <span className="font-mono text-[14px] font-black text-white tracking-wider uppercase">EVENT DETAILS</span>
-                </div>
+          {/* Left: Event Details */}
+          <div className="space-y-4">
+            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.2)] space-y-4 card-gradient-border force-dark h-full">
+              <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
+                <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10">
+                  <Radio className="h-3.5 w-3.5 text-cyan-400" />
+                </span>
+                <span className="font-mono text-[14px] font-black text-white tracking-wider uppercase">EVENT DETAILS</span>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -250,17 +207,12 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                   </div>
                   <div>
                     <div className="text-[17px] font-black text-white">KSSEM Bengaluru</div>
-                    <div className="text-[14px] text-sky-200/80 font-semibold"></div>
                   </div>
                 </div>
-
               </div>
 
-              {/* Event Benefits Checklist */}
               <div className="pt-2 border-t border-slate-800 space-y-3 w-full">
-                <div className="text-[15px] font-bold text-slate-400 uppercase tracking-wider font-mono">
-                  REQUIREMENTS
-                </div>
+                <div className="text-[15px] font-bold text-slate-400 uppercase tracking-wider font-mono">REQUIREMENTS</div>
                 <div className="grid grid-cols-1 gap-2 text-[15px] text-slate-300 sm:grid-cols-2">
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
@@ -277,7 +229,23 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                 </div>
               </div>
             </div>
+          </div>
 
+          {/* Right: Poster */}
+          <div className="relative rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
+            <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
+            <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#00eaff 40%,#a855f7 60%,transparent)' }} />
+            <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-400/70 pointer-events-none rounded-tl-sm" />
+            <div className="absolute top-3 right-3 w-6 h-6 border-t-2 border-r-2 border-fuchsia-400/70 pointer-events-none rounded-tr-sm" />
+            <div className="absolute bottom-3 left-3 w-6 h-6 border-b-2 border-l-2 border-fuchsia-400/70 pointer-events-none rounded-bl-sm" />
+            <div className="absolute bottom-3 right-3 w-6 h-6 border-b-2 border-r-2 border-cyan-400/70 pointer-events-none rounded-br-sm" />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 45% at 50% 38%,rgba(0,180,255,0.09),transparent)' }} />
+            <img
+              src={anvation2026Poster}
+              alt="Anvation 2026 National Level Hackathon"
+              className="block h-full w-full object-cover drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
+            />
+            <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#a855f7 40%,#00eaff 60%,transparent)' }} />
           </div>
 
         </div>
