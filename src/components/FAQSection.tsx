@@ -28,7 +28,7 @@ export const FAQSection: React.FC = () => {
           className="text-center space-y-3"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-400 text-xs font-black uppercase tracking-widest shadow-[0_0_15px_rgba(236,72,153,0.2)]">
-            <span className="text-orange-400 font-mono">//</span>
+            <span className="text-orange-400 font-mono"></span>
             <span>FREQUENTLY ASKED QUESTIONS</span>
           </div>
           <h2 className="text-3xl sm:text-6xl font-black text-white tracking-tight">
