@@ -14,7 +14,7 @@ import { AdminPortal } from './components/AdminPortal';
 import { CyberAtmosphereBackground } from './components/CyberAtmosphereBackground';
 import { COLLEGE_INFO, HACKATHON_SCHEDULE } from './data/mockData';
 import { PortalView } from './types';
-import { Globe, ArrowUp, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { ArrowUp, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 const REGISTRATION_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSe3t8qwKOL4RFlVk_z7VWdZ8IBmEuIrqPgEWWFestI9Q-5MLA/viewform?usp=dialog';
@@ -303,10 +303,6 @@ export default function App() {
               </p>
               <p className="text-slate-300 text-xs font-medium">National Level 24-Hr Hackathon</p>
             <p className="text-xs text-slate-500 font-medium">KSSEM, Bengaluru, India</p>
-              <p className="text-sm text-slate-400 flex items-center justify-center md:justify-start gap-1 font-mono">
-                <Globe className="w-4 h-4 text-cyan-500" />
-                <span>Bengaluru, Karnataka, India</span>
-              </p>
             </div>
 
             {/* Contact Us */}
