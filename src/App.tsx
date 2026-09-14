@@ -313,8 +313,8 @@ export default function App() {
           </div>
 
           {/* Venue & Contact */}
-          <div className="space-y-2 text-slate-300 text-xs leading-relaxed">
-            <p className="font-black text-white text-sm mb-1">Venue Address</p>
+          <div className="space-y-2 text-slate-300 text-sm leading-relaxed">
+            <p className="font-black text-white text-base mb-1">Venue Address</p>
             <p>
               <a href="https://www.kssem.edu.in" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline font-semibold">K. S. School of Engineering &amp; Management</a>
             </p>
