@@ -46,39 +46,57 @@ export const ContactSection: React.FC = () => {
               </div>
             </div>
 
-            {/* Faculty & Student Coordinators Grid */}
+            {/* Coordinators hierarchy */}
             <div className="space-y-4">
+
+              {/* Student Coordinators */}
+              <div>
+                <div className="flex items-center gap-2 mb-2.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                  <h4 className="text-xs font-black uppercase text-amber-300 tracking-wider font-mono">Student Co-ordinators</h4>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 space-y-1 shadow-lg">
+                    <h5 className="font-bold text-white text-sm">Bhaskar S</h5>
+                    <a href="tel:+919663949447" className="text-xs text-amber-300 font-mono hover:underline flex items-center gap-1 font-bold">
+                      <Phone className="w-3 h-3 text-amber-400" />
+                      <span>+91 9663949447</span>
+                    </a>
+                  </div>
+                  <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 space-y-1 shadow-lg">
+                    <h5 className="font-bold text-white text-sm">K Vennela</h5>
+                    <a href="tel:+919019302077" className="text-xs text-amber-300 font-mono hover:underline flex items-center gap-1 font-bold">
+                      <Phone className="w-3 h-3 text-amber-400" />
+                      <span>+91 9019302077</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Faculty Coordinators */}
               <div>
                 <div className="flex items-center gap-2 mb-2.5">
                   <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                  <h4 className="text-xs font-black uppercase text-cyan-300 tracking-wider font-mono">Faculty Coordinators</h4>
+                  <h4 className="text-xs font-black uppercase text-cyan-300 tracking-wider font-mono">Faculty Co-ordinators</h4>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-cyan-500/30 space-y-1 shadow-lg">
-                    <span className="text-[10px] font-bold uppercase text-cyan-400 tracking-wider block">Lead Faculty</span>
                     <h5 className="font-bold text-white text-xs leading-snug">Dr. Sivasubramanyam Medasani</h5>
-                    <p className="text-[11px] text-slate-400">Dept. of CSE, KSSEM</p>
-                    <a href="tel:+918309763125" className="text-xs text-cyan-300 font-mono pt-1 hover:underline flex items-center gap-1 font-bold">
+                    <a href="tel:+918309763125" className="text-xs text-cyan-300 font-mono hover:underline flex items-center gap-1 font-bold">
                       <Phone className="w-3 h-3 text-cyan-400" />
                       <span>+91 8309763125</span>
                     </a>
                   </div>
-
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-                    <span className="text-[10px] font-bold uppercase text-cyan-400 tracking-wider block">Faculty Coordinator</span>
-                    <h5 className="font-bold text-white text-xs leading-snug">Mr. Harshavardhan J R</h5>
-                    <p className="text-[11px] text-slate-400">Dept. of CSE, KSSEM</p>
-                    <a href="tel:+919448612519" className="text-xs text-slate-300 font-mono pt-1 hover:underline flex items-center gap-1">
+                    <h5 className="font-bold text-white text-xs leading-snug">Prof. Harshavardhan J R</h5>
+                    <a href="tel:+919448612519" className="text-xs text-slate-300 font-mono hover:underline flex items-center gap-1">
                       <Phone className="w-3 h-3 text-cyan-400" />
-                      <span>+91 94486 12519</span>
+                      <span>+91 9448612519</span>
                     </a>
                   </div>
-
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-1">
-                    <span className="text-[10px] font-bold uppercase text-cyan-400 tracking-wider block">Faculty Coordinator</span>
-                    <h5 className="font-bold text-white text-xs leading-snug">Ms. Vidyasre. N</h5>
-                    <p className="text-[11px] text-slate-400">Dept. of CSE, KSSEM</p>
-                    <a href="tel:+917975940301" className="text-xs text-slate-300 font-mono pt-1 hover:underline flex items-center gap-1">
+                    <h5 className="font-bold text-white text-xs leading-snug">Prof. Vidyasre N</h5>
+                    <a href="tel:+917975940301" className="text-xs text-slate-300 font-mono hover:underline flex items-center gap-1">
                       <Phone className="w-3 h-3 text-cyan-400" />
                       <span>+91 7975940301</span>
                     </a>
@@ -86,33 +104,28 @@ export const ContactSection: React.FC = () => {
                 </div>
               </div>
 
+              {/* HODs & Leadership */}
               <div>
                 <div className="flex items-center gap-2 mb-2.5">
-                  <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-                  <h4 className="text-xs font-black uppercase text-amber-300 tracking-wider font-mono">Student Coordinators</h4>
+                  <span className="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse" />
+                  <h4 className="text-xs font-black uppercase text-fuchsia-300 tracking-wider font-mono">Department Heads &amp; Leadership</h4>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 space-y-1 shadow-lg">
-                    <span className="text-[10px] font-bold uppercase text-amber-400 tracking-wider block">Student Coordinator</span>
-                    <h5 className="font-bold text-white text-sm">Bhaskar S</h5>
-                    <p className="text-xs text-slate-400">Dept. of CSE, KSSEM Bengaluru</p>
-                    <a href="tel:+919663949447" className="text-xs text-amber-300 font-mono pt-1 hover:underline flex items-center gap-1 font-bold">
-                      <Phone className="w-3 h-3 text-amber-400" />
-                      <span>+91 9663949447</span>
-                    </a>
-                  </div>
-
-                  <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-amber-500/30 space-y-1 shadow-lg">
-                    <span className="text-[10px] font-bold uppercase text-amber-400 tracking-wider block">Student Coordinator</span>
-                    <h5 className="font-bold text-white text-sm">Karanam Vennela</h5>
-                    <p className="text-xs text-slate-400">Dept. of CSE, KSSEM Bengaluru</p>
-                    <a href="tel:+919019302077" className="text-xs text-amber-300 font-mono pt-1 hover:underline flex items-center gap-1 font-bold">
-                      <Phone className="w-3 h-3 text-amber-400" />
-                      <span>+91 9019302077</span>
-                    </a>
-                  </div>
+                  {[
+                    { name: 'Dr. K Venkata Rao', role: 'Professor & Head, CSE' },
+                    { name: 'Dr. Manjunath T K', role: 'Professor & Head, AI&DS' },
+                    { name: 'Prof. Ramesh Babu. N', role: 'Professor & Head, CS&BS' },
+                    { name: 'Prof. Suresh RamaswwamyReddy', role: 'Principal & Director, KSSEM' },
+                    { name: 'Dr. K Channakeshavalu', role: 'Executive Director, KSGI' },
+                  ].map((p) => (
+                    <div key={p.name} className="p-3.5 rounded-2xl bg-slate-900/90 border border-fuchsia-500/20 space-y-0.5">
+                      <h5 className="font-bold text-white text-xs">{p.name}</h5>
+                      <p className="text-[11px] text-slate-400">{p.role}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
+
             </div>
 
             {/* Map Preview */}
