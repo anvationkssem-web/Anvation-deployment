@@ -32,7 +32,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
   });
 
   const requirementItems = [
-    { title: 'OPPORTUNITIES', text: 'Internship opportunities & more', accent: 'emerald' },
+    { title: 'OPPORTUNITIES', text: 'Internship opportunities', accent: 'emerald' },
     { title: 'CERTFICATES', text: 'wining and participation Certificates', accent: 'sky' },
     { title: 'NETWORKING', text: 'Connect With Industry Mentors', accent: 'cyan' },
   ];
