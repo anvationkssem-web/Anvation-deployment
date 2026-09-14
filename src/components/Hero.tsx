@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Sparkles, Trophy, Users, Building, Flame, ChevronDown, CheckCircle2, Calendar, MapPin, Award, Lightbulb, UserCheck, BrainCircuit, ExternalLink, Cpu, Shield, Activity, Sprout, BarChart3, Radio, Terminal, Code2, Zap, Check } from 'lucide-react';
 import { COLLEGE_INFO } from '../data/mockData';
 import campusBgImage from '../assets/images/kssem_campus_real_1788194089427.jpg';
-import anvationNavbarLogo from '../assets/branding/anvation-navbar-logo.png';
+import anvation2026Poster from '../assets/branding/anvation-2026-poster.png';
 
 
 interface HeroProps {
@@ -213,57 +213,13 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 45% at 50% 38%,rgba(0,180,255,0.09),transparent)' }} />
 
               <div className="flex flex-col items-center text-center px-6 py-10 sm:px-10 gap-0">
-
-                {/* National Level pill */}
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style={{ background: 'rgba(0,200,255,0.07)', border: '1px solid rgba(0,200,255,0.25)' }}>
-                  <span className="w-2 h-2 rounded-full bg-cyan-300" style={{ boxShadow: '0 0 8px #67e8f9' }} />
-                  <span className="text-[10px] font-black uppercase tracking-[3.5px] text-cyan-200">National Level &nbsp;·&nbsp; 24 Hours</span>
-                </div>
-
-                {/* HACKATHON */}
-                <div className="text-[13px] sm:text-[15px] font-black uppercase tracking-[8px] mb-3" style={{ background: 'linear-gradient(90deg,#c084fc,#f43f5e,#fb923c)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                  H A C K A T H O N
-                </div>
-
-                {/* ANVATION logotype */}
+                {/* Complete event artwork */}
                 <div className="flex w-full items-center justify-center px-2 sm:px-4">
                   <img
-                    src={anvationNavbarLogo}
-                    alt="Anvation"
-                    className="block h-auto w-full max-w-[660px] object-contain drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
+                    src={anvation2026Poster}
+                    alt="Anvation 2026 National Level Hackathon"
+                    className="block h-auto w-full max-w-[660px] rounded-xl object-contain drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
                   />
-                </div>
-
-                {/* Year */}
-                <div className="text-[13px] font-black tracking-[8px] mt-1 mb-5" style={{ color: '#94a3b8' }}>2 0 2 6</div>
-
-                {/* Divider */}
-                <div className="w-full max-w-xs h-px mb-5" style={{ background: 'linear-gradient(90deg,transparent,rgba(0,200,255,0.5),transparent)' }} />
-
-                {/* Organised By ribbon */}
-                <span className="inline-block text-white text-[10px] font-black uppercase tracking-[3px] px-8 py-2 mb-5" style={{ background: 'linear-gradient(90deg,#be185d,#dc2626,#ea580c)', clipPath: 'polygon(12px 0%,calc(100% - 12px) 0%,100% 50%,calc(100% - 12px) 100%,12px 100%,0% 50%)', letterSpacing: '3px' }}>
-                  Organised By
-                </span>
-
-                {/* Department */}
-                <p className="text-[13px] sm:text-[14px] font-black text-white uppercase tracking-wider mb-1">
-                  Dept. of Computer Science &amp; Engineering
-                </p>
-                <p className="text-[11px] font-semibold uppercase tracking-[3px] mb-5" style={{ color: '#64748b' }}>
-                  In assoc. with AI&amp;DS &nbsp;·&nbsp; CS&amp;BS
-                </p>
-
-                {/* Collaboration */}
-                <div className="flex items-center gap-3 w-full max-w-xs mb-3">
-                  <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg,transparent,rgba(100,116,139,0.5))' }} />
-                  <span className="text-[9px] font-black uppercase tracking-[3px]" style={{ color: '#475569' }}>Collaboration with</span>
-                  <div className="flex-1 h-px" style={{ background: 'linear-gradient(270deg,transparent,rgba(100,116,139,0.5))' }} />
-                </div>
-                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl" style={{ background: 'rgba(0,200,255,0.06)', border: '1px solid rgba(0,200,255,0.2)' }}>
-                  <div className="w-5 h-5 rounded-full border-2 border-cyan-400 flex items-center justify-center shrink-0">
-                    <div className="w-2 h-2 rounded-full bg-cyan-400" style={{ boxShadow: '0 0 6px #22d3ee' }} />
-                  </div>
-                  <span className="text-[13px] font-black uppercase tracking-[2px] text-cyan-300">PyGenicArc Pvt. Ltd.</span>
                 </div>
 
               </div>
