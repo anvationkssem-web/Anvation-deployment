@@ -24,12 +24,7 @@ export const COLLEGE_INFO = {
   address: 'No. 15, Mallasandra, off. Kanakapura Road, Bengaluru - 560109, Karnataka, India',
   phone: '+91 9900710055 / +91 80 28425012',
   email: 'anvation2026@kssem.edu.in',
-  affiliations: [
-    'Approved by AICTE',
-    'Affiliated to VTU',
-    'Accredited by NAAC',
-    'Accredited by NBA',
-  ],
+
   eventTitle: 'Anvation',
   eventTagline: 'explore, innovate, transform',
   dates: '8th - 9th October 2026',
@@ -133,20 +128,6 @@ export const HACKATHON_TRACKS: HackathonTrack[] = [
     color: 'from-cyan-500 via-sky-600 to-indigo-600'
   },
   {
-    id: 'fintech',
-    title: 'FinTech & Digital Finance',
-    iconName: 'Coins',
-    description: 'Build modern payment rails, fraud detection engines, micro-lending platforms, and decentralized transaction audit trails.',
-    problemExamples: [
-      'Real-time UPI payment anomaly & fraudulent transaction detection engine',
-      'Micro-lending credit scoring using alternative digital footprints for rural artisans',
-      'Automated tax compliance & invoicing reconciliation tool for Indian SMBs'
-    ],
-    expectedSolutions: 'Secure payment APIs, cryptographic ledgers, or algorithmic credit scoring interfaces.',
-    tags: ['UPI & Payments', 'Fraud Shield', 'Micro-Credit', 'DeFi'],
-    color: 'from-purple-500 via-indigo-600 to-violet-600'
-  },
-  {
     id: 'cybersecurity',
     title: 'Cybersecurity & Privacy',
     iconName: 'ShieldAlert',
@@ -159,6 +140,20 @@ export const HACKATHON_TRACKS: HackathonTrack[] = [
     expectedSolutions: 'Security analyzers, browser security shields, SIEM log parsers, or cryptographic privacy engines.',
     tags: ['Zero-Trust', 'Deepfake Detection', 'SIEM / Threat Intel', 'Cryptography'],
     color: 'from-blue-600 via-cyan-600 to-teal-600'
+  },
+  {
+    id: 'fintech',
+    title: 'FinTech & Digital Finance',
+    iconName: 'Coins',
+    description: 'Build modern payment rails, fraud detection engines, micro-lending platforms, and decentralized transaction audit trails.',
+    problemExamples: [
+      'Real-time UPI payment anomaly & fraudulent transaction detection engine',
+      'Micro-lending credit scoring using alternative digital footprints for rural artisans',
+      'Automated tax compliance & invoicing reconciliation tool for Indian SMBs'
+    ],
+    expectedSolutions: 'Secure payment APIs, cryptographic ledgers, or algorithmic credit scoring interfaces.',
+    tags: ['UPI & Payments', 'Fraud Shield', 'Micro-Credit', 'DeFi'],
+    color: 'from-purple-500 via-indigo-600 to-violet-600'
   },
   {
     id: 'smartcities',
@@ -319,29 +314,20 @@ export const FAQS: FAQItem[] = [
   },
   {
     question: 'What is the permitted team size and composition?',
-    answer: 'Teams must consist of 2 to 4 members (1 Leader + 1 to 3 Additional Members). Cross-departmental and cross-college teams are strongly encouraged!',
+    answer: 'Teams must consist of 2 to 4 members (1 Leader + 1 to 3 Additional Members). Inter-department teams are strongly encouraged!',
     category: 'Registration'
   },
   {
     question: 'Is there any registration fee?',
-    answer: 'The registration fee is ₹250 per head payable via PhonePe. Food, snacks, high-speed Wi-Fi, and overnight accommodation are fully provided by KSSEM.',
+    answer: 'The registration fee is ₹250 per head' ,
     category: 'Registration'
   },
-  {
-    question: 'Will accommodation and food be provided on campus?',
-    answer: 'Yes! KSSEM provides separate secure overnight resting areas for male and female participants, 24x7 security, high-speed Wi-Fi, along with 3 meal rounds and midnight snacks.',
-    category: 'Venue & Logistics'
-  },
+
   {
     question: 'What items should participants bring to the venue?',
-    answer: 'Participants must bring their college ID card, personal laptop, chargers, extension cords, hardware components (if submitting hardware track), and necessary toiletries for overnight stay.',
+    answer: 'Participants must bring their college ID card, personal laptop, chargers, extension cords, ,Bring your own Ethernet adapters and necessary toiletries for overnight stay.',
     category: 'Venue & Logistics'
   },
-  {
-    question: 'What deliverables are required for final submission?',
-    answer: 'Every team must submit a public GitHub repository with commit history during the event, a 3-minute video demo or live pitch, and a presentation slide deck (PPT/PDF).',
-    category: 'Submissions'
-  }
 ];
 
 export const SEED_TEAMS: Team[] = [];
