@@ -188,10 +188,10 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
             
             {/* Host Institution Header */}
             <div className="flex justify-center w-full">
-              <div className="flex flex-col items-center gap-1 text-center px-8 py-4 rounded-2xl bg-cyan-950/60 border border-cyan-500/30 w-full max-w-2xl">
-                <span className="text-[11px] font-black tracking-[3px] text-cyan-400 uppercase w-full text-center">Kammavari Sangham (R) 1952</span>
-                <span className="text-[12px] font-black tracking-[3px] text-cyan-300 uppercase w-full text-center">K. S. GROUP OF INSTITUTIONS</span>
-                <span className="text-[13px] font-black tracking-[2px] text-white uppercase w-full text-center">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</span>
+              <div className="flex flex-col items-center gap-1.5 text-center px-8 py-5 rounded-2xl bg-cyan-950/70 border border-cyan-400/50 w-full max-w-2xl shadow-[0_0_30px_rgba(34,211,238,0.15)]">
+                <span className="text-[13px] font-black tracking-[3px] text-cyan-300 uppercase w-full text-center">Kammavari Sangham (R) 1952</span>
+                <span className="text-[15px] font-black tracking-[3px] text-cyan-200 uppercase w-full text-center">K. S. GROUP OF INSTITUTIONS</span>
+                <span className="text-[17px] font-black tracking-[2px] uppercase w-full text-center text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-white">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</span>
               </div>
             </div>
 
