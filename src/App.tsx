@@ -345,8 +345,7 @@ export default function App() {
 
           {/* Bottom copyright bar */}
           <div className="border-t border-slate-800/80 pt-6 text-center text-xs text-slate-500 space-y-1">
-            <p>© 2026 Anvation2026. All rights reserved.</p>
-            <p>KSSEM, Bengaluru, Karnataka, India</p>
+            <p>© 2026 Anvation. All rights reserved.</p>
             <p>Crafted by the Anvation Technical Team</p>
           </div>
 
