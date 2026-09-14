@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { FAQS } from '../data/mockData';
-import { HelpCircle, ChevronDown, Search, Plus, Minus } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export const FAQSection: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [filterCat, setFilterCat] = useState<string>('All');
-  const [searchQuery, setSearchQuery] = useState('');
 
   const categories = ['All', 'Registration', 'Eligibility', 'Venue & Logistics'];
 
   const filteredFaqs = FAQS.filter(faq => {
     const matchesCat = filterCat === 'All' || faq.category === filterCat;
-    const matchesSearch = faq.question.toLowerCase().includes(searchQuery.toLowerCase()) || faq.answer.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCat && matchesSearch;
+    return matchesCat;
   });
 
   return (
@@ -39,20 +37,8 @@ export const FAQSection: React.FC = () => {
           </p>
         </motion.div>
 
-        {/* Filter & Search Bar */}
+        {/* Filter Bar */}
         <div className="space-y-4">
-          <div className="relative max-w-md mx-auto">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search FAQs..."
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs sm:text-sm focus:border-pink-500 focus:outline-none shadow-inner"
-              id="faq-search-input"
-            />
-          </div>
-
           <div className="flex flex-wrap justify-center gap-2">
             {categories.map((cat) => (
               <button
