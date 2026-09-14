@@ -181,7 +181,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 xl:gap-8 items-stretch">
 
           {/* Left: Poster */}
-          <div className="lg:col-span-7 relative rounded-[20px] xl:rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
+          <div className="lg:col-span-7 relative rounded-[20px] xl:rounded-[28px] overflow-hidden force-dark flex items-center justify-center" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
             <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
             <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#00eaff 40%,#a855f7 60%,transparent)' }} />
             <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-400/70 pointer-events-none rounded-tl-sm" />
@@ -192,7 +192,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
             <img
               src={anvation2026Poster}
               alt="Anvation 2026 National Level Hackathon"
-              className="block h-full w-full object-contain drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
+              className="block w-full h-full object-contain max-h-[520px] drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
             />
             <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#a855f7 40%,#00eaff 60%,transparent)' }} />
           </div>
