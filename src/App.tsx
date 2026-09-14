@@ -14,7 +14,7 @@ import { AdminPortal } from './components/AdminPortal';
 import { CyberAtmosphereBackground } from './components/CyberAtmosphereBackground';
 import { COLLEGE_INFO, HACKATHON_SCHEDULE } from './data/mockData';
 import { PortalView } from './types';
-import { ArrowUp, Instagram, Linkedin, Youtube } from 'lucide-react';
+import { ArrowUp, Instagram, Linkedin, Youtube, Facebook } from 'lucide-react';
 
 const REGISTRATION_FORM_URL =
   'https://docs.google.com/forms/d/e/1FAIpQLSe3t8qwKOL4RFlVk_z7VWdZ8IBmEuIrqPgEWWFestI9Q-5MLA/viewform?usp=dialog';
@@ -329,6 +329,10 @@ export default function App() {
                 <a href="https://www.linkedin.com/company/kssem-cse/" target="_blank" rel="noopener noreferrer"
                   className="p-2 rounded-lg bg-slate-900/80 border border-slate-700 hover:border-cyan-500/60 hover:bg-cyan-950/40 hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all duration-300">
                   <Linkedin className="w-4 h-4 text-cyan-400" />
+                </a>
+                <a href="https://www.facebook.com/share/19KGEeEvn1/" target="_blank" rel="noopener noreferrer"
+                  className="p-2 rounded-lg bg-slate-900/80 border border-slate-700 hover:border-blue-500/60 hover:bg-blue-950/40 hover:shadow-[0_0_12px_rgba(59,130,246,0.3)] transition-all duration-300">
+                  <Facebook className="w-4 h-4 text-blue-400" />
                 </a>
                 <a href="https://youtube.com/@kssem_cse?si=paSpc6EAErhkUwqg" target="_blank" rel="noopener noreferrer"
                   className="p-2 rounded-lg bg-slate-900/80 border border-slate-700 hover:border-red-500/60 hover:bg-red-950/40 hover:shadow-[0_0_12px_rgba(239,68,68,0.3)] transition-all duration-300">
