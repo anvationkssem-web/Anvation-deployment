@@ -364,30 +364,21 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
                 <Lightbulb className="w-5 h-5" />
               </div>
-              <div>
-                <div className="text-xs font-extrabold text-white uppercase tracking-wider font-mono">EXPLORE</div>
-                <div className="text-[11px] text-slate-400">Discover breakthrough technology frontiers</div>
-              </div>
+              <div className="text-xs font-extrabold text-white uppercase tracking-wider font-mono">EXPLORE</div>
             </div>
 
             <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-900/50 border border-slate-800/80">
               <div className="w-10 h-10 rounded-full bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">
                 <Code2 className="w-5 h-5" />
               </div>
-              <div>
-                <div className="text-xs font-extrabold text-white uppercase tracking-wider font-mono">INNOVATE</div>
-                <div className="text-[11px] text-slate-400">Build high-impact functional solutions in 24 hours</div>
-              </div>
+              <div className="text-xs font-extrabold text-white uppercase tracking-wider font-mono">INNOVATE</div>
             </div>
 
             <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-900/50 border border-slate-800/80">
               <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
                 <BrainCircuit className="w-5 h-5" />
               </div>
-              <div>
-                <div className="text-xs font-extrabold text-white uppercase tracking-wider font-mono">TRANSFORM</div>
-                <div className="text-[11px] text-slate-400">Turn ideas into scalable, real-world products</div>
-              </div>
+              <div className="text-xs font-extrabold text-white uppercase tracking-wider font-mono">TRANSFORM</div>
             </div>
 
 
