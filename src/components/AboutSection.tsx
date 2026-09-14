@@ -97,17 +97,15 @@ export const AboutSection: React.FC = () => {
           {activeTab === 'college' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
               <div className="space-y-5">
-                <div className="space-y-0.5 text-xs text-slate-300 font-medium border-l-2 border-cyan-500/50 pl-3">
-                  <p className="text-cyan-300 font-bold">Kammavari Sangham (R) 1952</p>
-                  <p className="font-black text-white text-sm">K. S. GROUP OF INSTITUTIONS</p>
-                  <p className="font-black text-white text-sm">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</p>
-                  <p className="text-slate-400">Affiliated to VTU | Approved by AICTE | Accredited by NAAC &amp; NBA (CSE, ECE, ME &amp; CIV)</p>
-                  <p className="text-slate-400">No. 15, Mallasandra, off. Kanakapura Road, Bengaluru - 560109</p>
-                  <p className="text-cyan-400">www.kssem.edu.in</p>
+                <div className="space-y-1 border-l-2 border-cyan-500/50 pl-4">
+                  <p className="text-cyan-300 font-black text-[11px] uppercase tracking-widest">Kammavari Sangham (R) 1952</p>
+                  <p className="font-black text-white text-lg leading-tight">K. S. GROUP OF INSTITUTIONS</p>
+                  <p className="font-bold text-white text-sm leading-snug">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</p>
+                  <p className="text-slate-400 text-[11px] leading-relaxed">Affiliated to VTU | Approved by AICTE | Accredited by NAAC &amp; NBA (CSE, ECE, ME &amp; CIV)</p>
+                  <p className="text-slate-400 text-[11px]">No. 15, Mallasandra, off. Kanakapura Road, Bengaluru - 560109</p>
+                  <p className="text-cyan-400 text-[11px] font-semibold">www.kssem.edu.in</p>
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-                  K. S. School of Engineering & Management
-                </h3>
+              
                 <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
                 K.S. School of Engineering and Management (KSSEM) is a premier institution under the umbrella of the Kammavari Sangham Group of Institutions (KSGI), which is run by the Kammavari Sangham, a voluntary, non-profit organization established in 1952 with a vision to serve society through impactful and inclusive education. With a rich heritage of philanthropic service, the Sangham has, over the decades, expanded its presence in the field of education by nurturing institutions that are committed to academic excellence and societal progress.
                 </p>
