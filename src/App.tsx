@@ -338,13 +338,16 @@ export default function App() {
                   <Youtube className="w-4 h-4 text-red-400" />
                 </a>
               </div>
-              <div className="text-xs text-slate-400 space-y-1 text-center">
-                <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
-                <p>Crafted by the Anvation Technical Team</p>
-              </div>
             </div>
 
           </div>
+
+          {/* Bottom copyright bar */}
+          <div className="border-t border-slate-800/80 pt-6 text-center text-xs text-slate-500 space-y-1">
+            <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
+            <p>Crafted by the Anvation Technical Team</p>
+          </div>
+
         </div>
       </footer>
     </div>
