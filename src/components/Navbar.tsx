@@ -93,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <img
             src={anvationNavbarLogo}
             alt="Anvation — Explore, Innovate, Transform"
-            className={`block h-[68px] w-auto max-w-[300px] sm:max-w-[390px] lg:h-[76px] object-contain object-left drop-shadow-[0_0_18px_rgba(34,211,238,0.45)] ${isLight ? '' : 'mix-blend-screen'}`}
+            className={`block h-[68px] w-auto max-w-[300px] sm:max-w-[390px] lg:h-[76px] object-contain object-center drop-shadow-[0_0_18px_rgba(34,211,238,0.45)] ${isLight ? '' : 'mix-blend-screen'}`}
           />
         </button>
 

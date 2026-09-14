@@ -192,7 +192,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
             <img
               src={anvation2026Poster}
               alt="Anvation 2026 National Level Hackathon"
-              className="block h-full w-full object-cover drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
+              className="block h-full w-full object-contain drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
             />
             <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#a855f7 40%,#00eaff 60%,transparent)' }} />
           </div>
