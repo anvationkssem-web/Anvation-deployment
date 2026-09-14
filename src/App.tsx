@@ -197,10 +197,10 @@ export default function App() {
                 <div className="absolute bottom-2 left-4 w-1.5 h-1.5 rounded-full bg-fuchsia-400/70" />
                 <div className="absolute bottom-2 right-4 w-1.5 h-1.5 rounded-full bg-cyan-400/70" />
                 <span
-                  className="relative text-[22px] sm:text-[30px] font-black uppercase tracking-[0.18em] text-transparent bg-clip-text"
+                  className="relative text-[16px] sm:text-[22px] lg:text-[26px] xl:text-[30px] font-black uppercase tracking-[0.12em] sm:tracking-[0.18em] text-transparent bg-clip-text"
                   style={{ backgroundImage: 'linear-gradient(90deg, #67e8f9 0%, #ffffff 40%, #e0f2fe 60%, #c4b5fd 100%)', textShadow: 'none', filter: 'drop-shadow(0 0 18px rgba(34,211,238,0.55))' }}
                 >K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</span>
-                <span className="relative text-[14px] font-bold tracking-[6px] uppercase mt-0.5" style={{ color: 'rgba(103,232,249,0.85)', letterSpacing: '0.35em' }}>✦ Bengaluru ✦</span>
+                <span className="relative text-[11px] sm:text-[13px] lg:text-[14px] font-bold tracking-[6px] uppercase mt-0.5" style={{ color: 'rgba(103,232,249,0.85)', letterSpacing: '0.35em' }}>✦ Bengaluru ✦</span>
               </div>
               <Hero
                 onOpenRegister={openRegistration}

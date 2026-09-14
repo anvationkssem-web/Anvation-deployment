@@ -32,9 +32,9 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
   });
 
   const requirementItems = [
-    { title: 'OPPORTUNITIES', text: 'Internship opportunities', accent: 'emerald' },
-    { title: 'CERTFICATES', text: 'wining and participation Certificates', accent: 'sky' },
-    { title: 'NETWORKING', text: 'Connect With Industry Mentors', accent: 'cyan' },
+    { title: 'OPPORTUNITIES', text: 'Internship', accent: 'emerald' },
+    { title: 'CERTFICATES', text: 'Wining and Participation Certificates', accent: 'sky' },
+    { title: 'NETWORKING', text: 'Connect with Industry Mentors', accent: 'cyan' },
   ];
 
   // Dynamic Countdown Timer targeted precisely to October 8, 2026 09:30:00 AM IST
@@ -157,7 +157,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-between items-center overflow-hidden pt-6 pb-12 px-4 sm:px-6 lg:px-8 bg-transparent">
+    <section className="relative min-h-screen flex flex-col justify-between items-center overflow-hidden pt-4 pb-10 px-3 sm:px-6 lg:px-8 bg-transparent">
       {/* Background Campus Image Layer with Holographic Blending */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 scale-105 filter contrast-125 saturate-150 pointer-events-none mix-blend-screen"
@@ -175,13 +175,13 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0 opacity-80" />
 
       {/* Main Hero Grid Layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto space-y-8 pt-2">
+      <div className="relative z-10 w-full max-w-7xl mx-auto space-y-4 sm:space-y-6 pt-2">
         
         {/* Content & 3D Interactive Hub Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 xl:gap-8 items-stretch">
 
           {/* Left: Poster */}
-          <div className="lg:col-span-7 relative rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
+          <div className="lg:col-span-7 relative rounded-[20px] xl:rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
             <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
             <div className="absolute top-0 left-0 right-0 h-[2px]" style={{ background: 'linear-gradient(90deg,transparent,#00eaff 40%,#a855f7 60%,transparent)' }} />
             <div className="absolute top-3 left-3 w-6 h-6 border-t-2 border-l-2 border-cyan-400/70 pointer-events-none rounded-tl-sm" />
@@ -199,7 +199,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
 
           {/* Right: Event Details */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.2)] space-y-4 card-gradient-border force-dark h-full">
+            <div className="p-4 sm:p-5 xl:p-6 rounded-2xl xl:rounded-3xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.2)] space-y-3 xl:space-y-4 card-gradient-border force-dark h-full">
               <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
                 <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10">
                   <Radio className="h-3.5 w-3.5 text-cyan-400" />
@@ -251,8 +251,8 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
         </div>
 
         {/* Countdown and requirements panel aligned below the hero cards without resizing the existing windows */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          <div className="lg:col-span-7 p-4 h-[180px] w-full rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.2)]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 xl:gap-8 items-stretch">
+          <div className="lg:col-span-7 p-3 sm:p-4 min-h-[160px] w-full rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.2)]">
               <div className="font-extrabold text-cyan-300 uppercase tracking-widest mb-2.5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-cyan-400" />
@@ -284,14 +284,14 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               </div>
             </div>
 
-          <div className="lg:col-span-5 p-4 h-[220px] w-full rounded-2xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-violet-500/35 shadow-[0_0_24px_rgba(168,85,247,0.18)]">
+          <div className="lg:col-span-5 p-3 sm:p-4 min-h-[180px] w-full rounded-2xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-violet-500/35 shadow-[0_0_24px_rgba(168,85,247,0.18)]">
               <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-[17px] font-black text-white tracking-wider uppercase">BENEFITS</span>
                 </div>
               </div>
 
-              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3 h-[calc(100%-52px)]">
+              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3 min-h-[100px]">
                 {requirementItems.map((item) => (
                   <div
                     key={item.title}
