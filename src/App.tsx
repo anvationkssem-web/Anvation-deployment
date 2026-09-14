@@ -302,7 +302,7 @@ export default function App() {
                 Anvation 2026
               </p>
               <p className="text-slate-300 text-xs font-medium">National Level 24-Hr Hackathon</p>
-            <p className="text-xs text-slate-500 font-medium">KSSEM, Bengaluru, India</p>
+            <p className="text-sm text-slate-500 font-medium">KSSEM, Bengaluru, India</p>
             </div>
 
             {/* Contact Us */}
