@@ -293,38 +293,6 @@ export default function App() {
       <footer className="relative z-10 bg-[var(--surface-nav-solid)] border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400">
         <div className="max-w-7xl mx-auto space-y-10">
 
-          {/* Stay Connected */}
-          <div className="text-center space-y-4 pb-8 border-b border-slate-800/80">
-            <p className="text-xs font-black uppercase tracking-[0.3em] text-cyan-400 font-mono">✦ Stay Connected ✦</p>
-            <p className="text-slate-400 text-sm">Get the latest updates, announcements, and opportunities from ANVATION.</p>
-            <div className="flex items-center justify-center gap-4">
-              <a
-                href="https://www.instagram.com/kssemcse?stkn=MjY2bmJocnl3anU="
-                target="_blank" rel="noopener noreferrer"
-                className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 hover:border-pink-500/60 hover:bg-pink-950/40 hover:shadow-[0_0_18px_rgba(236,72,153,0.3)] transition-all duration-300"
-              >
-                <Instagram className="w-5 h-5 text-pink-400 group-hover:text-pink-300" />
-                <span className="text-sm font-semibold text-slate-300 group-hover:text-white">Instagram</span>
-              </a>
-              <a
-                href="https://www.linkedin.com/company/kssem-cse/"
-                target="_blank" rel="noopener noreferrer"
-                className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 hover:border-cyan-500/60 hover:bg-cyan-950/40 hover:shadow-[0_0_18px_rgba(34,211,238,0.3)] transition-all duration-300"
-              >
-                <Linkedin className="w-5 h-5 text-cyan-400 group-hover:text-cyan-300" />
-                <span className="text-sm font-semibold text-slate-300 group-hover:text-white">LinkedIn</span>
-              </a>
-              <a
-                href="https://youtube.com/@kssem_cse?si=paSpc6EAErhkUwqg"
-                target="_blank" rel="noopener noreferrer"
-                className="group flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900/80 border border-slate-700 hover:border-red-500/60 hover:bg-red-950/40 hover:shadow-[0_0_18px_rgba(239,68,68,0.3)] transition-all duration-300"
-              >
-                <Youtube className="w-5 h-5 text-red-400 group-hover:text-red-300" />
-                <span className="text-sm font-semibold text-slate-300 group-hover:text-white">YouTube</span>
-              </a>
-            </div>
-          </div>
-
           {/* 3-column grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
 
@@ -355,6 +323,20 @@ export default function App() {
               <div className="text-xs text-slate-400 space-y-1">
                 <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
                 <p>Crafted by the Anvation Technical Team</p>
+              </div>
+              <div className="flex items-center justify-center md:justify-start gap-3 pt-1">
+                <a href="https://www.instagram.com/kssemcse?stkn=MjY2bmJocnl3anU=" target="_blank" rel="noopener noreferrer"
+                  className="p-2 rounded-lg bg-slate-900/80 border border-slate-700 hover:border-pink-500/60 hover:bg-pink-950/40 hover:shadow-[0_0_12px_rgba(236,72,153,0.3)] transition-all duration-300">
+                  <Instagram className="w-4 h-4 text-pink-400" />
+                </a>
+                <a href="https://www.linkedin.com/company/kssem-cse/" target="_blank" rel="noopener noreferrer"
+                  className="p-2 rounded-lg bg-slate-900/80 border border-slate-700 hover:border-cyan-500/60 hover:bg-cyan-950/40 hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all duration-300">
+                  <Linkedin className="w-4 h-4 text-cyan-400" />
+                </a>
+                <a href="https://youtube.com/@kssem_cse?si=paSpc6EAErhkUwqg" target="_blank" rel="noopener noreferrer"
+                  className="p-2 rounded-lg bg-slate-900/80 border border-slate-700 hover:border-red-500/60 hover:bg-red-950/40 hover:shadow-[0_0_12px_rgba(239,68,68,0.3)] transition-all duration-300">
+                  <Youtube className="w-4 h-4 text-red-400" />
+                </a>
               </div>
             </div>
 
