@@ -31,7 +31,7 @@ export const PrizesSection: React.FC = () => {
             Prizes & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-emerald-300">Awards</span>
           </h2>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-medium">
-            Rewarding innovation, technical brilliance, and product execution across the 24-hour hackathon.
+            Rewarding innovation, technical brilliance, and product execution across the National level 24-hour hackathon.
           </p>
         </motion.div>
 

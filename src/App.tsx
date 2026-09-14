@@ -319,7 +319,7 @@ export default function App() {
               </div>
               <div className="pt-2 space-y-1">
                 <p className="text-xs font-black uppercase tracking-widest text-cyan-400 font-mono">✦ Stay Connected ✦</p>
-                <p className="text-xs text-slate-500">Get the latest updates, announcements, from ANVATION.</p>
+                <p className="text-xs text-slate-500">Get the latest updates, announcements from ANVATION.</p>
               </div>
               <div className="flex items-center justify-center md:justify-start gap-3 pt-1">
                 <a href="https://www.instagram.com/kssemcse?stkn=MjY2bmJocnl3anU=" target="_blank" rel="noopener noreferrer"
