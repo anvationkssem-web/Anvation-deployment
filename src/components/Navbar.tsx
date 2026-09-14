@@ -89,15 +89,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Right Portal Switcher & Action CTAs */}
         <div className="hidden md:flex items-center gap-3">
           <button
-            onClick={onOpenRulebook}
-            className="flex items-center gap-1.5 text-orange-300 hover:text-orange-200 bg-orange-500/10 px-3 py-1.5 rounded-lg border border-orange-500/30 transition-all hover:bg-orange-500/20"
-            id="nav-rulebook-btn"
-          >
-            <FileText className="w-3.5 h-3.5 text-orange-400" />
-            <span>Rulebook</span>
-          </button>
-
-          <button
             onClick={() => setCurrentView('participant')}
             className={`px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
               currentView === 'participant'
@@ -180,9 +171,6 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {item.label}
               </button>
             ))}
-            <button onClick={onOpenRulebook} className="text-left py-2 text-orange-400 flex items-center gap-2">
-              <FileText className="w-4 h-4" /> Rulebook
-            </button>
           </div>
         </div>
       )}
