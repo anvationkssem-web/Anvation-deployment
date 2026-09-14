@@ -302,20 +302,13 @@ export default function App() {
 
           {/* Branding & Tagline */}
           <div className="space-y-3">
-            <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap">
-              <span className="font-black text-white text-base tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-fuchsia-300 to-orange-400">
-                KSSEM Anvation 1.0
-              </span>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-pink-950/80 text-pink-300 border border-pink-500/40">
-                National Level 24-Hr Hackathon
-              </span>
-            </div>
-            <p className="text-slate-300 text-xs font-medium leading-relaxed">
-              KSSEM Anvation 1.0 — National Level 24-Hr Hackathon | Bengaluru Tech Innovation Hub
+            <p className="font-black text-base tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-white to-violet-300">
+              Anvation
             </p>
-            <p className="text-[11px] text-pink-400/90 flex items-center justify-center md:justify-start gap-1 font-mono">
-              <Globe className="w-3.5 h-3.5 text-orange-400" />
-              <span>Bengaluru Tech Innovation Hub</span>
+            <p className="text-slate-300 text-xs font-medium">National Level 24-Hr Hackathon</p>
+            <p className="text-[11px] text-slate-500 flex items-center justify-center md:justify-start gap-1 font-mono">
+              <Globe className="w-3.5 h-3.5 text-cyan-500" />
+              <span>Bengaluru, Karnataka, India</span>
             </p>
           </div>
 
