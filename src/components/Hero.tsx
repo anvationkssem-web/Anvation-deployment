@@ -182,10 +182,10 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
 
           {/* Left: Poster */}
           <div
-            className="lg:col-span-7 relative rounded-[20px] xl:rounded-[28px] overflow-hidden force-dark min-h-[340px] sm:min-h-[420px] lg:min-h-[500px]"
+            className="lg:col-span-7 relative rounded-[20px] xl:rounded-[28px] overflow-hidden force-dark min-h-[340px] sm:min-h-[420px] lg:min-h-[500px] w-full"
             style={{
               backgroundImage: `url(${anvation2026Poster})`,
-              backgroundSize: 'contain',
+              backgroundSize: '100% 100%',
               backgroundRepeat: 'no-repeat',
               backgroundPosition: 'center',
               backgroundColor: 'rgba(2,6,20,0.99)'
