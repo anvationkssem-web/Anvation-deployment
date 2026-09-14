@@ -324,6 +324,10 @@ export default function App() {
                 <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
                 <p>Crafted by the Anvation Technical Team</p>
               </div>
+              <div className="pt-2 space-y-1">
+                <p className="text-xs font-black uppercase tracking-widest text-cyan-400 font-mono">✦ Stay Connected ✦</p>
+                <p className="text-xs text-slate-500">Get the latest updates, announcements, from ANVATION.</p>
+              </div>
               <div className="flex items-center justify-center md:justify-start gap-3 pt-1">
                 <a href="https://www.instagram.com/kssemcse?stkn=MjY2bmJocnl3anU=" target="_blank" rel="noopener noreferrer"
                   className="p-2 rounded-lg bg-slate-900/80 border border-slate-700 hover:border-pink-500/60 hover:bg-pink-950/40 hover:shadow-[0_0_12px_rgba(236,72,153,0.3)] transition-all duration-300">
