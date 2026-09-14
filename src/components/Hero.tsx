@@ -195,7 +195,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
             </div>
 
             {/* Event Title Banner */}
-            <div className="relative rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
+            <div className="relative aspect-[2.07/1] w-full rounded-[28px] overflow-hidden force-dark" style={{ background: 'linear-gradient(145deg,rgba(5,15,35,0.98),rgba(2,6,20,0.99))' }}>
 
               {/* Neon border glow */}
               <div className="absolute inset-0 rounded-[28px] pointer-events-none" style={{ boxShadow: '0 0 0 1px rgba(0,200,255,0.25), 0 0 40px rgba(0,150,255,0.08) inset' }} />
@@ -212,13 +212,13 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               {/* Radial glow centre */}
               <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse 70% 45% at 50% 38%,rgba(0,180,255,0.09),transparent)' }} />
 
-              <div className="flex flex-col items-center text-center px-6 py-10 sm:px-10 gap-0">
+              <div className="absolute inset-0 flex items-center justify-center">
                 {/* Complete event artwork */}
-                <div className="flex w-full items-center justify-center px-2 sm:px-4">
+                <div className="absolute inset-0">
                   <img
                     src={anvation2026Poster}
                     alt="Anvation 2026 National Level Hackathon"
-                    className="block h-auto w-full max-w-[660px] rounded-xl object-contain drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
+                    className="block h-full w-full object-cover drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
                   />
                 </div>
 
