@@ -41,7 +41,7 @@ export const ThemesSection: React.FC<ThemesSectionProps> = ({ onOpenRegister }) 
             DOMAINS
           </h2>
           
-          <p className="max-w-2xl mx-auto text-lg sm:text-xl lg:text-2xl text-slate-300 font-normal leading-relaxed">
+          <p className="max-w-2xl mx-auto text-lg sm:text-xl lg:text-2xl text-slate-300 font-normal leading-relaxed whitespace-nowrap">
             Choose from cutting-edge technology domains to build breakthrough solutions during the <span className="whitespace-nowrap">24-hour national level hackathon.</span>
           </p>
         </motion.div>
