@@ -225,11 +225,11 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                 <div className="grid grid-cols-1 gap-2 text-[15px] text-slate-300 sm:grid-cols-2">
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">Team: 2-4 Members</span>
+                    <span className="leading-relaxed">Team Size: 2-4 Members</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">Registration cost: ₹250 per member</span>
+                    <span className="leading-relaxed">Registration Fee: ₹250 per member</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
