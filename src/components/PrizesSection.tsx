@@ -54,12 +54,12 @@ export const PrizesSection: React.FC = () => {
               <Trophy className="w-10 h-10 animate-pulse text-yellow-300" />
             </div>
             <div>
-              <h3 className="text-4xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-emerald-300 mt-1 font-['Orbitron',sans-serif]">
+              <h3 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-emerald-300 mt-1 font-['Orbitron',sans-serif]">
                 ₹50,000
               </h3>
             </div>
             <p className="text-xs text-slate-200 font-medium">
-              Prize pool
+              <h2>Prize pool</h2>
             </p>
           </div>
 
