@@ -91,12 +91,21 @@ export const ContactSection: React.FC = () => {
                     { name: 'Dr. K Venkata Rao', role: 'Professor & Head, CSE' },
                     { name: 'Dr. Manjunath T K', role: 'Professor & Head, AI&DS' },
                     { name: 'Prof. Ramesh Babu. N', role: 'Professor & Head, CS&BS' },
-                    { name: 'Prof. Suresh RamaswwamyReddy', role: 'Principal & Director, KSSEM' },
-                    { name: 'Dr. K Channakeshavalu', role: 'Executive Director, KSGI' },
                   ].map((p) => (
                     <div key={p.name} className="p-3.5 rounded-2xl bg-slate-900/90 border border-fuchsia-500/20 space-y-0.5">
                       <h5 className="font-bold text-white text-xs">{p.name}</h5>
                       <p className="text-[11px] text-slate-400">{p.role}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+                  {[
+                    { name: 'Prof. Suresh RamaswwamyReddy', role: 'Principal & Director, KSSEM' },
+                    { name: 'Dr. K Channakeshavalu', role: 'Executive Director, KSGI' },
+                  ].map((p) => (
+                    <div key={p.name} className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-fuchsia-950/30 border border-fuchsia-400/40 space-y-0.5 shadow-[0_0_12px_rgba(192,38,211,0.15)]">
+                      <h5 className="font-bold text-white text-xs">{p.name}</h5>
+                      <p className="text-[11px] text-fuchsia-300">{p.role}</p>
                     </div>
                   ))}
                 </div>
