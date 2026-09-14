@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
   const requirementItems = [
     { title: 'NETWORKING', text: 'Connect With Industry Mentors', accent: 'cyan' },
     { title: 'CERTFICATES', text: 'Verified Certificates', accent: 'sky' },
-    { title: 'OPPERTUNITIES', text: 'Internship opportunities & more', accent: 'emerald' }
+    { title: 'OPPORTUNITIES', text: 'Internship opportunities & more', accent: 'emerald' }
   ];
 
   // Dynamic Countdown Timer targeted precisely to October 8, 2026 09:30:00 AM IST
@@ -187,10 +187,11 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
           <div className="lg:col-span-7 text-center lg:text-left space-y-6">
             
             {/* Host Institution Header */}
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-black tracking-widest text-cyan-300 uppercase px-3.5 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30">
-                <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
-                <span>{COLLEGE_INFO.trust}</span>
+            <div className="flex justify-center w-full">
+              <div className="flex flex-col items-center gap-1 text-center px-8 py-4 rounded-2xl bg-cyan-950/60 border border-cyan-500/30 w-full max-w-2xl">
+                <span className="text-[11px] font-black tracking-[3px] text-cyan-400 uppercase w-full text-center">Kammavari Sangham (R) 1952</span>
+                <span className="text-[12px] font-black tracking-[3px] text-cyan-300 uppercase w-full text-center">K. S. GROUP OF INSTITUTIONS</span>
+                <span className="text-[13px] font-black tracking-[2px] text-white uppercase w-full text-center">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</span>
               </div>
             </div>
 
