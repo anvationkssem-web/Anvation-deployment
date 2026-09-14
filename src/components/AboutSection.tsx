@@ -134,11 +134,10 @@ export const AboutSection: React.FC = () => {
                 <div className="flex items-center gap-4">
                   <img
                     src={hodimage}
-                    alt="Head of Department"
+                   
                     className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover shadow-lg border border-cyan-300/40"
                   />
                   <div>
-                    <span className="text-xs font-bold text-cyan-400 uppercase tracking-widest block">Head of Department</span>
                     <h4 className="text-xl sm:text-2xl font-black text-white">{COLLEGE_INFO.hodName}</h4>
                     <p className="text-xs text-slate-300 font-medium">{COLLEGE_INFO.hodTitle}</p>
                   </div>
