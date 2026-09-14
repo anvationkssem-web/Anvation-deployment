@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import anvationNavbarLogo from '../assets/branding/anvation-navbar-logo.png';
 import { PortalView } from '../types';
 import { useTheme } from '../theme';
-import { User, FileText, Menu, X, Rocket, Sparkles, Clock, Home } from 'lucide-react';
+import { Menu, X, Rocket, Home } from 'lucide-react';
 
 interface NavbarProps {
   currentView: PortalView;
@@ -97,22 +97,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           />
         </button>
 
-        {/* Right Portal Switcher & Action CTAs */}
+        {/* Right Action CTAs */}
         <div className="hidden md:flex items-center gap-3">
-          <button
-            onClick={() => setCurrentView('participant')}
-            className={`px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
-              currentView === 'participant'
-                ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-white hover:bg-slate-800'
-            }`}
-            id="nav-view-participant-btn"
-          >
-            <User className="w-3.5 h-3.5" />
-            <span>Participant Login</span>
-          </button>
-
-          {/* Primary Register CTA */}
+          {/* Primary Register CTA */
           <button
             onClick={onOpenRegister}
             className="relative group overflow-hidden px-5 py-2.5 rounded-xl font-extrabold text-sm text-white bg-gradient-to-r from-pink-600 via-fuchsia-600 to-orange-500 shadow-[0_0_20px_rgba(219,39,119,0.5)] hover:shadow-[0_0_30px_rgba(249,115,22,0.8)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 border border-pink-400/40"
@@ -172,17 +159,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-[var(--surface-drawer)] border-b border-cyan-500/30 px-4 py-6 space-y-4 animate-fadeIn">
-          <div className="bg-slate-900 p-1.5 rounded-xl border border-slate-700 text-center text-xs font-semibold">
-            <button
-              onClick={() => { setCurrentView('participant'); setMobileMenuOpen(false); }}
-              className={`w-full py-2 rounded-lg ${currentView === 'participant' ? 'bg-purple-600 text-white' : 'text-slate-400'}`}
-              id="mobile-portal-participant-btn"
-            >
-              Participant Login
-            </button>
-          </div>
-
-          <div className="flex flex-col gap-3 font-medium text-slate-200 pt-2 border-t border-slate-800">
+          <div className="flex flex-col gap-3 font-medium text-slate-200 pt-2">
             <button onClick={scrollToTop} className="text-left py-2 flex items-center gap-2 hover:text-cyan-400">
               <Home className="w-4 h-4" />
               Home

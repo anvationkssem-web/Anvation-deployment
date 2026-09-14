@@ -250,12 +250,6 @@ export default function App() {
         </main>
       )}
 
-      {currentView === 'participant' && (
-        <div className="relative z-10">
-          <ParticipantPortal onOpenRulebook={() => setIsRulebookModalOpen(true)} />
-        </div>
-      )}
-
       {currentView === 'admin' && (
         <div className="relative z-10">
           {adminSessionState === 'checking' ? (
