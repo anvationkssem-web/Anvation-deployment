@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Sparkles, Trophy, Users, Building, Flame, ChevronDown, CheckCircle2, Calendar, MapPin, Award, Lightbulb, UserCheck, BrainCircuit, ExternalLink, Cpu, Shield, Activity, Sprout, BarChart3, Radio, Terminal, Code2, Zap, Check } from 'lucide-react';
 import { COLLEGE_INFO } from '../data/mockData';
 import campusBgImage from '../assets/images/kssem_campus_real_1788194089427.jpg';
+import anvationNavbarLogo from '../assets/branding/anvation-navbar-logo.png';
 
 
 interface HeroProps {
@@ -32,7 +33,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
 
   const requirementItems = [
     { title: 'NETWORKING', text: 'Connect With Industry Mentors', accent: 'cyan' },
-    { title: 'CERTFICATES', text: 'Verified E-Certificates', accent: 'sky' },
+    { title: 'CERTFICATES', text: 'Verified Certificates', accent: 'sky' },
     { title: 'OPPERTUNITIES', text: 'Internship opportunities & more', accent: 'emerald' }
   ];
 
@@ -193,59 +194,95 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               </div>
             </div>
 
-            {/* Event Title Banner - Lighter, Radiant Holographic Aesthetic */}
-            <div className="space-y-4 relative p-6 sm:p-8 lg:h-[450px] rounded-3xl bg-gradient-to-b from-slate-900/90 via-slate-950/85 to-slate-950/90 backdrop-blur-2xl overflow-hidden group transition-all duration-500 card-gradient-border force-dark">
-              {/* Corner Cyber Accents */}
-              <div className="absolute top-2 left-2 w-5 h-5 border-t-2 border-l-2 border-cyan-300 pointer-events-none" />
-              <div className="absolute top-2 right-2 w-5 h-5 border-t-2 border-r-2 border-emerald-300 pointer-events-none" />
-              <div className="absolute bottom-2 left-2 w-5 h-5 border-b-2 border-l-2 border-emerald-300 pointer-events-none" />
-              <div className="absolute bottom-2 right-2 w-5 h-5 border-b-2 border-r-2 border-cyan-300 pointer-events-none" />
+            {/* Event Title Banner */}
+            <div className="relative min-h-[460px] rounded-[28px] bg-[radial-gradient(circle_at_50%_18%,rgba(14,165,233,0.16),transparent_34%),linear-gradient(145deg,rgba(8,24,45,0.97),rgba(2,6,23,0.97))] backdrop-blur-2xl overflow-hidden card-gradient-border force-dark flex flex-col justify-center items-center text-center px-5 py-10 sm:px-8 gap-0 shadow-[0_24px_80px_rgba(2,8,23,0.55)]">
+              {/* Corner accents */}
+              <div className="absolute top-2 left-2 w-5 h-5 border-t-2 border-l-2 border-cyan-400/60 pointer-events-none" />
+              <div className="absolute top-2 right-2 w-5 h-5 border-t-2 border-r-2 border-amber-400/60 pointer-events-none" />
+              <div className="absolute bottom-2 left-2 w-5 h-5 border-b-2 border-l-2 border-amber-400/60 pointer-events-none" />
+              <div className="absolute bottom-2 right-2 w-5 h-5 border-b-2 border-r-2 border-cyan-400/60 pointer-events-none" />
+              {/* Subtle inner glow */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,rgba(34,211,238,0.07),transparent_65%)] pointer-events-none" />
 
-              
-
-             
-
-              
-
-              {/* Glowing Lighter Hackathon Title */}
-              <div className="relative py-2">
-                <h2 className="relative text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-none font-['Orbitron',sans-serif]">
-                  <span aria-hidden="true" className="absolute inset-0 select-none text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-amber-400 uppercase blur-[12px] opacity-70">
-                    {cms.eventName}
-                  </span>
-                  <span className="relative text-transparent bg-clip-text bg-[length:200%_auto] animate-gradient-flow bg-gradient-to-r from-cyan-200 via-sky-100 via-fuchsia-200 via-rose-200 to-amber-200 drop-shadow-[0_0_30px_rgba(56,189,248,0.45)] uppercase">
-                    {cms.eventName}
-                  </span>
-                </h2>
+              {/* 1 — National Level pill */}
+              <div className="inline-flex items-center gap-2.5 mb-4 rounded-full border border-cyan-400/20 bg-cyan-950/30 px-3.5 py-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_10px_rgba(103,232,249,0.9)]" />
+                <span className="text-[9px] font-black uppercase tracking-[3px] text-cyan-200 sm:text-[10px]">National Level · 24 Hours</span>
               </div>
 
-              <p className="max-w-2xl text-xs sm:text-base text-slate-200 leading-relaxed font-semibold">
-                Organized by the <strong>Department of Computer Science and Engineering</strong>, KSSEM, in association with the Departments of Artificial Intelligence and Data Science and Computer Science and Business Studies, in collaboration with PyGenicArc Pvt. Ltd.
-              </p>
+              {/* 2 — HACKATHON label */}
+              <div
+                className="text-[12px] sm:text-[14px] font-black uppercase tracking-[6px] mb-2"
+                style={{
+                  background: 'linear-gradient(90deg,#c084fc,#f43f5e,#fb923c)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                }}
+              >Hackathon</div>
 
-              {/* Key Badges Bar */}
-              <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-2.5">
-                
+              {/* 3 — ANVATION logotype */}
+              <div className="flex w-full items-center justify-center px-2 sm:px-4">
+                <img
+                  src={anvationNavbarLogo}
+                  alt="Anvation"
+                  className="block h-auto w-full max-w-[660px] object-contain drop-shadow-[0_0_24px_rgba(34,211,238,0.28)]"
+                />
+              </div>
 
-              
+              {/* 4 — Year tag */}
+              <div className="text-[11px] font-black tracking-[5px] text-slate-400 uppercase mt-1 mb-4">2026</div>
 
-               
+              {/* 5 — Divider */}
+              <div className="my-1 h-px w-full max-w-sm bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
+
+              {/* 6 — Organised By ribbon */}
+              <span
+                className="inline-block text-white text-[9px] font-black uppercase tracking-[2.5px] px-7 py-1.5 mb-4"
+                style={{
+                  background: 'linear-gradient(90deg,#db2777,#ea580c)',
+                  clipPath: 'polygon(10px 0%,calc(100% - 10px) 0%,100% 50%,calc(100% - 10px) 100%,10px 100%,0% 50%)',
+                }}
+              >Organised By</span>
+
+              {/* 7 — Department stack */}
+              <div className="space-y-1">
+                <p className="text-[12px] sm:text-[13px] font-black text-white uppercase tracking-wide">
+                  Dept. of Computer Science &amp; Engineering
+                </p>
+                <p className="text-[10px] text-slate-400 uppercase tracking-widest">
+                  In assoc. with AI&amp;DS · CS&amp;BS
+                </p>
+              </div>
+
+              {/* 8 — Collaboration row */}
+              <div className="mt-4 flex items-center gap-2.5">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-slate-700" />
+                <span className="text-[9px] uppercase tracking-[3px] text-slate-500 font-bold">Collaboration with</span>
+                <div className="h-px flex-1 bg-gradient-to-l from-transparent to-slate-700" />
+              </div>
+              <div className="mt-2 flex items-center gap-2">
+                <span className="text-[13px] font-black uppercase tracking-[2px] text-cyan-300">PyGenicArc Pvt. Ltd.</span>
               </div>
             </div>
 
           </div>
 
           {/* Right Column: Key Event Highlights & Live Operational Badges (5 cols) */}
-          <div className="lg:col-span-5 space-y-4 lg:pt-13">
+          <div className="lg:col-span-5 space-y-4 lg:pt-14">
 
             {/* Quick Hackathon Key Highlights Card */}
             <div className="p-5 sm:p-6 lg:h-[453px] rounded-3xl bg-gradient-to-b from-slate-950/95 to-slate-950/90 backdrop-blur-xl border border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.2)] space-y-4 card-gradient-border force-dark">
               <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div className="flex items-center gap-2">
-                  
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10">
+                    <Radio className="h-3.5 w-3.5 text-cyan-400" />
+                  </span>
                   <span className="font-mono text-[14px] font-black text-white tracking-wider uppercase">EVENT DETAILS</span>
                 </div>
-      
+                <span className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[2px] text-emerald-400">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
+                  Live
+                </span>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -304,7 +341,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               <div className="text-xs font-extrabold text-cyan-300 uppercase tracking-widest mb-2.5 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                  <span className="font-['Orbitron',sans-serif]">HACKATHON LAUNCH COUNTDOWN</span>
+                  <span className="font-['Orbitron',sans-serif]">ANVATION LAUNCH COUNTDOWN</span>
                 </div>
                 <span className="font-mono text-[10px] text-emerald-400">OCT 8, 2026 • 09:30 AM IST</span>
               </div>
