@@ -200,7 +200,7 @@ export default function App() {
                   className="relative text-[22px] sm:text-[30px] font-black uppercase tracking-[0.18em] text-transparent bg-clip-text"
                   style={{ backgroundImage: 'linear-gradient(90deg, #67e8f9 0%, #ffffff 40%, #e0f2fe 60%, #c4b5fd 100%)', textShadow: 'none', filter: 'drop-shadow(0 0 18px rgba(34,211,238,0.55))' }}
                 >K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</span>
-                <span className="relative text-[10px] font-bold tracking-[6px] uppercase mt-0.5" style={{ color: 'rgba(103,232,249,0.85)', letterSpacing: '0.35em' }}>✦ Bengaluru ✦</span>
+                <span className="relative text-[14px] font-bold tracking-[6px] uppercase mt-0.5" style={{ color: 'rgba(103,232,249,0.85)', letterSpacing: '0.35em' }}>✦ Bengaluru ✦</span>
               </div>
               <Hero
                 onOpenRegister={openRegistration}
