@@ -243,10 +243,6 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                   </span>
                   <span className="font-mono text-[14px] font-black text-white tracking-wider uppercase">EVENT DETAILS</span>
                 </div>
-                <span className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-[2px] text-emerald-400">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)]" />
-                  Live
-                </span>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
