@@ -305,14 +305,9 @@ export default function App() {
             </p>
           </div>
 
-          {/* Venue & Contact */}
+          {/* Contact Us */}
           <div className="space-y-2 text-slate-300 text-sm leading-relaxed">
-            <p className="font-black text-white text-base mb-1">Venue Address</p>
-            <p>
-              <a href="https://www.kssem.edu.in" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline font-semibold">K. S. School of Engineering &amp; Management</a>
-            </p>
-            <p>Department of Computer Science and Engineering</p>
-            <p>No. 15, Mallasandra, off. Kanakapura Road,<br />Bengaluru - 560109, Karnataka, India</p>
+            <p className="font-black text-white text-base mb-1">Contact Us</p>
             <p className="pt-1">📞 +91 9900710055 / +91 80 28425012</p>
             <p>✉ <a href="mailto:anvation2026@kssem.edu.in" className="text-cyan-400 hover:underline">anvation2026@kssem.edu.in</a></p>
           </div>
