@@ -306,8 +306,8 @@ export default function App() {
               Anvation
             </p>
             <p className="text-slate-300 text-xs font-medium">National Level 24-Hr Hackathon</p>
-            <p className="text-[11px] text-slate-500 flex items-center justify-center md:justify-start gap-1 font-mono">
-              <Globe className="w-3.5 h-3.5 text-cyan-500" />
+            <p className="text-sm text-slate-400 flex items-center justify-center md:justify-start gap-1 font-mono">
+              <Globe className="w-4 h-4 text-cyan-500" />
               <span>Bengaluru, Karnataka, India</span>
             </p>
           </div>
