@@ -37,17 +37,12 @@ export const ThemesSection: React.FC<ThemesSectionProps> = ({ onOpenRegister }) 
           transition={{ duration: 0.6 }}
           className="text-center space-y-4"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold tracking-wider shadow-[0_0_20px_rgba(6,182,212,0.2)]">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>INNOVATION DOMAINS</span>
-          </div>
-          
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight font-['Space_Grotesk',sans-serif]">
-            Domains & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">Innovation Tracks</span>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight font-['Space_Grotesk',sans-serif] text-center">
+            DOMAINS
           </h2>
           
-          <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
-            Choose from 5 cutting-edge technology domains to build breakthrough solutions during the 24-hour national hackathon.
+          <p className="max-w-2xl mx-auto text-lg sm:text-xl lg:text-2xl text-slate-300 font-normal leading-relaxed">
+            Choose from cutting-edge technology domains to build breakthrough solutions during the <span className="whitespace-nowrap">24-hour national hackathon.</span>
           </p>
         </motion.div>
 
