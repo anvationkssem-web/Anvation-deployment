@@ -99,7 +99,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Action CTAs */}
         <div className="hidden md:flex items-center gap-3">
-          {/* Primary Register CTA */
+          {/* Primary Register CTA */}
           <button
             onClick={onOpenRegister}
             className="relative group overflow-hidden px-5 py-2.5 rounded-xl font-extrabold text-sm text-white bg-gradient-to-r from-pink-600 via-fuchsia-600 to-orange-500 shadow-[0_0_20px_rgba(219,39,119,0.5)] hover:shadow-[0_0_30px_rgba(249,115,22,0.8)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 border border-pink-400/40"

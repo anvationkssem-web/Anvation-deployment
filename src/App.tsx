@@ -10,7 +10,6 @@ import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
 import { RegistrationModal } from './components/RegistrationModal';
 import { RulebookModal } from './components/RulebookModal';
-import { ParticipantPortal } from './components/ParticipantPortal';
 import { AdminPortal } from './components/AdminPortal';
 import { CyberAtmosphereBackground } from './components/CyberAtmosphereBackground';
 import { COLLEGE_INFO, HACKATHON_SCHEDULE } from './data/mockData';
