@@ -173,6 +173,35 @@ export default function App() {
         <main className="space-y-0 relative z-10">
           {homeSections.hero && (
             <>
+              {/* Institution Header */}
+              <div className="relative z-10 w-full overflow-hidden flex flex-col items-center justify-center gap-1 text-center px-6 py-5"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(2,8,28,0.98) 0%, rgba(4,18,48,0.97) 40%, rgba(6,12,36,0.98) 70%, rgba(2,8,28,0.98) 100%)',
+                  borderTop: '1px solid rgba(34,211,238,0.5)',
+                  borderBottom: '1px solid rgba(34,211,238,0.5)',
+                  boxShadow: '0 0 60px rgba(34,211,238,0.12), 0 4px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(34,211,238,0.15), inset 0 -1px 0 rgba(168,85,247,0.1)',
+                }}>
+                {/* Animated shimmer sweep */}
+                <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(34,211,238,0.06) 50%, transparent 70%)', animation: 'shimmer 4s ease-in-out infinite' }} />
+                {/* Left accent line */}
+                <div className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ background: 'linear-gradient(180deg, transparent, rgba(34,211,238,0.8), rgba(168,85,247,0.6), transparent)' }} />
+                {/* Right accent line */}
+                <div className="absolute right-0 top-0 bottom-0 w-[3px]" style={{ background: 'linear-gradient(180deg, transparent, rgba(168,85,247,0.6), rgba(34,211,238,0.8), transparent)' }} />
+                {/* Top glow bar */}
+                <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(34,211,238,0.9) 30%, rgba(168,85,247,0.9) 70%, transparent 100%)' }} />
+                {/* Bottom glow bar */}
+                <div className="absolute bottom-0 left-0 right-0 h-[1px]" style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(168,85,247,0.9) 30%, rgba(34,211,238,0.9) 70%, transparent 100%)' }} />
+                {/* Corner dots */}
+                <div className="absolute top-2 left-4 w-1.5 h-1.5 rounded-full bg-cyan-400/70" />
+                <div className="absolute top-2 right-4 w-1.5 h-1.5 rounded-full bg-fuchsia-400/70" />
+                <div className="absolute bottom-2 left-4 w-1.5 h-1.5 rounded-full bg-fuchsia-400/70" />
+                <div className="absolute bottom-2 right-4 w-1.5 h-1.5 rounded-full bg-cyan-400/70" />
+                <span
+                  className="relative text-[17px] sm:text-[23px] font-black uppercase tracking-[0.18em] text-transparent bg-clip-text"
+                  style={{ backgroundImage: 'linear-gradient(90deg, #67e8f9 0%, #ffffff 40%, #e0f2fe 60%, #c4b5fd 100%)', textShadow: 'none', filter: 'drop-shadow(0 0 18px rgba(34,211,238,0.55))' }}
+                >K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</span>
+                <span className="relative text-[10px] font-bold tracking-[6px] uppercase mt-0.5" style={{ color: 'rgba(103,232,249,0.85)', letterSpacing: '0.35em' }}>✦ Bengaluru ✦</span>
+              </div>
               <Hero
                 onOpenRegister={openRegistration}
                 onOpenRulebook={() => setIsRulebookModalOpen(true)}

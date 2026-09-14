@@ -599,12 +599,6 @@ export const ParticipantPortal: React.FC<ParticipantPortalProps> = ({ onOpenRule
           </form>
 
           <div className="p-3.5 rounded-xl bg-amber-950/30 border border-amber-700/50 text-xs text-slate-300 space-y-2">
-            <div className="flex items-center gap-2 font-bold text-amber-300">
-              <MessageSquare className="w-4 h-4" /> Forgot your team password?
-            </div>
-            <p className="text-[11px] text-slate-400">
-              Enter your Team ID or registration number above. Reset instructions will be sent to the registered team leader email.
-            </p>
             <button
               type="button"
               onClick={handlePasswordResetRequest}
@@ -613,7 +607,7 @@ export const ParticipantPortal: React.FC<ParticipantPortalProps> = ({ onOpenRule
               id="participant-forgot-password-link"
             >
               <Mail className="w-3.5 h-3.5" />
-              {resetLoading ? 'Sending reset message...' : resetCooldown ? 'Please wait before trying again' : 'Send reset message'}
+              {resetLoading ? 'Sending reset message...' : resetCooldown ? 'Please wait before trying again' : 'Forgot your team password?'}
             </button>
             {resetMessage && <p className="text-[11px] text-cyan-200" role="status">{resetMessage}</p>}
           </div>

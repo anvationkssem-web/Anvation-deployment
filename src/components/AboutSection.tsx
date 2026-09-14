@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { COLLEGE_INFO } from '../data/mockData';
-import { Target, Eye, Award, MapPin } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import campusBgImage from '../assets/images/kssem_campus_real_1788194089427.jpg';
 import hodimage from '../assets/images/hod.jpeg';
 import labimg from '../assets/images/lab.jpeg';
@@ -119,14 +119,9 @@ export const AboutSection: React.FC = () => {
                
               </div>
 
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-2xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
-                  <Eye className="w-8 h-8" />
-                </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-white">Department of Computer Science & Engineering</h3>
-                  <p className="text-xs text-amber-400 font-semibold">Accredited by National Board of Accreditation (NBA)</p>
-                </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white">Department of Computer Science & Engineering</h3>
+                <p className="text-xs text-amber-400 font-semibold">Accredited by National Board of Accreditation (NBA)</p>
               </div>
               <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
                 The Department of Computer Science and Engineering (CSE) at KSSEM, under the visionary leadership of Dr. K. Venkata Rao, is committed to delivering quality education that develops strong technical knowledge, practical skills, and professional competence among students. The department is supported by state-of-the-art AI and Cloud laboratories, active IEEE Computational Intelligence Society and IEEE Robotics and Automation Society student chapters, and a strong track record of placements in top-tier MNCs and product unicorns. Through academic rigor, industry–academia interaction, interdisciplinary projects, research-oriented learning, and emphasis on soft skills, the department provides students with a well-rounded learning experience and prepares them to address evolving global challenges and excel as responsible Computer Science professionals.
