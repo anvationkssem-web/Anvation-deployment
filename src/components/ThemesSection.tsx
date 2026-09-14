@@ -52,41 +52,49 @@ export const ThemesSection: React.FC<ThemesSectionProps> = ({ onOpenRegister }) 
         </motion.div>
 
         {/* Tracks Grid - 8 Clean Domains */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {HACKATHON_TRACKS.map((track) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {HACKATHON_TRACKS.slice(0, 3).map((track) => (
             <div
               key={track.id}
               className="group relative rounded-3xl bg-slate-950/80 border border-slate-800/90 p-6 backdrop-blur-xl hover:border-cyan-500/60 hover:bg-slate-900/90 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_-10px_rgba(6,182,212,0.3)] flex flex-col justify-between overflow-hidden"
             >
-              {/* Subtle top corner gradient accent */}
               <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500/10 to-transparent rounded-full blur-2xl pointer-events-none group-hover:from-cyan-500/25 transition-all" />
-
               <div className="space-y-4 relative z-10">
-                {/* Header: Icon & Track Tag */}
                 <div className="flex items-center justify-between gap-3">
                   <div className={`p-3.5 rounded-2xl bg-gradient-to-tr ${track.color} text-white shadow-lg shadow-cyan-950/50 ring-1 ring-white/10 group-hover:scale-105 transition-transform`}>
                     {getTrackIcon(track.iconName)}
                   </div>
-                  <span className="text-[10px] font-bold text-cyan-300 uppercase tracking-widest px-2.5 py-1 bg-slate-950 rounded-full border border-cyan-500/40 font-mono shadow-inner">
-                    TRACK #{track.id}
-                  </span>
                 </div>
-
-                {/* Track Title */}
                 <div>
                   <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug tracking-tight font-['Space_Grotesk',sans-serif]">
                     {track.title}
                   </h3>
                 </div>
-
-                {/* Domain Scope Description */}
-                <p className="text-xs text-slate-300/90 leading-relaxed">
-                  {track.description}
-                </p>
+                <p className="text-xs text-slate-300/90 leading-relaxed">{track.description}</p>
               </div>
-
-              {/* Action Button Footer */}
-              
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto w-full">
+          {HACKATHON_TRACKS.slice(3, 5).map((track) => (
+            <div
+              key={track.id}
+              className="group relative rounded-3xl bg-slate-950/80 border border-slate-800/90 p-6 backdrop-blur-xl hover:border-cyan-500/60 hover:bg-slate-900/90 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_36px_-10px_rgba(6,182,212,0.3)] flex flex-col justify-between overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500/10 to-transparent rounded-full blur-2xl pointer-events-none group-hover:from-cyan-500/25 transition-all" />
+              <div className="space-y-4 relative z-10">
+                <div className="flex items-center justify-between gap-3">
+                  <div className={`p-3.5 rounded-2xl bg-gradient-to-tr ${track.color} text-white shadow-lg shadow-cyan-950/50 ring-1 ring-white/10 group-hover:scale-105 transition-transform`}>
+                    {getTrackIcon(track.iconName)}
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors leading-snug tracking-tight font-['Space_Grotesk',sans-serif]">
+                    {track.title}
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-300/90 leading-relaxed">{track.description}</p>
+              </div>
             </div>
           ))}
         </div>

@@ -417,7 +417,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
 
         {/* Bottom 4 Feature Cards Bar */}
         <div className="p-4 rounded-2xl bg-slate-950/70 backdrop-blur-md border border-slate-800">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             
             <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-900/50 border border-slate-800/80">
               <div className="w-10 h-10 rounded-full bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
@@ -449,15 +449,6 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-900/50 border border-slate-800/80">
-              <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
-                <Trophy className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-extrabold text-white uppercase tracking-wider font-mono">WIN ₹50,000</div>
-                <div className="text-[11px] text-slate-400">Cash , Trophies & Internship oppertunities</div>
-              </div>
-            </div>
 
           </div>
         </div>
