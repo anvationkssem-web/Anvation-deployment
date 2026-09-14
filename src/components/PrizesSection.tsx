@@ -26,16 +26,9 @@ export const PrizesSection: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="text-center space-y-3"
         >
-          <button
-            onClick={triggerConfetti}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-black uppercase tracking-widest shadow-[0_0_15px_rgba(6,182,212,0.2)] hover:scale-105 btn-tactile cursor-pointer"
-            id="prizes-confetti-btn"
-          >
-            <span className="text-emerald-400 font-mono">06 //</span>
-            <span>₹50,000 TOTAL PRIZE POOL & TROPHIES</span>
-          </button>
+         
           <h2 className="text-3xl sm:text-6xl font-black text-white tracking-tight font-['Orbitron',sans-serif]">
-            Prizes & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-emerald-300">Accolades</span>
+            Prizes & <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-emerald-300">Awards</span>
           </h2>
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 font-medium">
             Rewarding innovation, technical brilliance, and product execution across the 24-hour hackathon.
@@ -77,7 +70,7 @@ export const PrizesSection: React.FC = () => {
             </div>
             <div>
               
-              <h3 className="text-3xl font-black text-white mt-1 font-['Orbitron',sans-serif]">Participant certificates</h3>
+              <h3 className="text-3xl font-black text-white mt-1 font-['Orbitron',sans-serif]">Participant Certificates</h3>
             </div>
           </div>
         </div>
