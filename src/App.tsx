@@ -302,7 +302,7 @@ export default function App() {
                 Anvation 2026
               </p>
               <p className="text-slate-300 text-xs font-medium">National Level 24-Hr Hackathon</p>
-            <p className="text-sm text-slate-500 font-medium">KSSEM, Bengaluru, India</p>
+            <p className="text-sm text-slate-500 font-medium">KSSEM, Bengaluru,Karnataka, India</p>
             </div>
 
             {/* Contact Us */}
@@ -346,6 +346,7 @@ export default function App() {
           {/* Bottom copyright bar */}
           <div className="border-t border-slate-800/80 pt-6 text-center text-xs text-slate-500 space-y-1">
             <p>© 2026 Anvation2026. All rights reserved.</p>
+            <p>KSSEM, Bengaluru, Karnataka, India</p>
             <p>Crafted by the Anvation Technical Team</p>
           </div>
 
