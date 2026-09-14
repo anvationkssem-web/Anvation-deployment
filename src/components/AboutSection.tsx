@@ -72,7 +72,7 @@ export const AboutSection: React.FC = () => {
                   <p className="text-cyan-300 font-black text-[11px] uppercase tracking-widest">Kammavari Sangham (R) 1952</p>
                   <p className="font-black text-white text-base leading-tight">K. S. GROUP OF INSTITUTIONS</p>
                   <p className="font-bold text-white text-xl leading-snug">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</p>
-                  <p className="text-slate-400 text-[11px] leading-relaxed">Affiliated to VTU | Approved by AICTE | Accredited by NAAC &amp; NBA (CSE, ECE, ME &amp; CIV)</p>
+                  <p className="text-slate-400 text-[11px] leading-relaxed">Affiliated to VTU | Approved by AICTE | Accredited by NAAC &amp; NBA (CSE, ECE, ME &amp; CV)</p>
                   <p className="text-slate-400 text-[11px]">No. 15, Mallasandra, off. Kanakapura Road, Bengaluru - 560109</p>
                   <p className="text-cyan-400 text-[11px] font-semibold">www.kssem.edu.in</p>
                 </div>
@@ -92,8 +92,7 @@ export const AboutSection: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0b192c] via-transparent to-transparent opacity-90"></div>
                 <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700 text-xs text-slate-200">
-                  <div className="font-bold text-white text-sm flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-pink-500" />
+                  <div className="font-bold text-white text-sm">
                     <span>KSSEM Campus, Kanakapura Road, Bengaluru</span>
                   </div>
                   <p className="text-slate-300 mt-1"></p>
