@@ -169,7 +169,7 @@ export const AboutSection: React.FC = () => {
 
           {activeTab === 'campus' && (
             <div className="space-y-6">
-              <h3 className="text-xl font-bold text-white">KSSEM Infrastructure & Hackathon Amenities</h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white">KSSEM Infrastructure </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 <div className="group relative rounded-xl overflow-hidden border border-slate-700 h-48">
                   <img src={deptimg} referrerPolicy="no-referrer" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
@@ -183,7 +183,7 @@ export const AboutSection: React.FC = () => {
                   <img src="https://kssem.edu.in/img/new_slider/slide1.jpg" alt="Auditorium" referrerPolicy="no-referrer" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent p-4 flex flex-col justify-end">
                     <span className="font-bold text-white text-sm">KSSEM Modern Academic Campus</span>
-                    <span className="text-xs text-orange-300">A state-of-the-art educational facility featuring contemporary architectural design and vibrant infrastructure built to inspire learning and innovation.</span>
+                    <span className="text-xs text-cyan-300">A state-of-the-art educational facility featuring contemporary architectural design and vibrant infrastructure built to inspire learning and innovation.</span>
                   </div>
                 </div>
 
