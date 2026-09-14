@@ -56,7 +56,7 @@ export const ContactSection: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
                     <h5 className="font-bold text-white text-xs leading-snug">Dr. Sivasubramanyam Medasani</h5>
-                    <p className="text-[11px] text-slate-400">Professor</p>
+                    <p className="text-[11px] text-slate-400">Professor, Dept of CSE</p>
                     <a href="tel:+918309763125" className="text-xs text-slate-300 font-mono hover:underline flex items-center gap-1">
                       <Phone className="w-3 h-3 text-cyan-400" />
                       <span>+91 8309763125</span>
@@ -64,7 +64,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
                     <h5 className="font-bold text-white text-xs leading-snug">Prof. Harshavardhan J R</h5>
-                    <p className="text-[11px] text-slate-400">Associate Professor</p>
+                    <p className="text-[11px] text-slate-400">Associate Professor, Dept of CSE</p>
                     <a href="tel:+919448612519" className="text-xs text-slate-300 font-mono hover:underline flex items-center gap-1">
                       <Phone className="w-3 h-3 text-cyan-400" />
                       <span>+91 9448612519</span>
@@ -72,7 +72,7 @@ export const ContactSection: React.FC = () => {
                   </div>
                   <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-700 space-y-1">
                     <h5 className="font-bold text-white text-xs leading-snug">Prof. Vidyasre N</h5>
-                    <p className="text-[11px] text-slate-400">Assistant Professor</p>
+                    <p className="text-[11px] text-slate-400">Assistant Professor, Dept of CSE</p>
                     <a href="tel:+917975940301" className="text-xs text-slate-300 font-mono hover:underline flex items-center gap-1">
                       <Phone className="w-3 h-3 text-cyan-400" />
                       <span>+91 7975940301</span>
