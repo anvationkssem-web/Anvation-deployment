@@ -330,7 +330,7 @@ export default function App() {
               <button onClick={() => { navigateToView('landing'); scrollToTop(); }} className="hover:text-pink-300 transition-colors">Home</button>
               <button onClick={() => navigateToView('participant')} className="hover:text-fuchsia-300 transition-colors">Participant Portal</button>
             </div>
-            <div className="text-[11px] text-slate-500 space-y-1">
+            <div className="text-xs text-slate-400 space-y-1">
               <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
               <p>Crafted by the Anvation Technical Team</p>
             </div>
