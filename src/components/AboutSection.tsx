@@ -70,7 +70,7 @@ export const AboutSection: React.FC = () => {
               <div className="space-y-5">
                 <div className="space-y-1 border-l-2 border-cyan-500/50 pl-4">
                   <p className="text-cyan-300 font-black text-[11px] uppercase tracking-widest">Kammavari Sangham (R) 1952</p>
-                  <p className="font-black text-white text-lg leading-tight">K. S. GROUP OF INSTITUTIONS</p>
+                  <p className="font-black text-white text-base leading-tight">K. S. GROUP OF INSTITUTIONS</p>
                   <p className="font-bold text-white text-xl leading-snug">K. S. SCHOOL OF ENGINEERING AND MANAGEMENT</p>
                   <p className="text-slate-400 text-[11px] leading-relaxed">Affiliated to VTU | Approved by AICTE | Accredited by NAAC &amp; NBA (CSE, ECE, ME &amp; CIV)</p>
                   <p className="text-slate-400 text-[11px]">No. 15, Mallasandra, off. Kanakapura Road, Bengaluru - 560109</p>
