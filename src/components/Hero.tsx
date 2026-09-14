@@ -249,7 +249,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-cyan-950/50 border border-cyan-500/25 flex items-center gap-3 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(34,211,238,0.18)] transition-all">
+                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-cyan-950/50 border border-cyan-500/25 flex items-center gap-3 hover:border-cyan-400/50 hover:shadow-[0_0_16px_rgba(34,211,238,0.18)] transition-all col-span-2">
                   <div className="p-2.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 shrink-0">
                     <Calendar className="w-4 h-4" />
                   </div>
@@ -259,17 +259,7 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-amber-950/50 border border-amber-500/25 flex items-center gap-3 hover:border-amber-400/50 hover:shadow-[0_0_16px_rgba(251,191,36,0.18)] transition-all">
-                  <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 shrink-0">
-                    <Trophy className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[14px] font-black text-white">₹50,000</div>
-                    <div className="text-[12px] text-amber-200/80 font-semibold">Total Prize Pool</div>
-                  </div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-sky-950/50 border border-sky-500/25 flex items-center gap-3 hover:border-sky-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.18)] transition-all">
+                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-sky-950/50 border border-sky-500/25 flex items-center gap-3 hover:border-sky-400/50 hover:shadow-[0_0_16px_rgba(56,189,248,0.18)] transition-all col-span-2">
                   <div className="p-2.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-sky-400 shrink-0">
                     <MapPin className="w-4 h-4" />
                   </div>
@@ -279,15 +269,6 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-slate-900/90 to-emerald-950/50 border border-emerald-500/25 flex items-center gap-3 hover:border-emerald-400/50 hover:shadow-[0_0_16px_rgba(52,211,153,0.18)] transition-all">
-                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 shrink-0">
-                    <Award className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <div className="text-[14px] font-black text-white">Free Food & Stay</div>
-                    <div className="text-[12px] text-emerald-200/80 font-semibold">4 Meals Included</div>
-                  </div>
-                </div>
               </div>
 
               {/* Event Benefits Checklist */}
