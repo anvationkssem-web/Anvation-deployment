@@ -328,7 +328,6 @@ export default function App() {
           <div className="space-y-4">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 font-semibold text-slate-400">
               <button onClick={() => { navigateToView('landing'); scrollToTop(); }} className="hover:text-pink-300 transition-colors">Home</button>
-              <button onClick={() => navigateToView('participant')} className="hover:text-fuchsia-300 transition-colors">Participant Portal</button>
             </div>
             <div className="text-xs text-slate-400 space-y-1">
               <p>© 2026 KSSEM CSE Department. All rights reserved.</p>
