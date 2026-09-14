@@ -1,6 +1,6 @@
 import React from 'react';
 import { COLLEGE_INFO } from '../data/mockData';
-import { Mail, Phone, MapPin, Instagram, Linkedin, Youtube, Twitter } from 'lucide-react';
+import { MapPin, Instagram, Linkedin, Youtube, Twitter } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
 
@@ -130,16 +130,6 @@ export const ContactSection: React.FC = () => {
                 {COLLEGE_INFO.department}<br />
                 {COLLEGE_INFO.address}
               </p>
-              <div className="flex flex-col gap-2 text-xs text-slate-300 font-medium">
-                <div className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-cyan-400" />
-                  <span>{COLLEGE_INFO.phone}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-amber-400" />
-                  <span>{COLLEGE_INFO.email}</span>
-                </div>
-              </div>
             </div>
 
             {/* Map */}
