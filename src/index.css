@@ -3,7 +3,6 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
@@ -221,14 +220,32 @@
 
 /* iOS Safari fixes */
 @supports (-webkit-touch-callout: none) {
-  /* Fix 100vh on iOS Safari (address bar causes overflow) */
+  /* Fix 100vh jumping address bar */
   .min-h-screen {
     min-height: -webkit-fill-available;
   }
-  /* Disable heavy blur on iOS for performance */
+  /* Disable ALL heavy animations on iOS */
+  .animate-aurora-1,
+  .animate-aurora-2,
+  .animate-aurora-3,
+  .animate-aurora-4,
+  .animate-spin-slow,
+  .animate-spin-slower,
+  .animate-pulse-glow,
+  .animate-float-slow,
+  .animate-float-y,
+  .animate-laser-sweep,
+  .animate-gradient-flow {
+    animation: none !important;
+  }
+  /* Reduce backdrop blur on iOS */
   .glass-cyber-card {
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
+  }
+  [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: blur(8px) !important;
+    backdrop-filter: blur(8px) !important;
   }
 }
 
