@@ -253,6 +253,8 @@ a, button {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Glassmorphism Refined Cards */
+.glass-cyber-card {
   background: rgba(5, 9, 22, 0.72);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
