@@ -96,8 +96,10 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
 
     const particles: { x: number; y: number; vx: number; vy: number; radius: number; color: string }[] = [];
     const colors = ['#22d3ee', '#38bdf8', '#a7f3d0', '#818cf8', '#67e8f9', '#f43f5e'];
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const particleCount = isIOS ? 20 : 45;
 
-    for (let i = 0; i < 45; i++) {
+    for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,

@@ -290,7 +290,7 @@ export default function App() {
       )}
 
       {/* Footer */}
-      <footer className="relative z-10 bg-[var(--surface-nav-solid)] border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400">
+      <footer className="relative z-10 bg-[var(--surface-nav-solid)] border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400" style={{ paddingBottom: 'max(3rem, env(safe-area-inset-bottom))' }}>
         <div className="max-w-7xl mx-auto space-y-10">
 
           {/* 3-column grid */}

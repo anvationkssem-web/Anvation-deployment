@@ -4,6 +4,8 @@
   html {
     scroll-behavior: smooth;
     color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
@@ -11,6 +13,7 @@
     color: var(--text-strong);
     font-family: 'Outfit', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     letter-spacing: -0.01em;
   }
 
@@ -216,11 +219,43 @@
   animation: shimmer 2.5s infinite;
 }
 
-/* Glassmorphism Refined Cards */
-.glass-cyber-card {
+/* iOS Safari fixes */
+@supports (-webkit-touch-callout: none) {
+  /* Fix 100vh on iOS Safari (address bar causes overflow) */
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+  /* Disable heavy blur on iOS for performance */
+  .glass-cyber-card {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Safe area insets for notched iPhones */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Ensure bg-clip-text works on Safari/iOS */
+.text-transparent {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Fix tap highlight on iOS */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent font size inflation on iOS landscape */
+* {
+  -webkit-text-size-adjust: 100%;
+}
+
   background: rgba(5, 9, 22, 0.72);
-  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   border: 1px solid rgba(34, 211, 238, 0.2);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   transition: all 0.3s ease;
