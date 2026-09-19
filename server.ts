@@ -160,6 +160,10 @@ let cluster: any = null;
 // removes nearly all repeat-download traffic when 10k people visit.
 function serveStaticWithCache(app: any, distPath: string) {
   const IMMUTABLE = /\.(?:css|js|map|png|jpe?g|webp|gif|svg|ico|avif|woff2?|ttf|eot|ttc|otf)$/i;
+  // /admin URL removed: redirect /admin to home before static/SPA handling.
+  app.get(["/admin", "/admin/*"], (req: any, res: any) => {
+    res.redirect("/");
+  });
   app.use(
     express.static(distPath, {
       setHeaders(res: any, filePath: string) {
@@ -4117,6 +4121,13 @@ Use your Team ID and Password (or Leader email) to log into the Participant Port
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    // /admin URL removed: redirect /admin to home before Vite handles the SPA.
+    app.use((req: any, res: any, next: any) => {
+      if (req.method === "GET" && String(req.path || "").toLowerCase().startsWith("/admin")) {
+        return res.redirect("/");
+      }
+      next();
+    });
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",

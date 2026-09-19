@@ -22,7 +22,7 @@ const REGISTRATION_FORM_URL =
 export default function App() {
   const getViewFromPath = (path: string): PortalView => {
     const normalizedPath = path.toLowerCase().replace(/\/+$/, '') || '/';
-    if (normalizedPath === '/admin' || normalizedPath.startsWith('/admin/')) return 'admin';
+    if (normalizedPath === '/admin' || normalizedPath.startsWith('/admin/')) return 'landing';
     if (normalizedPath === '/participant' || normalizedPath.startsWith('/participant/')) return 'participant';
     return 'landing';
   };
@@ -40,14 +40,22 @@ export default function App() {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const navigateToView = (view: PortalView) => {
-    const path = view === 'admin' ? '/admin' : view === 'participant' ? '/participant' : '/';
+    // /admin URL removed: even a legacy 'admin' view request renders home at '/'.
+    const normalizedView: PortalView = view === 'admin' ? 'landing' : view;
+    const path = normalizedView === 'participant' ? '/participant' : '/';
     if (window.location.pathname !== path) {
       window.history.pushState({}, '', path);
     }
-    setCurrentView(view);
+    setCurrentView(normalizedView);
   };
 
   useEffect(() => {
+    // /admin URL removed: normalize a direct /admin visit to home.
+    if (window.location.pathname.toLowerCase().startsWith('/admin')) {
+      window.history.replaceState({}, '', '/');
+      setCurrentView('landing');
+      return;
+    }
     const handlePopState = () => setCurrentView(getViewFromPath(window.location.pathname));
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
