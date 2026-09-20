@@ -171,7 +171,6 @@ export default function App() {
       <Navbar
         currentView={currentView}
         setCurrentView={navigateToView}
-        onOpenRegister={openRegistration}
         onOpenRulebook={() => setIsRulebookModalOpen(true)}
       />
 
