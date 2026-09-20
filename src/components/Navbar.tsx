@@ -2,17 +2,19 @@ import React, { useState, useEffect } from 'react';
 import anvationNavbarLogo from '../assets/branding/anvation-navbar-logo.png';
 import { PortalView } from '../types';
 import { useTheme } from '../theme';
-import { Menu, X, Home } from 'lucide-react';
+import { Menu, X, Rocket, Home } from 'lucide-react';
 
 interface NavbarProps {
   currentView: PortalView;
   setCurrentView: (view: PortalView) => void;
+  onOpenRegister: () => void;
   onOpenRulebook: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
   setCurrentView,
+  onOpenRegister,
   onOpenRulebook,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -97,10 +99,29 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Action CTAs */}
         <div className="hidden md:flex items-center gap-3">
+          {/* Primary Register CTA */}
+          <button
+            onClick={onOpenRegister}
+            className="relative group overflow-hidden px-5 py-2.5 rounded-xl font-extrabold text-sm text-white bg-gradient-to-r from-pink-600 via-fuchsia-600 to-orange-500 shadow-[0_0_20px_rgba(219,39,119,0.5)] hover:shadow-[0_0_30px_rgba(249,115,22,0.8)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 border border-pink-400/40"
+            id="nav-register-cta-btn"
+          >
+            <span className="relative z-10 flex items-center gap-2 uppercase tracking-wide">
+              <Rocket className="w-4 h-4 animate-bounce text-orange-200" />
+              <span>Register Now</span>
+            </span>
+            <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+          </button>
         </div>
 
         {/* Mobile Menu Button */}
         <div className="flex md:hidden items-center gap-2">
+          <button
+            onClick={onOpenRegister}
+            className="px-3 py-1.5 rounded-lg bg-cyan-500 text-white font-bold text-xs shadow-md"
+            id="mobile-register-btn"
+          >
+            Register
+          </button>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="p-2 text-slate-300 hover:text-white bg-slate-800 rounded-lg focus:outline-none"
