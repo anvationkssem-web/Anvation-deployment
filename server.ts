@@ -727,7 +727,7 @@ export async function startServer(options: { listen?: boolean } = {}) {
       themes: true,
       schedule: false,
       prizes: true,
-      sponsors: false,
+      sponsors: true,
       faq: true,
       contact: true
     },

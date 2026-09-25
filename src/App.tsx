@@ -35,7 +35,7 @@ export default function App() {
   const [homeSections, setHomeSections] = useState<{
     hero: boolean; about: boolean; themes: boolean; schedule: boolean;
     prizes: boolean; sponsors: boolean; faq: boolean; contact: boolean;
-  }>({ hero: true, about: true, themes: true, schedule: false, prizes: true, sponsors: false, faq: true, contact: true });
+  }>({ hero: true, about: true, themes: true, schedule: false, prizes: true, sponsors: true, faq: true, contact: true });
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
 

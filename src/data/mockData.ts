@@ -295,17 +295,27 @@ export const MENTORS: Mentor[] = [
 
 export const SEED_MENTORS = MENTORS;
 
+const pygenicArcLogo = '/pygenicarc-logo.jpg';
+
+const rapsolLogo = '/rapsol-logo.png';
+
 export const SPONSORS: Sponsor[] = [
-  { id: 'sp1', name: 'Kammavari Sangham Trust', category: 'Title', logo: 'KSSEM', website: 'https://kssem.edu.in', description: 'Primary Management & Patron' },
-  { id: 'sp2', name: 'Google Cloud Platform', category: 'Title', logo: 'Google Cloud', website: 'https://cloud.google.com', description: '$10,000 in AI & Compute Credits' },
-  { id: 'sp3', name: 'GitHub', category: 'Gold', logo: 'GitHub', website: 'https://github.com', description: 'Official Student Developer Pack Partner' },
-  { id: 'sp4', name: 'Postman', category: 'Gold', logo: 'Postman', website: 'https://postman.com', description: 'API Development & Testing Partner' },
-  { id: 'sp5', name: 'PhonePe Tech', category: 'Silver', logo: 'PhonePe', website: 'https://phonepe.com', description: 'FinTech Track Sponsor' },
-  { id: 'sp6', name: 'MongoDB', category: 'Silver', logo: 'MongoDB', website: 'https://mongodb.com', description: 'Database Atlas Credits' },
-  { id: 'sp7', name: 'Devfolio', category: 'Community', logo: 'Devfolio', website: 'https://devfolio.co', description: 'Platform & Hackathon Partner' },
-  { id: 'sp8', name: 'Major League Hacking (MLH)', category: 'Community', logo: 'MLH', website: 'https://mlh.io', description: 'Global Student Hackathon Network' },
-  { id: 'sp9', name: 'Namma Bengaluru Tech Media', category: 'Media', logo: 'Bengaluru Tech', website: 'https://kssem.edu.in', description: 'Media Coverage Partner' },
-  { id: 'sp10', name: 'Bosch Hiring Cell', category: 'Hiring', logo: 'Bosch', website: 'https://bosch.in', description: 'Direct Internship & FTE Interview Fast-Track' }
+  {
+    id: 'sp1',
+    name: 'PygenicArc',
+    category: 'Community',
+    logo: pygenicArcLogo,
+    website: 'https://pygenicarc.com/',
+    description: 'Industry Partner'
+  },
+  {
+    id: 'sp2',
+    name: 'Rapsol Technologies',
+    category: 'Community',
+    logo: rapsolLogo,
+    website: 'https://rapsoltechnologies.com/',
+    description: 'Social Media Partner'
+  }
 ];
 
 export const FAQS: FAQItem[] = [

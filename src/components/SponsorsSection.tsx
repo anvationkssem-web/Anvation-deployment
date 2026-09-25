@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Handshake, Medal, Sparkles, ExternalLink, HeartHandshake } from 'lucide-react';
+import { SPONSORS } from '../data/mockData';
 import { Sponsor } from '../types';
 
 const categoryOrder = ['Title', 'Gold', 'Silver', 'Technology', 'Community', 'Media', 'Hiring'];
@@ -15,7 +16,7 @@ const categoryColor: Record<string, string> = {
 };
 
 export const SponsorsSection: React.FC = () => {
-  const [sponsors, setSponsors] = useState<Sponsor[]>([]);
+  const [sponsors, setSponsors] = useState<Sponsor[]>(SPONSORS);
 
   useEffect(() => {
     let active = true;
@@ -23,9 +24,15 @@ export const SponsorsSection: React.FC = () => {
       try {
         const res = await fetch('/api/sponsors');
         const data = await res.json();
-        if (active && data.success && data.sponsors) setSponsors(data.sponsors);
+        if (active) {
+          if (data?.success && Array.isArray(data.sponsors) && data.sponsors.length > 0) {
+            setSponsors(data.sponsors);
+            return;
+          }
+          setSponsors(SPONSORS);
+        }
       } catch (err) {
-        // fall back to an offline copy if the API is unavailable
+        if (active) setSponsors(SPONSORS);
       }
     };
     load();
@@ -63,20 +70,33 @@ export const SponsorsSection: React.FC = () => {
               href={sp.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative p-5 rounded-2xl bg-slate-900/70 border border-slate-800 hover:border-amber-500/50 hover:shadow-[0_0_30px_rgba(245,158,11,0.15)] transition-all duration-300 overflow-hidden force-dark"
+              className="group relative p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 hover:border-amber-500/50 hover:shadow-[0_0_35px_rgba(245,158,11,0.18)] transition-all duration-300 overflow-hidden force-dark"
             >
               {/* Corner Cyber Accent */}
               <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-amber-400/50 pointer-events-none" />
               <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-amber-400/50 pointer-events-none" />
 
               <div className="flex items-start justify-between gap-3">
-                <div>
-                  <div className="font-black text-white text-sm sm:text-base">{sp.name}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="mb-3 flex items-center justify-center">
+                    {sp.logo && (
+                      <img
+                        src={sp.logo}
+                        alt={`${sp.name} logo`}
+                        className="h-20 sm:h-24 w-full max-w-[220px] object-contain rounded-xl"
+                        onError={(e) => {
+                          const target = e.currentTarget as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className="font-black text-white text-sm sm:text-base break-words">{sp.name}</div>
                   <span className={`inline-block mt-1.5 px-2 py-0.5 rounded-full text-[10px] font-black uppercase border ${categoryColor[sp.category] || categoryColor.Community}`}>
                     {sp.category} Sponsor
                   </span>
                 </div>
-                <Medal className="w-5 h-5 text-amber-400 shrink-0" />
+                <Medal className="w-5 h-5 text-amber-400 shrink-0 mt-1" />
               </div>
 
               {sp.description && (
@@ -90,12 +110,6 @@ export const SponsorsSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Bottom note */}
-        <div className="mt-10 text-center flex items-center justify-center gap-2 text-xs text-slate-500">
-          <HeartHandshake className="w-4 h-4 text-pink-400" />
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          Interested in partnering? <span className="text-pink-300 font-bold">Reach out to us — let's build together.</span>
-        </div>
       </div>
     </section>
   );
