@@ -243,6 +243,40 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
 
         </div>
 
+        <div id="registrations-closed" className="rounded-3xl border border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-pink-500/10 p-5 sm:p-6 shadow-[0_0_30px_rgba(251,191,36,0.12)]">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <span className="inline-flex items-center rounded-full border border-amber-400/30 bg-amber-500/10 px-3 py-1 text-[11px] sm:text-xs font-black uppercase tracking-[0.22em] text-amber-200">
+              Registration Update
+            </span>
+            <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-amber-300">
+              Closed
+            </span>
+          </div>
+          <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white">
+            Thank You for Your Incredible Response!
+          </h3>
+          <div className="mt-4 space-y-3 text-sm sm:text-base text-slate-200 leading-relaxed">
+            <p>
+              Thank you for your overwhelming interest and support for <span className="font-semibold text-white">Anvation 2026 – Explore. Innovate. Transform.</span>
+            </p>
+            <p className="font-black uppercase tracking-[0.12em] text-amber-300">
+              🚫 Registrations Are Now Closed
+            </p>
+            <p>
+              We are truly grateful to everyone who registered and to everyone who showed interest in being a part of Anvation 2026. Your enthusiasm and support have made this edition truly special.
+            </p>
+            <p>
+              We look forward to welcoming an even larger community of innovators and creators in the future editions of Anvation.
+            </p>
+            <p>
+              Keep exploring. Keep innovating. Keep transforming. 🚀
+            </p>
+            <p className="pt-2 text-xs sm:text-sm font-semibold uppercase tracking-[0.22em] text-cyan-300">
+              — Team Anvation 2026
+            </p>
+          </div>
+        </div>
+
         {/* Countdown and requirements panel aligned below the hero cards without resizing the existing windows */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 xl:gap-8 items-stretch">
           <div className="lg:col-span-7 p-3 sm:p-4 min-h-[160px] w-full rounded-2xl bg-slate-950/90 backdrop-blur-xl border border-cyan-400/40 shadow-[0_0_30px_rgba(6,182,212,0.2)]">

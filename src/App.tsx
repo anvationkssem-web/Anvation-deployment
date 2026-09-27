@@ -150,7 +150,12 @@ export default function App() {
   };
 
   const openRegistration = () => {
-    window.location.assign(REGISTRATION_FORM_URL);
+    const closedNotice = document.getElementById('registrations-closed');
+    if (closedNotice) {
+      closedNotice.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
