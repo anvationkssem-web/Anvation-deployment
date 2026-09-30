@@ -233,6 +233,10 @@ export const Hero: React.FC<HeroProps> = ({ liveStats }) => {
                     <span className="leading-relaxed">Registration Fee: ₹250 per member</span>
                   </div>
                   <div className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">Inter-college participation is not allowed.</span>
+                  </div>
+                  <div className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                     <span className="leading-relaxed">Bring your own Ethernet adapters</span>
                   </div>

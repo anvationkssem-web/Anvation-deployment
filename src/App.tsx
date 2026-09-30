@@ -12,6 +12,7 @@ import { RegistrationModal } from './components/RegistrationModal';
 import { RulebookModal } from './components/RulebookModal';
 import { AdminPortal } from './components/AdminPortal';
 import { CyberAtmosphereBackground } from './components/CyberAtmosphereBackground';
+import { HackathonTimerPage } from './components/HackathonTimerPage';
 import { COLLEGE_INFO, HACKATHON_SCHEDULE } from './data/mockData';
 import { PortalView } from './types';
 import { ArrowUp, Instagram, Linkedin, Youtube, Facebook } from 'lucide-react';
@@ -24,6 +25,7 @@ export default function App() {
     const normalizedPath = path.toLowerCase().replace(/\/+$/, '') || '/';
     if (normalizedPath === '/admin' || normalizedPath.startsWith('/admin/')) return 'landing';
     if (normalizedPath === '/participant' || normalizedPath.startsWith('/participant/')) return 'participant';
+    if (normalizedPath === '/hackathon-timer' || normalizedPath.startsWith('/hackathon-timer/')) return 'timer';
     return 'landing';
   };
 
@@ -42,7 +44,11 @@ export default function App() {
   const navigateToView = (view: PortalView) => {
     // /admin URL removed: even a legacy 'admin' view request renders home at '/'.
     const normalizedView: PortalView = view === 'admin' ? 'landing' : view;
-    const path = normalizedView === 'participant' ? '/participant' : '/';
+    const path = normalizedView === 'participant'
+      ? '/participant'
+      : normalizedView === 'timer'
+        ? '/hackathon-timer'
+        : '/';
     if (window.location.pathname !== path) {
       window.history.pushState({}, '', path);
     }
@@ -165,21 +171,24 @@ export default function App() {
 
       
 
-      {/* Top Reading Scroll Progress Indicator Bar */}
-      <div 
-        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-pink-500 via-fuchsia-500 to-orange-500 z-50 transition-all duration-150 shadow-[0_0_12px_rgba(236,72,153,0.8)]"
-        style={{ width: `${scrollProgress}%` }}
-      />
+      {currentView !== 'timer' && (
+        <>
+          <div 
+            className="fixed top-0 left-0 h-1 bg-gradient-to-r from-pink-500 via-fuchsia-500 to-orange-500 z-50 transition-all duration-150 shadow-[0_0_12px_rgba(236,72,153,0.8)]"
+            style={{ width: `${scrollProgress}%` }}
+          />
 
-      {/* Top Institutional Header — removed per request */}
-      {/* Primary Sticky Navbar */}
-      <Navbar
-        currentView={currentView}
-        setCurrentView={navigateToView}
-        onOpenRulebook={() => setIsRulebookModalOpen(true)}
-      />
+          <Navbar
+            currentView={currentView}
+            setCurrentView={navigateToView}
+            onOpenRulebook={() => setIsRulebookModalOpen(true)}
+          />
+        </>
+      )}
 
       {/* VIEW RENDERER */}
+      {currentView === 'timer' && <HackathonTimerPage />}
+
       {currentView === 'landing' && (
         <main className="space-y-0 relative z-10">
           {homeSections.hero && (
@@ -271,17 +280,20 @@ export default function App() {
         </div>
       )}
 
-      {/* Global Modals */}
-      <RegistrationModal
-        isOpen={isRegisterModalOpen}
-        onClose={() => setIsRegisterModalOpen(false)}
-        onSuccess={handleRegistrationSuccess}
-      />
+      {currentView !== 'timer' && (
+        <>
+          <RegistrationModal
+            isOpen={isRegisterModalOpen}
+            onClose={() => setIsRegisterModalOpen(false)}
+            onSuccess={handleRegistrationSuccess}
+          />
 
-      <RulebookModal
-        isOpen={isRulebookModalOpen}
-        onClose={() => setIsRulebookModalOpen(false)}
-      />
+          <RulebookModal
+            isOpen={isRulebookModalOpen}
+            onClose={() => setIsRulebookModalOpen(false)}
+          />
+        </>
+      )}
 
       {/* Floating CTA & Scroll-To-Top Control Group */}
       {currentView === 'landing' && (
@@ -301,8 +313,8 @@ export default function App() {
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="relative z-10 bg-[var(--surface-nav-solid)] border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400" style={{ paddingBottom: 'max(3rem, env(safe-area-inset-bottom))' }}>
+      {currentView !== 'timer' && (
+        <footer className="relative z-10 bg-[var(--surface-nav-solid)] border-t border-slate-800/80 py-12 px-4 sm:px-6 lg:px-8 text-xs text-slate-400" style={{ paddingBottom: 'max(3rem, env(safe-area-inset-bottom))' }}>
         <div className="max-w-7xl mx-auto space-y-10">
 
           {/* 3-column grid */}
@@ -362,7 +374,8 @@ export default function App() {
           </div>
 
         </div>
-      </footer>
+        </footer>
+      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-export type PortalView = 'landing' | 'participant' | 'admin';
+export type PortalView = 'landing' | 'participant' | 'admin' | 'timer';
 
 export interface Participant {
   id: string;

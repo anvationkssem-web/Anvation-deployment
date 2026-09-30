@@ -74,6 +74,14 @@ export const Navbar: React.FC<NavbarProps> = ({
     { label: 'Organizing Team', id: 'contact' },
   ];
 
+  const handleTimerNavigation = () => {
+    setMobileMenuOpen(false);
+    setCurrentView('timer');
+    if (window.location.pathname !== '/hackathon-timer') {
+      window.history.pushState({}, '', '/hackathon-timer');
+    }
+  };
+
   return (
     <header className={`sticky top-0 z-50 transition-all duration-300 ${
       scrolled 
@@ -133,6 +141,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             {item.label}
           </button>
         ))}
+        <button
+          onClick={handleTimerNavigation}
+          className={`py-2 transition-colors ${currentView === 'timer' ? 'text-cyan-400' : 'hover:text-cyan-400'}`}
+          id="nav-hackathon-timer-btn"
+        >
+          Timer
+        </button>
       </nav>
 
       {/* Mobile Drawer Menu */}
@@ -152,6 +167,12 @@ export const Navbar: React.FC<NavbarProps> = ({
                 {item.label}
               </button>
             ))}
+            <button
+              onClick={handleTimerNavigation}
+              className="text-left py-2 hover:text-cyan-400"
+            >
+              Timer
+            </button>
           </div>
         </div>
       )}
