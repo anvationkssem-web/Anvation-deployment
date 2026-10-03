@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import backgroundImage from '../assets/branding/anvation-2026-poster.png';
 import backgroundLogo from '../assets/branding/anvation-navbar-logo.png';
+import collegeLogo from '../assets/branding/college_logo_transparent.png';
+import anvationEmblem from '../assets/branding/Anvation_emblem.png';
 import {
   clearHackathonStartTime,
   formatCountdown,
@@ -14,30 +16,9 @@ export const HackathonTimerPage: React.FC = () => {
   const [nowMs, setNowMs] = useState(Date.now());
   const [startedAt, setStartedAt] = useState<number | null>(() => getStoredHackathonStartTime());
   const [isTabHidden, setIsTabHidden] = useState(false);
-  const [notificationPermission, setNotificationPermission] = useState<NotificationPermission | 'unsupported'>(() => (
-    'Notification' in window ? Notification.permission : 'unsupported'
-  ));
   const [floatingClockError, setFloatingClockError] = useState<string | null>(null);
-  const notificationRef = useRef<Notification | null>(null);
   const pipWindowRef = useRef<Window | null>(null);
   const pipCleanupRef = useRef<(() => void) | null>(null);
-
-  const requestNotificationPermission = async (): Promise<boolean> => {
-    if (!('Notification' in window)) {
-      return false;
-    }
-
-    try {
-      const permission = await Notification.requestPermission();
-      return permission === 'granted';
-    } catch {
-      return false;
-    }
-  };
-
-  useEffect(() => {
-    setNotificationPermission('Notification' in window ? Notification.permission : 'unsupported');
-  }, [nowMs]);
 
   useEffect(() => {
     const syncNow = () => {
@@ -116,57 +97,11 @@ export const HackathonTimerPage: React.FC = () => {
     syncFloatingTimerWindow();
   }, [countdownValue, totalClockValue, timer.status, timer.roundLabel]);
 
-  useEffect(() => {
-    if (!('Notification' in window) || typeof Notification === 'undefined') {
-      return;
-    }
-
-    if (Notification.permission !== 'granted') {
-      if (notificationRef.current) {
-        notificationRef.current.close();
-        notificationRef.current = null;
-      }
-      return;
-    }
-
-    if (!isTabHidden && notificationRef.current) {
-      notificationRef.current.close();
-      notificationRef.current = null;
-      return;
-    }
-
-    if (timer.status === 'before_start') {
-      if (notificationRef.current) {
-        notificationRef.current.close();
-        notificationRef.current = null;
-      }
-      return;
-    }
-
-    const title = timer.status === 'completed' ? 'Hackathon Completed' : 'ANVATION 2026';
-    const body = timer.status === 'completed'
-      ? '24-hour hackathon is complete.'
-      : `Time remaining: ${countdownValue}`;
-
-    if (!notificationRef.current) {
-      notificationRef.current = new Notification(title, {
-        body,
-        tag: 'anvation-hackathon-timer',
-      });
-      return;
-    }
-
-    notificationRef.current.title = title;
-    notificationRef.current.body = body;
-  }, [countdownValue, isTabHidden, timer.status]);
-
   const minimizedBadgeText = timer.status === 'completed'
     ? 'COMPLETED'
     : timer.status === 'before_start'
       ? 'READY'
       : 'LIVE';
-
-  const canUseBrowserNotifications = notificationPermission === 'granted';
 
   const syncFloatingTimerWindow = () => {
     const pipWindow = pipWindowRef.current;
@@ -263,10 +198,6 @@ export const HackathonTimerPage: React.FC = () => {
     const startTime = Date.now();
     saveHackathonStartTime(startTime);
     setStartedAt(startTime);
-
-    if ('Notification' in window && Notification.permission === 'default') {
-      await requestNotificationPermission();
-    }
   };
 
   const resetHackathon = () => {
@@ -284,7 +215,6 @@ export const HackathonTimerPage: React.FC = () => {
     <div
       className="relative min-h-screen overflow-hidden bg-[#020b17] text-white isolate"
       style={{
-        backgroundImage: `url(${backgroundImage})`,
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center center',
         backgroundSize: 'contain',
@@ -317,18 +247,26 @@ export const HackathonTimerPage: React.FC = () => {
       <div className="relative z-10 mx-auto flex min-h-screen max-w-[1700px] flex-col px-4 pb-10 pt-4 sm:px-6 lg:px-10">
         <header className="relative z-10 mt-2 flex items-start justify-between gap-6 px-2 text-white/95">
           <div className="flex-1 text-left">
-            <div className="text-[0.7rem] font-medium uppercase tracking-[0.18em] text-white sm:text-[0.9rem] lg:text-[1.05rem]">
-              K.S. SCHOOL OF ENGINEERING AND MANAGEMENT
-            </div>
-            <div className="mt-2 text-center text-[0.6rem] font-semibold uppercase tracking-[0.45em] text-cyan-100/90 sm:text-xs lg:text-sm">
-              BENGALURU
+            <div className="flex items-center gap-3 sm:gap-4">
+              <img
+                src={collegeLogo}
+                alt="College logo"
+                className="h-[4.25rem] w-auto object-contain drop-shadow-[0_0_18px_rgba(96,165,250,0.35)] sm:h-[5.25rem] lg:h-[6.5rem]"
+              />
+              <img
+                src={anvationEmblem}
+                alt="Anvation emblem"
+                className="h-[3.2rem] w-auto object-contain drop-shadow-[0_0_18px_rgba(34,211,238,0.4)] sm:h-[4rem] lg:h-[5rem]"
+              />
             </div>
           </div>
 
           <div className="flex-shrink-0 text-center">
-            <div className="text-[2.2rem] font-black uppercase tracking-[-0.08em] text-white drop-shadow-[0_0_28px_rgba(96,165,250,0.76)] sm:text-[3.2rem] lg:text-[5.1rem]">
-              ANVATION
-            </div>
+            <img
+              src={backgroundLogo}
+              alt="Anvation logo"
+              className="mx-auto h-[4.5rem] w-auto object-contain drop-shadow-[0_0_28px_rgba(96,165,250,0.76)] sm:h-[6.25rem] lg:h-[8.25rem]"
+            />
             <div className="mt-1 text-[0.72rem] font-black uppercase tracking-[0.55em] text-cyan-100 drop-shadow-[0_0_12px_rgba(34,211,238,0.5)] sm:text-sm lg:text-base">
               HACKATHON 2026
             </div>
@@ -363,23 +301,24 @@ export const HackathonTimerPage: React.FC = () => {
 
         <div className="relative z-10 mt-2 flex flex-1 flex-col items-center justify-center">
           <div className="mb-4 inline-flex items-center justify-center rounded-full border border-cyan-300/60 bg-slate-950/20 px-5 py-2 backdrop-blur-sm shadow-[0_0_18px_rgba(34,211,238,0.2)]">
-            <span className="inline-block h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
-            <span className="ml-2 text-[0.7rem] font-black uppercase tracking-[0.35em] text-cyan-100 sm:text-xs">
+            <span className="text-[0.7rem] font-black uppercase tracking-[0.35em] text-cyan-100 sm:text-xs">
               24-HOUR HACKATHON LIVE
             </span>
           </div>
 
           <div className="w-full max-w-[1200px] rounded-[32px] border border-cyan-400/40 bg-[rgba(6,15,28,0.64)] px-6 py-5 shadow-[0_0_35px_rgba(34,211,238,0.15),0_0_55px_rgba(168,85,247,0.12)] backdrop-blur-md sm:px-8 lg:px-10">
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <div className="flex items-center justify-center md:justify-start">
-                <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/40 bg-slate-950/25 px-4 py-2 text-center shadow-[0_0_18px_rgba(34,211,238,0.15)]">
-                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.9)]" />
-                  <span className="text-[0.65rem] font-black uppercase tracking-[0.35em] text-cyan-100 sm:text-[0.72rem]">
-                    24-HOUR HACKATHON LIVE
-                  </span>
-                </div>
+            <div className="mb-4 flex items-center justify-center">
+              <div className="inline-flex items-center gap-3 rounded-full border border-cyan-300/40 bg-slate-950/25 px-4 py-2 shadow-[0_0_18px_rgba(34,211,238,0.15)]">
+                <span className="text-[0.6rem] font-black uppercase tracking-[0.35em] text-cyan-100 sm:text-[0.7rem]">
+                  24H COUNTDOWN
+                </span>
+                <span className="text-lg font-black tracking-[-0.06em] text-white drop-shadow-[0_0_18px_rgba(34,211,238,0.8)] sm:text-2xl">
+                  {totalClockValue}
+                </span>
               </div>
+            </div>
 
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <button
                 type="button"
                 onClick={openFloatingClock}
@@ -489,23 +428,6 @@ export const HackathonTimerPage: React.FC = () => {
               >
                 START HACKATHON
               </button>
-              {!canUseBrowserNotifications && 'Notification' in window && (
-                <button
-                  type="button"
-                  onClick={async () => {
-                    await requestNotificationPermission();
-                    setNotificationPermission('Notification' in window ? Notification.permission : 'unsupported');
-                  }}
-                  className="inline-flex items-center justify-center rounded-full border border-amber-300/60 bg-amber-500/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.26em] text-amber-100 shadow-[0_0_18px_rgba(251,191,36,0.18)] transition hover:bg-amber-500/15 focus:outline-none focus:ring-2 focus:ring-amber-300/60"
-                >
-                  ENABLE DESKTOP TIMER ALERTS
-                </button>
-              )}
-              {!canUseBrowserNotifications && 'Notification' in window && (
-                <div className="text-center text-[9px] font-medium uppercase tracking-[0.18em] text-slate-200/75">
-                  Chrome must allow notifications to show the timer while minimized.
-                </div>
-              )}
             </div>
           )}
 
