@@ -316,3 +316,16 @@ Engineering. Event contact information is defined in `src/data/mockData.ts`
 and can also be managed through the CMS configuration exposed to administrators.
 When changing contact or event information, verify both the public landing page
 and the admin-configured values.
+
+
+
+Timer block: 
+paste it in line 144 in navbar.tsx
+
+ <button
+          onClick={handleTimerNavigation}
+          className={`py-2 transition-colors ${currentView === 'timer' ? 'text-cyan-400' : 'hover:text-cyan-400'}`}
+          id="nav-hackathon-timer-btn"
+        >
+          Timer
+        </button>

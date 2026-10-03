@@ -141,13 +141,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {item.label}
           </button>
         ))}
-        <button
-          onClick={handleTimerNavigation}
-          className={`py-2 transition-colors ${currentView === 'timer' ? 'text-cyan-400' : 'hover:text-cyan-400'}`}
-          id="nav-hackathon-timer-btn"
-        >
-          Timer
-        </button>
+        {/*paste timer block in this line*/}
       </nav>
 
       {/* Mobile Drawer Menu */}
