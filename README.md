@@ -329,3 +329,7 @@ paste it in line 144 in navbar.tsx
         >
           Timer
         </button>
+
+Timer reset (paste this is browser console):
+localStorage.removeItem('hackathonStartTime');
+location.reload();
