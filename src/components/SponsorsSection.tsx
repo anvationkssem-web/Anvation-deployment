@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Handshake, Medal, Sparkles, ExternalLink, HeartHandshake } from 'lucide-react';
 import { SPONSORS } from '../data/mockData';
+import sepLogo from '../assets/images/sep.jpeg';
+import dscapeLogo from '../assets/images/Dscape.jpeg';
 import { Sponsor } from '../types';
 
 const categoryOrder = ['Title', 'Gold', 'Silver', 'Technology', 'Community', 'Media', 'Hiring'];
+const sponsorOrder = ['sp1', 'sp2', 'sp4', 'sp3'];
+
+const sponsorLogos: Record<string, string> = {
+  'sep.jpeg': sepLogo,
+  'Dscape.jpeg': dscapeLogo,
+};
 
 const categoryColor: Record<string, string> = {
   Title: 'text-amber-300 border-amber-700 bg-amber-950/70',
@@ -40,10 +48,17 @@ export const SponsorsSection: React.FC = () => {
     return () => { active = false; clearInterval(timer); };
   }, []);
 
-  const sorted = [...sponsors].sort(
-    (a, b) => (categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)) ||
-      a.name.localeCompare(b.name)
-  );
+  const sorted = [...sponsors].sort((a, b) => {
+    const aSponsorOrder = sponsorOrder.indexOf(a.id);
+    const bSponsorOrder = sponsorOrder.indexOf(b.id);
+    if (aSponsorOrder !== -1 || bSponsorOrder !== -1) {
+      if (aSponsorOrder === -1) return 1;
+      if (bSponsorOrder === -1) return -1;
+      return aSponsorOrder - bSponsorOrder;
+    }
+    return (categoryOrder.indexOf(a.category) - categoryOrder.indexOf(b.category)) ||
+      a.name.localeCompare(b.name);
+  });
 
   return (
     <section id="sponsors" className="relative py-14 sm:py-20 px-4 sm:px-6 lg:px-8">
@@ -67,9 +82,9 @@ export const SponsorsSection: React.FC = () => {
           {sorted.map(sp => (
             <a
               key={sp.id}
-              href={sp.website}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={sp.website || undefined}
+              target={sp.website ? '_blank' : undefined}
+              rel={sp.website ? 'noopener noreferrer' : undefined}
               className="group relative p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 hover:border-amber-500/50 hover:shadow-[0_0_35px_rgba(245,158,11,0.18)] transition-all duration-300 overflow-hidden force-dark"
             >
               {/* Corner Cyber Accent */}
@@ -81,7 +96,7 @@ export const SponsorsSection: React.FC = () => {
                   <div className="mb-3 flex items-center justify-center">
                     {sp.logo && (
                       <img
-                        src={sp.logo}
+                        src={sponsorLogos[sp.logo] || sp.logo}
                         alt={`${sp.name} logo`}
                         className="h-20 sm:h-24 w-full max-w-[220px] object-contain rounded-xl"
                         onError={(e) => {
@@ -103,9 +118,11 @@ export const SponsorsSection: React.FC = () => {
                 <p className="mt-2 text-xs text-slate-400 leading-relaxed">{sp.description}</p>
               )}
 
-              <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold text-cyan-300 group-hover:text-cyan-200">
-                Visit Website <ExternalLink className="w-3 h-3" />
-              </span>
+              {sp.website && (
+                <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold text-cyan-300 group-hover:text-cyan-200">
+                  Visit Website <ExternalLink className="w-3 h-3" />
+                </span>
+              )}
             </a>
           ))}
         </div>

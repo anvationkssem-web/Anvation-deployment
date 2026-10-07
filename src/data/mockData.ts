@@ -315,6 +315,20 @@ export const SPONSORS: Sponsor[] = [
     logo: rapsolLogo,
     website: 'https://rapsoltechnologies.com/',
     description: 'Social Media Partner'
+  },
+  {
+    id: 'sp3',
+    name: 'SEP',
+    category: 'Community',
+    logo: 'sep.jpeg',
+    website: ''
+  },
+  {
+    id: 'sp4',
+    name: 'Dscape AI',
+    category: 'Community',
+    logo: 'Dscape.jpeg',
+    website: ''
   }
 ];
 
